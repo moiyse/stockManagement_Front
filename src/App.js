@@ -5,7 +5,7 @@ import TemplateBack from './components/back/TemplateBack';
 
 function App() {
   return (
-<TemplateBack/>
+<TemplateFront/>
   );
 }
 
