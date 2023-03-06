@@ -3,7 +3,14 @@ import Navbar from "./Header";
 
 
 function TemplateFront(){
-  
+  const zoom = (f) => {
+    const t = f.currentTarget;
+    let offsetX = f.offsetX || f.touches[0].pageX;
+    let offsetY = f.offsetY ? f.offsetY : f.touches[0].pageY;
+    const x = (offsetX / t.offsetWidth) * 100;
+    const y = (offsetY / t.offsetHeight) * 100;
+    t.style.backgroundPosition = `${x}% ${y}%`;
+  }
         return (
             <div>
            
@@ -1304,7 +1311,7 @@ function TemplateFront(){
           <div className="product productModal" id="productModal">
             <div
               className="zoom"
-              onMouseMove="zoom(event)"
+              onMouseMove={(event) => zoom(event)}
               style={{
                 backgroundImage: 'url(assets/images/products/product-single-img-1.jpg)'      }}
             >
@@ -1315,7 +1322,7 @@ function TemplateFront(){
             <div>
               <div
                 className="zoom"
-                onMouseMove="zoom(event)"
+                onMouseMove={(event) => zoom(event)}
                 style={{
                   backgroundImage: 'url(assets/images/products/product-single-img-2.jpg)'
                 }}
@@ -1329,7 +1336,7 @@ function TemplateFront(){
             <div>
               <div
                 className="zoom"
-                onMouseMove="zoom(event)"
+                onMouseMove={(event) => zoom(event)}
                 style={{
                   backgroundImage:' url(assets/images/products/product-single-img-3.jpg)'
                 }}
@@ -1343,7 +1350,7 @@ function TemplateFront(){
             <div>
               <div
                 className="zoom"
-                onMouseMove="zoom(event)"
+                onMouseMove={(event) => zoom(event)}
                 style={{
                   backgroundImage: 'url(assets/images/products/product-single-img-4.jpg)'
                 }}
