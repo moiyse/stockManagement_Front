@@ -7,7 +7,9 @@ function VerticalNav(){
                 <div className="navbar-vertical">
                                 <div className="px-4 py-5">
                                     <a href="../index.html" className="navbar-brand">
-                                        <img src="../assets/images/logo/freshcart-logo.svg" alt=""/>
+                                        <div className="d-flex justify-content-center">
+                                        <img src="../assets/images/logo/logo.png" style={{width :'100px'}} alt=""/>
+                                        </div>
                                     </a>
                                 </div>
                                 <div className="navbar-vertical-content flex-grow-1" data-simplebar="">
@@ -245,7 +247,9 @@ function VerticalNav(){
                                 <div className="navbar-vertical">
                                                 <div className="px-4 py-5 d-flex justify-content-between align-items-center">
                                                     <a href="../index.html" className="navbar-brand">
-                                                        <img src="../assets/images/logo/freshcart-logo.svg" alt=""/>
+                                                    <div className="d-flex justify-content-center">
+                                        <img src="../assets/images/logo/logo.png" style={{width :'100px'}} alt=""/>
+                                        </div>
                                                     </a>
                                                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                                 </div>
