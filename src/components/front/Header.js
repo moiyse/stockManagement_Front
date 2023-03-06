@@ -2,7 +2,7 @@ function Navbar(){
     return(
         <div className="border-bottom ">
   
-        <div className="bg-light py-1">
+  <div className="bg-light py-1">
           <div className="container">
             <div className="row">
               <div className="col-md-6 col-12 text-center text-md-start"><span> Super Value Deals - Save more with
@@ -11,7 +11,7 @@ function Navbar(){
               <div className="col-6 text-end d-none d-md-block">
                 <div className="dropdown">
                   <a className="dropdown-toggle text-decoration-none  text-muted" href="#" role="button"
-                    dataBsToggle="dropdown" ariaExpanded="false">
+                    databstoggle="dropdown" aria-expanded="false">
                     <span className="me-1">
                       <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#selectedlang)">
@@ -80,13 +80,14 @@ function Navbar(){
           <div className="container">
             <div className="row w-100 align-items-center gx-lg-2 gx-0">
               <div className="col-xxl-2 col-lg-3">
-                <a className="navbar-brand d-none d-lg-block" href="index.html">
-                  <img src="assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template"/>
+                <a className="navbar-brand d-none d-lg-block" href="index.html"> 
+                
+                  <img src="assets/images/logo/logo.png" alt="eCommerce HTML Template" style={{width :'70px'}}/>
       
                 </a>
                 <div className="d-flex justify-content-between w-100 d-lg-none">
                   <a className="navbar-brand" href="index.html">
-                    <img src="assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template"/>
+                    <img src="assets/images/logo/logo.png"  style={{width :'70px'}}   alt="eCommerce HTML Template"/>
       
                   </a>
       
@@ -221,7 +222,7 @@ function Navbar(){
             </div>
           </div>
         </div>
-        <nav className="navbar navbar-expand-lg navbar-light navbar-default py-0 py-lg-4">
+        <nav className="navbar navbar-expand-lg navbar-light navbar-default py-0 py-lg-2">
           <div className="container px-0 px-md-3">
             <div className="dropdown me-3 d-none d-lg-block">
               <button className="btn btn-primary px-6 " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
@@ -234,7 +235,7 @@ function Navbar(){
                     <rect x="14" y="3" width="7" height="7"></rect>
                     <rect x="14" y="14" width="7" height="7"></rect>
                     <rect x="3" y="14" width="7" height="7"></rect>
-                  </svg></span> All Departments
+                  </svg></span> All Categories
               </button>
               <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a className="dropdown-item" href="pages/shop-grid.html">Dairy, Bread & Eggs</a></li>
@@ -248,7 +249,7 @@ function Navbar(){
             </div>
             <div className="offcanvas offcanvas-start p-4 p-lg-0" id="navbar-default">
               <div className="d-flex justify-content-between align-items-center mb-2 d-block d-lg-none">
-                <a href="index.html"><img src="assets/images/logo/freshcart-logo.svg"
+                <a href="index.html"><img src="assets/images/logo/logo.png"  style={{width :'70px'}}
                     alt="eCommerce HTML Template"/></a>
                 <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
               </div>
@@ -285,7 +286,7 @@ function Navbar(){
                       <rect x="14" y="3" width="7" height="7"></rect>
                       <rect x="14" y="14" width="7" height="7"></rect>
                       <rect x="3" y="14" width="7" height="7"></rect>
-                    </svg></span> All Departments
+                    </svg></span> All Categories
                 </a>
                 <div className="collapse mt-2" id="collapseExample">
                   <div className="card card-body">
