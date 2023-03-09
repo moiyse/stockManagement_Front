@@ -4,15 +4,14 @@ import React, { Suspense } from "react";
 import Layout from "./components/layout";
 import LayoutBack from "./components/layout/LayoutBack";
 
-import Settings from "./pages/user/Settings";
+import Settings from "./pages/front/user/Settings";
 import axios from "axios";
-import Users from "./pages/back/Users";
+import Users from "./pages/back/users/Users";
+import Home from "./pages/front/home/Home";
 axios.defaults.baseURL = "http://localhost:5000";
 
-const Register = React.lazy(() => import("./pages/user/Register"));
-const TemplateFront = React.lazy(() =>
-  import("./components/front/TemplateFront")
-);
+const Register = React.lazy(() => import("./pages/commun/auth/Register"));
+
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
           path='*'
           element={
             <Layout>
-              <TemplateFront />
+              <Home />
             </Layout>
           }
         />

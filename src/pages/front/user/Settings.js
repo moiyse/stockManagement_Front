@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
-import Header from "../../components/front/Header";
+import Header from "../../../components/front/Header";
 import { toast, ToastContainer } from "react-toastify";
-import { notify } from "../../utils/HelperFunction";
+import { notify } from "../../../utils/HelperFunction";
 import "react-toastify/dist/ReactToastify.css";
 
 const Settings = (props) => {
