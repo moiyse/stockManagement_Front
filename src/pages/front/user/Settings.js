@@ -6,6 +6,7 @@ import { notify } from "../../../utils/HelperFunction";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { Navigate } from 'react-router-dom';
+
 const Settings = (props) => {
   
 
