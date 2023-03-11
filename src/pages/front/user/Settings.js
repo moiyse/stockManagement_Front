@@ -4,8 +4,12 @@ import Header from "../../../components/front/Header";
 import { toast, ToastContainer } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useSelector } from "react-redux";
+import { Navigate } from 'react-router-dom';
 const Settings = (props) => {
+  
+
+
   const [newPassword, setNewPassword] = useState({
     value: "",
     valid: false,
@@ -24,7 +28,11 @@ const Settings = (props) => {
 
     setNewPassword(updatePassword);
   };
+  const { user: currentUser } = useSelector((state) => state.auth);
 
+  if (!currentUser) {
+    return <Navigate to="/" />;
+  }
   const resetPassword = () => {
     if (newPassword.valid) {
       //todo: make it dynamic when we manage acces spaces
@@ -33,7 +41,7 @@ const Settings = (props) => {
         password: oldPassword,
         newPassword: newPassword.value,
       };
-
+console.log("ddddddddd")
       axios
         .put(`/api/auth/forgotPassword`, resetPasswordObject, {
           headers: { "Content-Type": "application/json" },
