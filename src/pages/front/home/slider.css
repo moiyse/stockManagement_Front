@@ -1,0 +1,32 @@
+.slider-intro .slick-prev , .slider-intro .slick-next {
+    display: none !important;
+}
+
+
+.slider-intro .slick-prev , .slider-intro .slick-next {
+    display: none !important;
+}
+
+
+.slick-dots{
+    position: unset !important;
+}
+
+.intro-container {
+    width: 100%;
+    margin: 0px -62px;
+    background-color: rgba(255, 179, 38, 0.804);
+    background-size: cover;
+    border-radius: .5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.slider-intro .slick-list {
+    height: 606px;
+}
+
+.intro{
+    margin: 0px 12px;
+}

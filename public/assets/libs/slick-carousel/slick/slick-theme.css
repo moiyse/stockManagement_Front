@@ -16,8 +16,8 @@
     src: url('fonts/slickd41d.eot?#iefix') format('embedded-opentype'), url('fonts/slick.woff') format('woff'), url('fonts/slick.ttf') format('truetype'), url('fonts/slick.svg#slick') format('svg');
 }
 /* Arrows */
-.slick-prev,
-.slick-next
+.slider-feature .slick-prev,
+.slider-feature .slick-next
 {
     font-size: 0;
     line-height: 0;
@@ -25,7 +25,7 @@
     position: absolute;
     top: 50%;
 
-    display: block;
+    display: none;
 
     width: 20px;
     height: 20px;
@@ -41,30 +41,30 @@
     outline: none;
     background: transparent;
 }
-.slick-prev:hover,
-.slick-prev:focus,
-.slick-next:hover,
-.slick-next:focus
+.slider-feature .slick-prev:hover,
+.slider-feature .slick-prev:focus,
+.slider-feature .slick-next:hover,
+.slider-feature .slick-next:focus
 {
     color: transparent;
     outline: none;
     background: transparent;
 }
-.slick-prev:hover:before,
-.slick-prev:focus:before,
-.slick-next:hover:before,
+.slider-feature .slick-prev:hover:before,
+.slider-feature .slick-prev:focus:before,
+.slider-feature .slick-next:hover:before,
 .slick-next:focus:before
 {
     opacity: 1;
 }
-.slick-prev.slick-disabled:before,
-.slick-next.slick-disabled:before
+.slider-feature .slick-prev.slick-disabled:before,
+.slider-feature .slick-next.slick-disabled:before
 {
     opacity: .25;
 }
 
-.slick-prev:before,
-.slick-next:before
+.slider-feature .slick-prev:before,
+.slider-feature .slick-next:before
 {
     font-family: 'slick';
     font-size: 20px;
@@ -77,38 +77,38 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.slick-prev
+.slider-feature .slick-prev
 {
     left: -25px;
 }
-[dir='rtl'] .slick-prev
+[dir='rtl'] .slider-feature .slick-prev
 {
     right: -25px;
     left: auto;
 }
-.slick-prev:before
+.slider-feature .slick-prev:before
 {
     content: '←';
 }
-[dir='rtl'] .slick-prev:before
+[dir='rtl'] .slider-feature .slick-prev:before
 {
     content: '→';
 }
 
-.slick-next
+.slider-feature .slick-next
 {
     right: -25px;
 }
-[dir='rtl'] .slick-next
+[dir='rtl'] .slider-feature .slick-next
 {
     right: auto;
     left: -25px;
 }
-.slick-next:before
+.slider-feature .slick-next:before
 {
     content: '→';
 }
-[dir='rtl'] .slick-next:before
+[dir='rtl'] .slider-feature .slick-next:before
 {
     content: '←';
 }
@@ -201,4 +201,9 @@
 {
     opacity: .75;
     color: black;
+}
+
+.slider-intro .slick-prev,
+.slider-intro .slick-next {
+  display: none !important;
 }
