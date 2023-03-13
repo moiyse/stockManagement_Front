@@ -2,8 +2,6 @@ import './slider.css';
 import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
 import axios from "axios";
-import { display } from '@mui/system';
-
 
 function prevButtonIntro(props) {
   const {className, onClick} = props
@@ -698,7 +696,7 @@ function Home() {
         <section className='mt-8'>
           <div className='container'>
           <Slider className='silder-intro' {...settings_intro}>
-            
+
           {introductions.map((intro, index) => (
               <div className='intro'>
                 <div className='intro-container'>
@@ -720,9 +718,9 @@ function Home() {
                 </div>
               </div>
               </div>
-              
+
             ))}
-                       
+
           </Slider>
           </div>
         </section>
@@ -734,11 +732,9 @@ function Home() {
                 <h3 className='mb-0'>Featured Categories</h3>
               </div>
             </div>
-            <div  className='category-slider'>
+            <div className='category-slider'>
               <Slider className='silder-feature' {...settings_feature}>
-
-              {categories.map((category, index) => (
-                
+                {categories.map((category, index) => (
                   <a
                     href='pages/shop-grid.html'
                     className='text-decoration-none text-inherit'
@@ -756,8 +752,8 @@ function Home() {
                     </div>
                   </a>
               ))}
-              
-              
+
+
               </Slider>
             </div>
           </div>

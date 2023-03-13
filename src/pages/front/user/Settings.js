@@ -5,12 +5,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
 const Settings = (props) => {
-  
-
-
+  const [submited, setSubmited] = useState(false);
   const [newPassword, setNewPassword] = useState({
     value: "",
     valid: false,
@@ -18,6 +16,7 @@ const Settings = (props) => {
   const [oldPassword, setOldPassword] = useState();
 
   const handleChangeNewPassword = (e) => {
+    setSubmited(false);
     const patternPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 
     const updatePassword = {
@@ -31,10 +30,11 @@ const Settings = (props) => {
   };
   const { user: currentUser } = useSelector((state) => state.auth);
 
-  if (!currentUser) {
-    return <Navigate to="/" />;
-  }
+  // if (!currentUser) {
+  //   return <Navigate to="/" />;
+  // }
   const resetPassword = () => {
+    setSubmited(true);
     if (newPassword.valid) {
       //todo: make it dynamic when we manage acces spaces
       const resetPasswordObject = {
@@ -42,7 +42,6 @@ const Settings = (props) => {
         password: oldPassword,
         newPassword: newPassword.value,
       };
-console.log("ddddddddd")
       axios
         .put(`/api/auth/forgotPassword`, resetPasswordObject, {
           headers: { "Content-Type": "application/json" },
@@ -230,7 +229,19 @@ console.log("ddddddddd")
                         />
                       </div>
                       {/* input */}
-                      <div className='col-12'>
+                      {submited &&
+                        !newPassword.valid &&
+                        newPassword.value !== "" && (
+                          <div className='alert alert-danger' role='alert'>
+                            <p className='mb-1'>
+                              Password must be at least 8 characters long, at
+                              least one uppercase letter, one lowercase letter,
+                              and one number
+                            </p>
+                          </div>
+                        )}
+
+                      <div className='col-lg-12'>
                         <p className='mb-4'>
                           Can’t remember your current password?
                           <a href='#'> Reset your password.</a>
