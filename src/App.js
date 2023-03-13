@@ -66,9 +66,7 @@ function App() {
           exact
           path='/register'
           element={
-            <Layout>
               <Register />
-            </Layout>
           }
         />
         <Route

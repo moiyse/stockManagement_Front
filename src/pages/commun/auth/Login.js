@@ -7,7 +7,14 @@ import { login } from "../../../actions/auth";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, SetPassword] = useState("");
+
   const [error, setError] = useState(null);
+  const [twoFactorAuth, setTwoFactorAuth] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
+  const handTwoFactorChange = (e) => {
+    console.log(e.target.value);
+    setTwoFactorCode(e.target.value);
+  };
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
@@ -28,23 +35,23 @@ function Login() {
   };
   const Login = async (e) => {
     e.preventDefault();
-    console.log(username + password);
-    dispatch(login(username, password))
-
+    console.log(username + password + twoFactorCode);
+    dispatch(login(username, password, twoFactorCode))
       .then((data) => {
-        console.log(data.roles[0])
-        if(data.roles[0]==="ROLE_USER"){
+        console.log(data.roles[0]);
+        if (data.roles[0] === "ROLE_USER") {
           navigate("/home");
-        }
-        else{
+        } else {
           navigate("/dashboard/users");
         }
-       
 
         //  window.location.reload();
       })
       .catch((error) => {
         setError(error);
+        if (error === "Invalid Two Factor Secret!") {
+          setTwoFactorAuth(true);
+        }
       });
   };
   if (isLoggedIn) {
@@ -115,6 +122,21 @@ function Login() {
                         <span>
                           <i id="passwordToggler" className="bi bi-eye-slash" />
                         </span>
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="password-field position-relative">
+                        {twoFactorAuth &&
+                          error === "Invalid Two Factor Secret!" && (
+                            <input
+                              onChange={handTwoFactorChange}
+                              type="text"
+                              name="twoFactorAuth"
+                              className="form-control"
+                              id="twoFactor"
+                              placeholder="Two Factor Auth"
+                            />
+                          )}
                       </div>
                     </div>
                     <div className="d-flex justify-content-between">
