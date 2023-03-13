@@ -2,7 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../../actions/auth";
+import { loginGoogle,login } from "../../../actions/auth";
+import { useGoogleLogin,GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode"
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -26,11 +28,11 @@ function Login() {
 
     setUsername(e.target.value);
   };
+
   const Login = async (e) => {
     e.preventDefault();
     console.log(username + password);
     dispatch(login(username, password))
-
       .then((data) => {
         console.log(data.roles[0])
         if(data.roles[0]==="ROLE_USER"){
@@ -39,14 +41,43 @@ function Login() {
         else{
           navigate("/dashboard/users");
         }
-       
-
         //  window.location.reload();
       })
       .catch((error) => {
         setError(error);
       });
   };
+
+  
+
+  const handleGoogleLogin = async (res)=>{
+    console.log("res : ",res);
+    console.log("res.credential : ",res.credential);
+    var token = jwt_decode(res.credential)
+    console.log("token : ",token);
+    dispatch(loginGoogle(token))
+    .then((data) => {
+      console.log("data from dispatch : ",data)
+      console.log("role of user : ",data.roles[0])
+      if(data.roles[0]==="ROLE_USER"){
+        navigate("/home");
+      }
+      else{
+        navigate("/dashboard/users");
+      }
+      //  window.location.reload();
+    })
+    .catch((error) => {
+      console.log("error : ",error)
+      setError(error);
+    });
+  }
+  
+  
+
+
+
+
   if (isLoggedIn) {
     return <Navigate to="/home" />;
   }
@@ -64,7 +95,7 @@ function Login() {
               />
             </a>
             <span className="navbar-text">
-              Already have an account? <a href="signin.html">Sign in</a>
+              Don’t have an account? <a style={{color:"#0aad0a"}} href="signup.html"> Sign Up</a>
             </span>
           </div>
         </nav>
@@ -142,6 +173,12 @@ function Login() {
                       >
                         Sign In
                       </button>
+                    </div>
+
+                    <div className="col-12 d-grid" style={{justifyContent:"center",display:"flex"}}>
+                      {" "}
+                      <GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
+                      onError={()=>{console.log('login failed')}}/>
                     </div>
 
                     <div>

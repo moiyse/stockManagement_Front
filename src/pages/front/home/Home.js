@@ -1,16 +1,8 @@
 import './slider.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Slider from "react-slick";
 import axios from "axios";
 import { display } from '@mui/system';
-
-
-function prevButtonIntro(props) {
-  const {className, onClick} = props
-  return (
-    <div className="slider-intro slick-prev slick-arrow" style={{display:"none !important"}}></div>
-  );
-}
 
 
 
@@ -36,23 +28,6 @@ function RightNavButton(props) {
 function Home() {
 
 
-  const [products, setProducts] = useState([]);
-  const [style, setStyle] = useState({
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-  });
-
-  useEffect(() => {
-      axios.get('http://localhost:3200/products')
-      .then(response => {
-          console.log("response from axios"+response.status)
-          setProducts(response.data)
-      })
-      .catch(error => {
-          console.log(error)
-      });
-  }, []);
 
 
   const introductions = [
