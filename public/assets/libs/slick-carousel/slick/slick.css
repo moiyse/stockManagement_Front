@@ -1,6 +1,7 @@
 /* Slider */
 .slick-slider
 {
+    
     position: relative;
 
     display: block;
@@ -20,6 +21,7 @@
 
 .slick-list
 {
+    height: 225px;
     position: relative;
 
     display: block;
@@ -50,6 +52,7 @@
 
 .slick-track
 {
+    height: 225px;
     position: relative;
     top: 0;
     left: 0;
@@ -117,3 +120,12 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+
+
+
+
+
+
+
+
+

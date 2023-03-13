@@ -1,4 +1,116 @@
+import './slider.css';
+import React, { useState, useEffect } from 'react';
+import Slider from "react-slick";
+import axios from "axios";
+import { display } from '@mui/system';
+
+
+function prevButtonIntro(props) {
+  const {className, onClick} = props
+  return (
+    <div className="slider-intro slick-prev slick-arrow" style={{display:"none !important"}}></div>
+  );
+}
+
+
+
+function LeftNavButton(props) {
+  const {className, onClick} = props
+  return (
+    <span onClick={onClick} className='slick-prev slick-arrow'>
+      <i className='feather-icon icon-chevron-left'></i>
+    </span>
+  );
+}
+
+function RightNavButton(props) {
+  const {className, onClick} = props
+  return (
+      <span onClick={onClick} className='slick-next slick-arrow'>
+      <i className='feather-icon icon-chevron-right'></i>
+    </span>
+  );
+}
+
+
 function Home() {
+
+
+  const [products, setProducts] = useState([]);
+  const [style, setStyle] = useState({
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
+  });
+
+  useEffect(() => {
+      axios.get('http://localhost:3200/products')
+      .then(response => {
+          console.log("response from axios"+response.status)
+          setProducts(response.data)
+      })
+      .catch(error => {
+          console.log(error)
+      });
+  }, []);
+
+
+  const introductions = [
+    {"imageUrl":"assets/images/slider/slider-2.jpg","first-comment":"Opening Sale Discount 50%","second-comment":"SuperMarket For Fresh Grocery","third-comment":"","fourth-comment":"Introduced a new model for online grocery shopping and convenient home delivery.","fifth-comment":"Shop Now"},
+    {"imageUrl":"assets/images/slider/slider-2.jpg","first-comment":"Free Shipping - orders over $100","second-comment":"Free Shipping on orders over ","third-comment":" $100","fourth-comment":"Free Shipping to First-Time Customers Only, After promotions and discounts are applied.","fifth-comment":"Shop Now"}
+  ]
+
+
+
+  const categories = [
+    {"name":"tea, coffee &amp drinks","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"baby care","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"pet care","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"}
+  ]
+
+
+  const settings_intro = {
+    draggable: true,
+      rows: 1,
+      nextArrow: null,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      centerPadding : 0,
+      dots:true,
+      className: "slider-intro",
+      centerMode: true
+  };
+
+
+  const settings_feature = {
+      draggable: true,
+      nextArrow: <RightNavButton />,
+      prevArrow: <LeftNavButton />,
+      rows: 1,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      centerPadding : 0,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      dots:true,
+  };
+
+
+
   const zoom = (f) => {
     const t = f.currentTarget;
     let offsetX = f.offsetX || f.touches[0].pageX;
@@ -7,6 +119,9 @@ function Home() {
     const y = (offsetY / t.offsetHeight) * 100;
     t.style.backgroundPosition = `${x}% ${y}%`;
   };
+
+
+
   return (
     <div>
       <div
@@ -582,25 +697,21 @@ function Home() {
       <main>
         <section className='mt-8'>
           <div className='container'>
-            <div className='hero-slider '>
-              <div
-                style={{
-                  backgroundSize: "cover",
-                  borderRadius: ".5rem",
-                  backgroundPosition: "center",
-                }}
-              >
+          <Slider className='silder-intro' {...settings_intro}>
+            
+          {introductions.map((intro, index) => (
+              <div className='intro'>
+                <div className='intro-container'>
                 <div className='ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center'>
                   <span className='badge text-bg-warning'>
-                    Opening Sale Discount 50%
+                    {intro['first-comment']}
                   </span>
-
                   <h2 className='text-dark display-5 fw-bold mt-4'>
-                    SuperMarket For Fresh Grocery{" "}
+                    {intro['second-comment']}
+                    <span className='text-primary'>{intro['third-comment']}</span>
                   </h2>
                   <p className='lead'>
-                    Introduced a new model for online grocery shopping and
-                    convenient home delivery.
+                    {intro['fourth-comment']}
                   </p>
                   <a href='#!' className='btn btn-dark mt-3'>
                     Shop Now{" "}
@@ -608,35 +719,11 @@ function Home() {
                   </a>
                 </div>
               </div>
-              <div
-                className=' '
-                style={{
-                  background:
-                    "url(assets/images/slider/slider-2.jpg) no-repeat",
-                  backgroundSize: "cover",
-                  borderRadius: ".5rem",
-                  backgroundPosition: "center",
-                }}
-              >
-                <div className='ps-lg-12 py-lg-16 col-xxl-5 col-md-7 py-14 px-8 text-xs-center'>
-                  <span className='badge text-bg-warning'>
-                    Free Shipping - orders over $100
-                  </span>
-                  <h2 className='text-dark display-5 fw-bold mt-4'>
-                    Free Shipping on <br /> orders over{" "}
-                    <span className='text-primary'>$100</span>
-                  </h2>
-                  <p className='lead'>
-                    Free Shipping to First-Time Customers Only, After promotions
-                    and discounts are applied.
-                  </p>
-                  <a href='#!' className='btn btn-dark mt-3'>
-                    Shop Now{" "}
-                    <i className='feather-icon icon-arrow-right ms-1'></i>
-                  </a>
-                </div>
               </div>
-            </div>
+              
+            ))}
+                       
+          </Slider>
           </div>
         </section>
 
@@ -647,669 +734,31 @@ function Home() {
                 <h3 className='mb-0'>Featured Categories</h3>
               </div>
             </div>
-            <div className='category-slider slick-initialized slick-slider'>
-              <span className='slick-prev slick-arrow'>
-                <i className='feather-icon icon-chevron-left'></i>
-              </span>
+            <div  className='category-slider'>
+              <Slider className='silder-feature' {...settings_feature}>
 
-              <div className='slick-list draggable'>
-                <div
-                  className='slick-track'
-                  style={{
-                    opacity: "1",
-                    width: "4176px",
-                    transform: "translate3d(-1392px, 0px, 0px) ",
-                  }}
-                >
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
+              {categories.map((category, index) => (
+                
+                  <a
+                    href='pages/shop-grid.html'
+                    className='text-decoration-none text-inherit'
                     tabIndex='-1'
-                    data-slick-index='-4'
-                    id=''
-                    aria-hidden='true'
                   >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-baby-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Baby Care</div>
-                        </div>
+                    <div className='card card-product '>
+                      <div className='card-body text-center  py-8'>
+                        <img
+                          src={category.src}
+                          alt='Grocery Ecommerce Template'
+                          className='mb-3'
+                        />
+                        <div className='text-truncate'>{category.name}</div>
                       </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='-3'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-chicken-meat-fish.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Chicken, Meat &amp; Fish
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='-2'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-cleaning-essentials.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Cleaning Essentials
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='-1'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-pet-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Pet Care</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='0'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-dairy-bread-eggs.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3 img-fluid'
-                          />
-                          <div className='text-truncate'>
-                            Dairy, Bread &amp; Eggs
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='1'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-snack-munchies.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Snack &amp; Munchies
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='2'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-bakery-biscuits.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Bakery &amp; Biscuits
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='3'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-instant-food.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Instant Food</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-current slick-active'
-                    style={{ width: "158px" }}
-                    tabIndex='0'
-                    data-slick-index='4'
-                    aria-hidden='false'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='0'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-tea-coffee-drinks.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Tea, Coffee &amp; Drinks
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-active'
-                    style={{ width: "158px" }}
-                    tabIndex='0'
-                    data-slick-index='5'
-                    aria-hidden='false'
-                  >
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='0'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-atta-rice-dal.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Atta, Rice &amp; Dal
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-active'
-                    style={{ width: "158px" }}
-                    tabIndex='0'
-                    data-slick-index='6'
-                    aria-hidden='false'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='0'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-baby-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Baby Care</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-active'
-                    style={{ width: "158px" }}
-                    tabIndex='0'
-                    data-slick-index='7'
-                    aria-hidden='false'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='0'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-chicken-meat-fish.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Chicken, Meat &amp; Fish
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='8'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-cleaning-essentials.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Cleaning Essentials
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='9'
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-pet-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Pet Care</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='10'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-dairy-bread-eggs.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3 img-fluid'
-                          />
-                          <div className='text-truncate'>
-                            Dairy, Bread &amp; Eggs
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='11'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-snack-munchies.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Snack &amp; Munchies
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='12'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-bakery-biscuits.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Bakery &amp; Biscuits
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='13'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-instant-food.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Instant Food</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='14'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-tea-coffee-drinks.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Tea, Coffee &amp; Drinks
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='15'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-atta-rice-dal.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Atta, Rice &amp; Dal
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='16'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-baby-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Baby Care</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='17'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-chicken-meat-fish.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Chicken, Meat &amp; Fish
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='18'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-cleaning-essentials.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>
-                            Cleaning Essentials
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                  <div
-                    className='item slick-slide slick-cloned'
-                    style={{ width: "158px" }}
-                    tabIndex='-1'
-                    data-slick-index='19'
-                    id=''
-                    aria-hidden='true'
-                  >
-                    {" "}
-                    <a
-                      href='pages/shop-grid.html'
-                      className='text-decoration-none text-inherit'
-                      tabIndex='-1'
-                    >
-                      <div className='card card-product mb-lg-4'>
-                        <div className='card-body text-center py-8'>
-                          <img
-                            src='assets/images/category/category-pet-care.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3'
-                          />
-                          <div className='text-truncate'>Pet Care</div>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <span className='slick-next slick-arrow'>
-                <i className='feather-icon icon-chevron-right '></i>
-              </span>
+                    </div>
+                  </a>
+              ))}
+              
+              
+              </Slider>
             </div>
           </div>
         </section>
