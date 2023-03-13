@@ -57,7 +57,7 @@ function Home() {
 
   const introductions = [
     {"imageUrl":"assets/images/slider/slider-2.jpg","first-comment":"Opening Sale Discount 50%","second-comment":"SuperMarket For Fresh Grocery","third-comment":"","fourth-comment":"Introduced a new model for online grocery shopping and convenient home delivery.","fifth-comment":"Shop Now"},
-    {"imageUrl":"assets/images/slider/slider-2.jpg","first-comment":"Free Shipping - orders over $100","second-comment":"Free Shipping on orders over","third-comment ":" $100","fourth-comment":"Free Shipping to First-Time Customers Only, After promotions and discounts are applied.","fifth-comment":"Shop Now"}
+    {"imageUrl":"assets/images/slider/slider-2.jpg","first-comment":"Free Shipping - orders over $100","second-comment":"Free Shipping on orders over ","third-comment":" $100","fourth-comment":"Free Shipping to First-Time Customers Only, After promotions and discounts are applied.","fifth-comment":"Shop Now"}
   ]
 
 
