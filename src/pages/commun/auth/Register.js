@@ -8,6 +8,8 @@ import {useGoogleLogin} from '@react-oauth/google';
 import { useDispatch } from "react-redux";
 import { signupGoogle } from "../../../actions/auth";
 import { Link } from 'react-router-dom';
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 
 
@@ -33,7 +35,11 @@ const schema = yup
 
 function Register() {
 
+  const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const [isTwoFactorAuthEnabled, setIsTwoFactorAuthEnabled] = useState(false);
 
@@ -75,15 +81,23 @@ function Register() {
     resolver: yupResolver(schema),
   });
 
-  function handleGoogleLoginSuccess(tokenResponse) {
+  function handleGoogleSignupSuccess(tokenResponse) {
 
     console.log("token Response : ",tokenResponse)
     const accessToken = tokenResponse.access_token;
     dispatch(signupGoogle(accessToken))
+    .then((data) => {
+        navigate("/")
+      //  window.location.reload();
+    })
+    .catch((error) => {
+      console.log("error : ",error)
+      setError(error);
+    });
 }
 
 
-  const login = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
+  const signup = useGoogleLogin({onSuccess: handleGoogleSignupSuccess});
 
 
   return (
@@ -125,6 +139,11 @@ function Register() {
                 <h1 className="mb-1 h2 fw-bold">Welcome to EcoWaste</h1>
                 <p>Welcome to EcoWaste! Sign up to get started.</p>
               </div>
+              {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
               {/* form */}
               <form
                 onSubmit={handleSubmit((data) => {
@@ -250,7 +269,7 @@ function Register() {
                   {/* Google SignUp */}
                   <div className="col-12 d-grid">
                     {" "}
-                    <a className="btn btn-secondary" onClick={() => login()}  >
+                    <a className="btn btn-secondary" onClick={() => signup()}  >
                     <i class="bi-brands bi-google"></i>  Sign up with Google</a>
                   </div>
                   {/* text */}
