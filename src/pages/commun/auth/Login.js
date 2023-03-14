@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginGoogle,login } from "../../../actions/auth";
 import { useGoogleLogin,GoogleLogin } from '@react-oauth/google';
-import jwt_decode from "jwt-decode"
+import { Link } from 'react-router-dom';
 
 
 function Login() {
@@ -106,7 +106,7 @@ function Login() {
               />
             </a>
             <span className="navbar-text">
-              Don’t have an account? <a style={{color:"#0aad0a"}} href="signup.html"> Sign Up</a>
+              Don’t have an account?  <Link to="/register"><a style={{color:"#0aad0a"}}>Sign Up</a></Link>
             </span>
           </div>
         </nav>
@@ -211,7 +211,7 @@ function Login() {
                     </div>
 
                     <div>
-                      Don’t have an account? <a href="signup.html"> Sign Up</a>
+                      Don’t have an account? <Link to="/register"><a>Sign Up</a></Link>
                     </div>
                   </div>
                 </form>

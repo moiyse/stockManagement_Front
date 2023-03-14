@@ -7,6 +7,7 @@ import { useState } from "react";
 import {useGoogleLogin} from '@react-oauth/google';
 import { useDispatch } from "react-redux";
 import { signupGoogle } from "../../../actions/auth";
+import { Link } from 'react-router-dom';
 
 
 
@@ -100,7 +101,7 @@ function Register() {
               />
             </a>
             <span className="navbar-text">
-              Already have an account? <a href="signin.html">Sign in</a>
+              Already have an account? <Link to="/"><a style={{color:"#0aad0a"}}>Sign Up</a></Link>
             </span>
           </div>
         </nav>

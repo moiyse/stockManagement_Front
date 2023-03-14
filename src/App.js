@@ -19,8 +19,13 @@ import { clearMessage } from "./actions/messages";
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
+//const ForgetPassword = React.lazy(() => import("./pages/user/ForgetPassword"));
+//const ResetPassword = React.lazy(() => import("./pages/user/ResetPassword"));
+
+
 
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
+
 
 function App() {
 
@@ -62,6 +67,22 @@ function App() {
             </Layout>
           }
         />
+        {/*
+         <Route
+          exact
+          path='/forgetPassword'
+          element={
+              <ForgetPassword />
+          }
+        />
+        <Route
+          exact
+          path='/ResetPassword'
+          element={
+              <ResetPassword />
+          }
+        />
+        */}
         <Route
           exact
           path='/register'
