@@ -15,23 +15,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
 
-
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
-const ForgetPassword = React.lazy(() => import("./pages/commun/auth/ForgetPassword"));
-const ResetPassword = React.lazy(() => import("./pages/commun/auth/ResetPassword"));
-
-
-
+const ForgetPassword = React.lazy(() =>
+  import("./pages/commun/auth/ForgetPassword")
+);
+const ResetPassword = React.lazy(() =>
+  import("./pages/commun/auth/ResetPassword")
+);
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 
-
 function App() {
-
   const [showCustomerBoard, setShowCustomerBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -55,6 +52,12 @@ function App() {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (["/login", "/register"].includes(location.pathname)) {
+      dispatch(clearMessage()); // clear message when changing location
+    }
+  }, [dispatch, location]);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
@@ -67,27 +70,9 @@ function App() {
             </Layout>
           }
         />
-         <Route
-          exact
-          path='/forgetPassword'
-          element={
-              <ForgetPassword />
-          }
-        />
-        <Route
-          exact
-          path='/ResetPassword'
-          element={
-              <ResetPassword />
-          }
-        />
-        <Route
-          exact
-          path='/register'
-          element={
-              <Register />
-          }
-        />
+        <Route exact path='/forgetPassword' element={<ForgetPassword />} />
+        <Route exact path='/ResetPassword' element={<ResetPassword />} />
+        <Route exact path='/register' element={<Register />} />
         <Route
           exact
           path='/admin'
@@ -106,15 +91,7 @@ function App() {
             </Layout>
           }
         />
-                <Route
-          exact
-          path='/'
-          element={
-         
-              <Login />
-    
-          }
-        />
+        <Route exact path='/' element={<Login />} />
         <Route
           exact
           path='/dashboard/users'

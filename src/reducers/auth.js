@@ -1,6 +1,5 @@
 import {
-    REGISTER_SUCCESS,
-    REGISTER_FAIL,
+  UPDATE_USER_SUCCESS,UPDATE_USER_FAIL,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
@@ -16,6 +15,12 @@ import {
     const { type, payload } = action;
   
     switch (type) {
+      case UPDATE_USER_SUCCESS:
+        return {
+          ...state,
+          isLoggedIn: true,
+          user: payload.user,
+        };
       case LOGIN_SUCCESS:
         return {
           ...state,
@@ -28,6 +33,13 @@ import {
           isLoggedIn: false,
           user: null,
         };
+        case UPDATE_USER_FAIL:
+          return {
+            ...state,
+            isLoggedIn: false,
+            user: payload.user,
+
+          };
       case LOGOUT:
         return {
           ...state,
