@@ -1,15 +1,7 @@
 import './slider.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Slider from "react-slick";
 import axios from "axios";
-
-function prevButtonIntro(props) {
-  const {className, onClick} = props
-  return (
-    <div className="slider-intro slick-prev slick-arrow" style={{display:"none !important"}}></div>
-  );
-}
-
 
 
 function LeftNavButton(props) {
@@ -34,23 +26,6 @@ function RightNavButton(props) {
 function Home() {
 
 
-  const [products, setProducts] = useState([]);
-  const [style, setStyle] = useState({
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-  });
-
-  useEffect(() => {
-      axios.get('http://localhost:3200/products')
-      .then(response => {
-          console.log("response from axios"+response.status)
-          setProducts(response.data)
-      })
-      .catch(error => {
-          console.log(error)
-      });
-  }, []);
 
 
   const introductions = [
@@ -67,16 +42,17 @@ function Home() {
     {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
-    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"mekla","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
-    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"mekla","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"}
   ]
 
 
+  //Slider settings for the intro
   const settings_intro = {
     draggable: true,
       rows: 1,
@@ -91,7 +67,7 @@ function Home() {
       centerMode: true
   };
 
-
+  //Slider settings for the featured categories
   const settings_feature = {
       draggable: true,
       nextArrow: <RightNavButton />,

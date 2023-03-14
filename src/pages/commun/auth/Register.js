@@ -4,6 +4,15 @@ import Error from "../../../components/commun/errors";
 import * as yup from "yup";
 import axios from "axios";
 import { useState } from "react";
+import {useGoogleLogin} from '@react-oauth/google';
+import { useDispatch } from "react-redux";
+import { signupGoogle } from "../../../actions/auth";
+import { Link } from 'react-router-dom';
+
+
+
+
+
 
 const schema = yup
   .object({
@@ -23,6 +32,9 @@ const schema = yup
   .required();
 
 function Register() {
+
+  const dispatch = useDispatch();
+
   const [isTwoFactorAuthEnabled, setIsTwoFactorAuthEnabled] = useState(false);
 
   const handleSubmitt = (data) => {
@@ -62,6 +74,18 @@ function Register() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  function handleGoogleLoginSuccess(tokenResponse) {
+
+    console.log("token Response : ",tokenResponse)
+    const accessToken = tokenResponse.access_token;
+    dispatch(signupGoogle(accessToken))
+}
+
+
+  const login = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
+
+
   return (
     <>
       {" "}
@@ -77,7 +101,7 @@ function Register() {
               />
             </a>
             <span className="navbar-text">
-              Already have an account? <a href="signin.html">Sign in</a>
+              Already have an account? <Link to="/"><a style={{color:"#0aad0a"}}>Sign Up</a></Link>
             </span>
           </div>
         </nav>
@@ -222,6 +246,12 @@ function Register() {
                     <button type="submit" className="btn btn-primary">
                       Register
                     </button>
+                  </div>
+                  {/* Google SignUp */}
+                  <div className="col-12 d-grid">
+                    {" "}
+                    <a className="btn btn-secondary" onClick={() => login()}  >
+                    <i class="bi-brands bi-google"></i>  Sign up with Google</a>
                   </div>
                   {/* text */}
                   <p>
