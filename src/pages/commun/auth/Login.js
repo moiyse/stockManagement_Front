@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate , Link} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginGoogle,login } from "../../../actions/auth";
 import { useGoogleLogin,GoogleLogin } from '@react-oauth/google';
 import { Link } from 'react-router-dom';
+
 
 
 function Login() {
@@ -186,7 +187,7 @@ function Login() {
                       <div>
                         {" "}
                         Forgot password?{" "}
-                        <a href="forgot-password.html">Reset It</a>
+                        <Link to="/forgetPassword">Reset It</Link>
                       </div>
                     </div>
 
