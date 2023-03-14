@@ -36,7 +36,6 @@ function Login() {
   };
   const Login = async (e) => {
     e.preventDefault();
-    console.log(username + password + twoFactorCode);
     dispatch(login(username, password, twoFactorCode))
       .then((data) => {
         console.log(data.roles[0]);
@@ -95,7 +94,7 @@ function Login() {
               />
             </a>
             <span className='navbar-text'>
-              Don’t have an account?{" "}
+              Not a member?{" "}
               <Link to='/register'>
                 <a style={{ color: "#0aad0a" }}>Sign Up</a>
               </Link>

@@ -8,9 +8,8 @@ import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { modifyUser, logout } from "../../../actions/auth";
 const Settings = (props) => {
-  const [submited, setSubmited] = useState(false);
   const dispatch = useDispatch();
-
+  const [submited, setSubmited] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
@@ -20,6 +19,7 @@ const Settings = (props) => {
     valid: false,
   });
   const [user, setUser] = useState();
+  const [invalidPassword, setInvalidPassword] = useState(false);
 
   const [oldPassword, setOldPassword] = useState();
   const handleChangeUsername = (e) => {
@@ -127,9 +127,8 @@ const Settings = (props) => {
   const resetPassword = () => {
     setSubmited(true);
     if (newPassword.valid) {
-      //todo: make it dynamic when we manage acces spaces
       const resetPasswordObject = {
-        email: "ala.hamadi@esprit.com",
+        email: currentUser.email,
         password: oldPassword,
         newPassword: newPassword.value,
       };
@@ -138,6 +137,7 @@ const Settings = (props) => {
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
+          console.log("testt");
           notify("User password was updated successfully!", toast, "success");
           setOldPassword("");
           setNewPassword({
@@ -146,8 +146,9 @@ const Settings = (props) => {
           });
         })
         .catch((err) => {
-          console.log(err);
-          notify("Invalid Password!", toast, "error");
+          if (err.response.data.message === "Invalid Password!")
+            notify("Invalid Password!", toast, "error");
+          else setInvalidPassword(true);
         });
     }
   };
@@ -343,7 +344,66 @@ const Settings = (props) => {
                   <div className='pe-lg-14'>
                     {/* heading */}
                     <h5 className='mb-4'>Password</h5>
-                    {/* todo form password */}
+                    <form className=' row row-cols-1 row-cols-lg-2'>
+                      {/* input */}
+                      <div className='mb-3 col'>
+                        <label className='form-label'>New Password</label>
+                        <input
+                          type='password'
+                          className='form-control'
+                          placeholder='**********'
+                          value={newPassword.value}
+                          onChange={handleChangeNewPassword}
+                        />
+                      </div>
+                      {/* input */}
+                      <div className='mb-3 col'>
+                        <label className='form-label'>current Password</label>
+                        <input
+                          type='password'
+                          className='form-control'
+                          placeholder='**********'
+                          value={oldPassword}
+                          onChange={(e) => setOldPassword(e.target.value)}
+                        />
+                      </div>
+                      {/* input */}
+                      {submited &&
+                        !newPassword.valid &&
+                        newPassword.value !== "" && (
+                          <div className='alert alert-danger' role='alert'>
+                            <p className='mb-1'>
+                              Password must be at least 8 characters long, at
+                              least one uppercase letter, one lowercase letter,
+                              and one number
+                            </p>
+                          </div>
+                        )}
+                      {submited &&
+                        newPassword.valid &&
+                        newPassword.value === oldPassword &&
+                        invalidPassword && (
+                          <div className='alert alert-danger' role='alert'>
+                            <p className='mb-1'>
+                              your new password must be different from your old
+                              one
+                            </p>
+                          </div>
+                        )}
+
+                      <div className='col-lg-12'>
+                        <p className='mb-4'>
+                          Can’t remember your current password?
+                          <a href='#'> Reset your password.</a>
+                        </p>
+                        <span
+                          className='btn btn-primary'
+                          onClick={resetPassword}
+                        >
+                          Save Password
+                        </span>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
