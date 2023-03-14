@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 const Users = (props) => {
   const [allUsers, setAllUsers] = useState([]);
   const [searchQueryByUsername, setSearchQueryByUsername] = useState("");
+  const [seeMore, setSeeMore] = useState(5);
 
   useEffect(() => {
     const searchObject = { username: searchQueryByUsername };
@@ -20,6 +21,9 @@ const Users = (props) => {
       });
     }
   }, [searchQueryByUsername]);
+  const handleSeeMore = () => {
+    setSeeMore((prevState) => prevState + 5);
+  };
   return (
     <>
       <main className='main-content-wrapper'>
@@ -94,16 +98,15 @@ const Users = (props) => {
                               ></label>
                             </div>
                           </th>
-                          <th>Name</th>
+                          <th>Full Name</th>
                           <th>Email</th>
-                          <th>Purchase Date</th>
+                          <th>Verified</th>
                           <th>Phone</th>
-                          <th>Role</th>
                           <th />
                         </tr>
                       </thead>
                       <tbody>
-                        {allUsers.map((user, index) => {
+                        {allUsers?.slice(0, seeMore).map((user, index) => {
                           return (
                             <tr key={index}>
                               <td>
@@ -123,7 +126,7 @@ const Users = (props) => {
                               <td>
                                 <div className='d-flex align-items-center'>
                                   <img
-                                    src='../assets/images/avatar/avatar-1.jpg'
+                                    src={`http://localhost:5000/uploads/${user.image}`}
                                     alt=''
                                     className='avatar avatar-xs rounded-circle'
                                   />
@@ -135,10 +138,10 @@ const Users = (props) => {
                                 </div>
                               </td>
                               <td>{user.email}</td>
-                              {/* todo: more information*/}
-                              <td>17 May, 2023 at 3:18pm</td>
-                              <td>-</td>
-                              <td>$49.00</td>
+                              <td>
+                                {user?.verified ? "Verified" : "Not Verified"}
+                              </td>
+                              <td>{user.phoneNumber}</td>
                               <td>
                                 <div className='dropdown'>
                                   <a
@@ -172,36 +175,18 @@ const Users = (props) => {
                     </table>
                   </div>
                   <div className='border-top d-md-flex justify-content-between align-items-center p-6'>
-                    <span>Showing 1 to 8 of 12 entries</span>
-                    <nav className='mt-2 mt-md-0'>
-                      <ul className='pagination mb-0 '>
-                        <li className='page-item disabled'>
-                          <a className='page-link ' href='#!'>
-                            Previous
-                          </a>
-                        </li>
-                        <li className='page-item'>
-                          <a className='page-link active' href='#!'>
-                            1
-                          </a>
-                        </li>
-                        <li className='page-item'>
-                          <a className='page-link' href='#!'>
-                            2
-                          </a>
-                        </li>
-                        <li className='page-item'>
-                          <a className='page-link' href='#!'>
-                            3
-                          </a>
-                        </li>
-                        <li className='page-item'>
-                          <a className='page-link' href='#!'>
-                            Next
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                    <span>Users: {allUsers.length}</span>
+                    {allUsers.length > seeMore && (
+                      <nav className='mt-2 mt-md-0'>
+                        <ul className='pagination mb-0 '>
+                          <li className='page-item'>
+                            <span className='page-link' onClick={handleSeeMore}>
+                              More
+                            </span>
+                          </li>
+                        </ul>
+                      </nav>
+                    )}
                   </div>
                 </div>
               </div>
