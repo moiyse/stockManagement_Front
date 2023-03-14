@@ -9,104 +9,110 @@ import {
   
 import axios from "axios";
 
-
-
-
-  const loginFunction= (username, password) => {
-    return axios.post(`/api/auth/signin`, {
-        username,
-        password,
-      })
-      .then((response) => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        console.log("login data returned in loginfunction : ",response.data)
-        return response.data;
-      });
-  };
-
-
-  const googleLoginFunction= (accessToken) => {
-    return axios.post(`/api/auth/googleSignin`, {
-        accessToken
-      })
-      .then((response) => {
-        if (response.data.accessToken) {
-          console.log("google login",response.data.accessToken)
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        console.log("google login data returned in loginfunction  : ",response.data)
-  
-        return response.data;
-      });
-  };
-
-  
-  const logoutFunction = () => {
-    localStorage.removeItem("user");
-  };
-  
-
-
-
-  export const login = (username, password) => (dispatch) => {
-    return loginFunction(username, password).then(
-      (data) => {
-        console.log('Login success!', data);
-
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: { user: data },
-        });
-  
-
-        return Promise.resolve(data);
-
-      },
-      (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-  
-        dispatch({
-          type: LOGIN_FAIL,
-        });
-  
-        dispatch({
-          type: SET_MESSAGE,
-          payload: message,
-        });
-  
-        return Promise.reject(message);
+const loginFunction = (username, password, twoFactor) => {
+  return axios
+    .post(`/api/auth/signin`, {
+      username,
+      password,
+      twoFactorSecret: twoFactor,
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
       }
-    );
+      });
   };
 
 
-  export const loginGoogle = (accessToken) => (dispatch) => {
-    console.log("token in loginGoogle : ",accessToken)
-    return googleLoginFunction(accessToken).then(
-      (data) => {
-        console.log('Login success !', data);
+const googleLoginFunction= (accessToken) => {
+  return axios.post(`/api/auth/googleSignin`, {
+      accessToken
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      console.log("google login data returned in loginfunction  : ",response.data)
 
-        dispatch({
-          type: GOOGLE_LOGIN_SUCCESS,
-          payload: { user: data },
-        });
-        return Promise.resolve(data);
+    return response.data;
+  });
+};
 
-      },
-      (error) => {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+
+const googleSignupFunction= (accessToken) => {
+  return axios.post(`/api/auth/googleSignup`, {
+      accessToken
+    })
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      console.log("google Signup data returned in Signupfunction  : ",response.data)
+
+    return response.data;
+  });
+};
+
+
+
+const logoutFunction = () => {
+  localStorage.removeItem("user");
+};
+
+export const login = (username, password, twoFactor) => (dispatch) => {
+  return loginFunction(username, password, twoFactor).then(
+    (data) => {
+      console.log("Login success!", data);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: { user: data },
+      });
+
+      return Promise.resolve(data);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject(message);
+    }
+  );
+};
+
+
+export const loginGoogle = (accessToken) => (dispatch) => {
+  return googleLoginFunction(accessToken).then(
+    (data) => {
+      console.log('Google Login success ! : ', data);
+
+      dispatch({
+        type: GOOGLE_LOGIN_SUCCESS,
+        payload: { user: data },
+      });
+      return Promise.resolve(data);
+
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
   
         dispatch({
           type: GOOGLE_LOGIN_FAIL,
@@ -116,26 +122,61 @@ import axios from "axios";
           type: SET_MESSAGE,
           payload: message,
         });
-
-        console.log("accessToken error",accessToken)
         console.log(error)
   
         return Promise.reject(message);
-      }
-    );
-    
-  };
+    }
+  );
+};
 
+
+export const signupGoogle = (accessToken) => (dispatch) => {
+  return googleSignupFunction(accessToken)
+  .then(
+    (data) => {
+      console.log('Google Signup success !', data);
+
+      dispatch({
+        type: GOOGLE_LOGIN_SUCCESS,
+        payload: { user: data },
+      });
+      return Promise.resolve(data);
+
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
   
-  export const logout = () => (dispatch) => {
-    logoutFunction();
+        dispatch({
+          type: GOOGLE_LOGIN_FAIL,
+        });
   
-    dispatch({
-      type: LOGOUT,
-    });
-  };
+        dispatch({
+          type: SET_MESSAGE,
+          payload: message,
+        });
+        console.log(error)
+  
+        return Promise.reject(message);
+    }
+  );
+};
+
+
+export const logout = () => (dispatch) => {
+  logoutFunction();
+
+  dispatch({
+    type: LOGOUT,
+  });
+};
 export default {
     login,
     logout,
     loginGoogle,
+    signupGoogle,
   };

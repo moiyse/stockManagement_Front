@@ -2,8 +2,6 @@ import './slider.css';
 import React, { useState } from 'react';
 import Slider from "react-slick";
 import axios from "axios";
-import { display } from '@mui/system';
-
 
 
 function LeftNavButton(props) {
@@ -44,16 +42,17 @@ function Home() {
     {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
-    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"mekla","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"chicken &amp meet","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"cleaninng essentials","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"moez mahmoud","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
-    {"name":"malek","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
+    {"name":"mekla","src":"assets/images/category/category-tea-coffee-drinks.jpg"},
     {"name":"ma9rouna","src":"assets/images/category/category-tea-coffee-drinks.jpg"}
   ]
 
 
+  //Slider settings for the intro
   const settings_intro = {
     draggable: true,
       rows: 1,
@@ -68,7 +67,7 @@ function Home() {
       centerMode: true
   };
 
-
+  //Slider settings for the featured categories
   const settings_feature = {
       draggable: true,
       nextArrow: <RightNavButton />,
@@ -673,7 +672,7 @@ function Home() {
         <section className='mt-8'>
           <div className='container'>
           <Slider className='silder-intro' {...settings_intro}>
-            
+
           {introductions.map((intro, index) => (
               <div className='intro'>
                 <div className='intro-container'>
@@ -695,9 +694,9 @@ function Home() {
                 </div>
               </div>
               </div>
-              
+
             ))}
-                       
+
           </Slider>
           </div>
         </section>
@@ -709,11 +708,9 @@ function Home() {
                 <h3 className='mb-0'>Featured Categories</h3>
               </div>
             </div>
-            <div  className='category-slider'>
+            <div className='category-slider'>
               <Slider className='silder-feature' {...settings_feature}>
-
-              {categories.map((category, index) => (
-                
+                {categories.map((category, index) => (
                   <a
                     href='pages/shop-grid.html'
                     className='text-decoration-none text-inherit'
@@ -731,8 +728,8 @@ function Home() {
                     </div>
                   </a>
               ))}
-              
-              
+
+
               </Slider>
             </div>
           </div>

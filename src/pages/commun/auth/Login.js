@@ -6,10 +6,18 @@ import { loginGoogle,login } from "../../../actions/auth";
 import { useGoogleLogin,GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode"
 
+
 function Login() {
   const [username, setUsername] = useState("");
   const [password, SetPassword] = useState("");
+
   const [error, setError] = useState(null);
+  const [twoFactorAuth, setTwoFactorAuth] = useState(false);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
+  const handTwoFactorChange = (e) => {
+    console.log(e.target.value);
+    setTwoFactorCode(e.target.value);
+  };
 
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
@@ -31,31 +39,35 @@ function Login() {
 
   const Login = async (e) => {
     e.preventDefault();
-    console.log(username + password);
-    dispatch(login(username, password))
+    console.log(username + password + twoFactorCode);
+    dispatch(login(username, password, twoFactorCode))
       .then((data) => {
-        console.log(data.roles[0])
-        if(data.roles[0]==="ROLE_USER"){
+        console.log(data.roles[0]);
+        if (data.roles[0] === "ROLE_USER") {
           navigate("/home");
-        }
-        else{
+        } else {
           navigate("/dashboard/users");
         }
+       
+
         //  window.location.reload();
       })
       .catch((error) => {
         setError(error);
+        if (error === "Invalid Two Factor Secret!") {
+          setTwoFactorAuth(true);
+        }
       });
   };
 
   
 
-  const handleGoogleLogin = async (res)=>{
-    console.log("res : ",res);
-    console.log("res.credential : ",res.credential);
-    var token = jwt_decode(res.credential)
-    console.log("token : ",token);
-    dispatch(loginGoogle(token))
+  
+  
+  function handleGoogleLoginSuccess(tokenResponse) {
+    const accessToken = tokenResponse.access_token;
+
+    dispatch(loginGoogle(accessToken))
     .then((data) => {
       console.log("data from dispatch : ",data)
       console.log("role of user : ",data.roles[0])
@@ -73,14 +85,13 @@ function Login() {
     });
   }
   
-  
+  const loginG = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
 
 
 
-
-  if (isLoggedIn) {
+  {/*if (isLoggedIn) {
     return <Navigate to="/home" />;
-  }
+  } */}
   return (
     <div>
       <div className="border-bottom shadow-sm">
@@ -148,6 +159,21 @@ function Login() {
                         </span>
                       </div>
                     </div>
+                    <div className="col-12">
+                      <div className="password-field position-relative">
+                        {twoFactorAuth &&
+                          error === "Invalid Two Factor Secret!" && (
+                            <input
+                              onChange={handTwoFactorChange}
+                              type="text"
+                              name="twoFactorAuth"
+                              className="form-control"
+                              id="twoFactor"
+                              placeholder="Two Factor Auth"
+                            />
+                          )}
+                      </div>
+                    </div>
                     <div className="d-flex justify-content-between">
                       {/*  
                         <div className="form-check">
@@ -175,10 +201,13 @@ function Login() {
                       </button>
                     </div>
 
-                    <div className="col-12 d-grid" style={{justifyContent:"center",display:"flex"}}>
+                    <div className="col-12 d-grid" >
                       {" "}
-                      <GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
-                      onError={()=>{console.log('login failed')}}/>
+                      <a className="btn btn-secondary" onClick={() => loginG()}  >
+                      <i class="bi-brands bi-google"></i>  Sign in with Google</a>
+
+                      {/*<GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
+                      onError={()=>{console.log('login failed')}}/>*/}
                     </div>
 
                     <div>

@@ -1,8 +1,11 @@
 const Error = ({message}) =>{
     // && if then
     // ?: if else
-    return (
-        <span className="fw-bold">{message && message}</span>
+    return ( (message &&
+        <div className="alert alert-danger" role="alert">
+                    {message}
+                  </div>
+    )
     )
 
 }
