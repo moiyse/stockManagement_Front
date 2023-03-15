@@ -94,9 +94,9 @@ function Login() {
               />
             </a>
             <span className='navbar-text'>
-              Not a member?{" "}
+            Don’t have an account? ?{" "}
               <Link to='/register'>
-                <a style={{ color: "#0aad0a" }}>Sign Up</a>
+             Sign Up
               </Link>
             </span>
           </div>
@@ -194,9 +194,9 @@ function Login() {
 
                     <div className='col-12 d-grid'>
                       {" "}
-                      <a className='btn btn-secondary' onClick={() => loginG()}>
-                        <i class='bi-brands bi-google'></i> Sign in with Google
-                      </a>
+                      <button className='btn btn-secondary' onClick={() => loginG()}>
+                        <i className='bi-brands bi-google'></i> Sign in with Google
+                      </button>
                       {/*<GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
                       onError={()=>{console.log('login failed')}}/>*/}
                     </div>
@@ -204,7 +204,7 @@ function Login() {
                     <div>
                       Don’t have an account?{" "}
                       <Link to='/register'>
-                        <a>Sign Up</a>
+                        Sign Up
                       </Link>
                     </div>
                   </div>

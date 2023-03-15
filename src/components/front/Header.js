@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Navbar() {
   return (
     <div className='border-bottom '>
@@ -1026,9 +1028,10 @@ function Navbar() {
                         <li>
                           <a
                             className='dropdown-item'
-                            href='pages/account-settings.html'
                           >
-                            Settings
+                                                                                  <Link to='/settings'>
+                          Settings
+              </Link>
                           </a>
                         </li>
                         <li>
@@ -1582,8 +1585,11 @@ function Navbar() {
                             className='dropdown-item'
                             href='pages/account-settings.html'
                           >
-                            Settings
+                                                      <Link to='/'>
+                          Settings
+              </Link>
                           </a>
+
                         </li>
                         <li>
                           <a

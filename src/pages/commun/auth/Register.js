@@ -62,6 +62,8 @@ function Register() {
       })
       .catch(function (error) {
         console.log(error);
+        setError(error.response.data.message);
+
       });
 
     console.log(data);
@@ -85,7 +87,6 @@ function Register() {
       })
       .catch((error) => {
         console.log("error : ", error);
-        setError(error);
       });
   }
 
@@ -108,7 +109,7 @@ function Register() {
             <span className='navbar-text'>
               Already have an account?{" "}
               <Link to='/'>
-                <a style={{ color: "#0aad0a" }}>Sign In</a>
+              Sign In
               </Link>
             </span>
           </div>
@@ -239,7 +240,7 @@ function Register() {
                     />
                     <Error message={errors.image?.message}></Error>
                   </div>
-                  <div class='form-check'>
+                  <div className='form-check'>
                     <input
                       className='form-check-input'
                       type='checkbox'
@@ -249,7 +250,7 @@ function Register() {
                         setIsTwoFactorAuthEnabled(e.target.checked)
                       }
                     />
-                    <label className='form-check-label' for='flexCheckDefault'>
+                    <label className='form-check-label' htmlFor='flexCheckDefault'>
                       Enable Two Factor Authentication
                     </label>
                   </div>
@@ -263,9 +264,9 @@ function Register() {
                   {/* Google SignUp */}
                   <div className='col-12 d-grid'>
                     {" "}
-                    <a className='btn btn-secondary' onClick={() => signup()}>
-                      <i class='bi-brands bi-google'></i> Sign up with Google
-                    </a>
+                    <button className='btn btn-secondary' onClick={() => signup()}>
+                      <i className='bi-brands bi-google'></i> Sign up with Google
+                    </button>
                   </div>
                   {/* text */}
                   <p>

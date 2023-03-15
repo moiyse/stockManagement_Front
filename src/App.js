@@ -52,11 +52,6 @@ function App() {
     }
   }, [currentUser]);
 
-  useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
-      dispatch(clearMessage()); // clear message when changing location
-    }
-  }, [dispatch, location]);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
