@@ -50,11 +50,12 @@ const Users = (props) => {
                     </ol>
                   </nav>
                 </div>
-                <div>
+            {/*   <div>
                   <a href='#!' className='btn btn-primary'>
                     Add New Customer
                   </a>
                 </div>
+                */}
               </div>
             </div>
           </div>

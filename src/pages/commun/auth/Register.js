@@ -12,7 +12,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const schema = yup
   .object({
-    username: yup.string().required(),
+    username: yup.string().required().min(6,"Username must be 6 characters long"),
     email: yup.string().email().required(),
     password: yup
       .string()
@@ -21,7 +21,7 @@ const schema = yup
       .matches(/[a-z]/, "Password requires a lowercase letter")
       .matches(/[A-Z]/, "Password requires an uppercase letter")
       .matches(/[^\w]/, "Password requires a symbol"),
-    phoneNumber: yup.string(),
+    phoneNumber: yup.string().required(),
     firstname: yup.string().required(),
     lastname: yup.string().required(),
   })
@@ -168,7 +168,7 @@ function Register() {
                     <input
                       type='text'
                       className='form-control'
-                      placeholder='First Name'
+                      placeholder='Last Name'
                       id='lastname'
                       autoComplete='off'
                       autoSave='off'
