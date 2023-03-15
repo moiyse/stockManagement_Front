@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginGoogle, login } from "../../../actions/auth";
+import { loginGoogle, login, loginFacebook } from "../../../actions/auth";
 import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
+
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -74,6 +75,62 @@ function Login() {
         setError(error);
       });
   }
+
+
+  useEffect(() => {
+    window.fbAsyncInit = function() {
+      window.FB.init({
+        appId      : '165208916350364',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v11.0'
+      });
+        
+      window.FB.AppEvents.logPageView();   
+    };
+    
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  }, []);
+
+  const handleFacebookLogin = async () => {
+    await window.FB.Event.subscribe('auth.statusChange', async function(response) {
+      if (response.authResponse) {
+        console.log("auth Response : ",response.authResponse.accessToken)
+        const access_token = response.authResponse.accessToken;
+        console.log("access token : ",access_token)
+        dispatch(loginFacebook(access_token))
+          .then((data) => {
+            console.log("data from dispatch : ", data);
+            console.log("role of user : ", data.roles[0]);
+            if (data.roles[0] === "ROLE_USER") {
+              navigate("/home");
+            } else {
+              navigate("/dashboard/users");
+            }
+            //  window.location.reload();
+          })
+          .catch((error) => {
+            console.log("error : ", error);
+            setError(error);
+          });
+
+        // Send the access token to your server for server-side authentication
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
+  
+    window.FB.login(function(response) {
+      // No need to do anything here
+    }, {scope: 'public_profile,email'});
+  }
+
 
   const loginG = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
 
@@ -194,9 +251,16 @@ function Login() {
 
                     <div className='col-12 d-grid'>
                       {" "}
-                      <button className='btn btn-secondary' onClick={() => loginG()}>
+                      <a className='btn btn-info' onClick={handleFacebookLogin}>
+                        <i className='bi-brands bi-facebook'></i> Sign in with Facebook
+                      </a>
+                    </div>
+
+                    <div className='col-12 d-grid'>
+                      {" "}
+                      <a className='btn btn-secondary' onClick={() => loginG()}>
                         <i className='bi-brands bi-google'></i> Sign in with Google
-                      </button>
+                      </a>
                       {/*<GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
                       onError={()=>{console.log('login failed')}}/>*/}
                     </div>
