@@ -42,7 +42,7 @@ function Login() {
         if (data.roles[0] === "ROLE_USER") {
           navigate("/home");
         } else {
-          navigate("/dashboard/users");
+          navigate("/admin");
         }
 
         //  window.location.reload();

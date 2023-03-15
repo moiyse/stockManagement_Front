@@ -72,9 +72,9 @@ function App() {
           exact
           path='/admin'
           element={
-            <Layout>
+            
               <TemplateBack />
-            </Layout>
+       
           }
         />
         <Route

@@ -1,7 +1,18 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import {  logout } from "../../../src/actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+
 function Navbar() {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const Logout = async () => {
+    try {
+      await dispatch(logout());
+      return <Navigate to='/' />;
+    } catch (error) {
+      // handle error
+    }
+  };
   if (!currentUser) {
     return <Navigate to='/' />;
   }
@@ -269,7 +280,7 @@ function Navbar() {
                   className='show'
                 >
                   <img
-                    src='../assets/images/avatar/avatar-1.jpg'
+                   src={`http://localhost:5000/uploads/${currentUser.image}`}
                     alt=''
                     className='avatar avatar-md rounded-circle'
                   />
@@ -280,7 +291,7 @@ function Navbar() {
                   data-bs-popper='static'
                 >
                   <div className='lh-1 px-5 py-4 border-bottom'>
-                    <h5 className='mb-1 h6'>FreshCart Admin</h5>
+                    <h5 className='mb-1 h6'>{currentUser.username}</h5>
                     <small>{currentUser.email}</small>
                   </div>
                   <ul className='list-unstyled px-2 py-3'>
@@ -301,7 +312,7 @@ function Navbar() {
                     </li>
                   </ul>
                   <div className='border-top px-5 py-3'>
-                    <a href='#'>Log Out</a>
+                    <a   type='button' onClick={Logout}>Log Out</a>
                   </div>
                 </div>
               </li>
