@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { notify } from "../../../utils/HelperFunction";
 
 const Users = (props) => {
   const [allUsers, setAllUsers] = useState([]);
@@ -24,8 +26,29 @@ const Users = (props) => {
   const handleSeeMore = () => {
     setSeeMore((prevState) => prevState + 5);
   };
+
+  const makeTechnical = (id) => {
+    axios
+      .post("/api/auth/maketechnical", { userId: id })
+      .then((res) => {
+        notify("user become technical", toast, "info");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const makeManager = (id) => {
+    console.log(id);
+    axios
+      .post("/api/auth/makemanager", { userId: id })
+      .then((res) => {
+        notify("user become manager", toast, "info");
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
+      <ToastContainer />
+
       <main className='main-content-wrapper'>
         <div className='container'>
           <div className='row mb-8'>
@@ -50,11 +73,12 @@ const Users = (props) => {
                     </ol>
                   </nav>
                 </div>
-                <div>
+                {/*   <div>
                   <a href='#!' className='btn btn-primary'>
                     Add New Customer
                   </a>
                 </div>
+                */}
               </div>
             </div>
           </div>
@@ -102,7 +126,7 @@ const Users = (props) => {
                           <th>Email</th>
                           <th>Verified</th>
                           <th>Phone</th>
-                          <th />
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -154,16 +178,22 @@ const Users = (props) => {
                                   </a>
                                   <ul className='dropdown-menu'>
                                     <li>
-                                      <a className='dropdown-item' href='#'>
+                                      <span
+                                        className='dropdown-item'
+                                        onClick={() => makeTechnical(user._id)}
+                                      >
                                         <i className='bi bi-trash me-3' />
-                                        Delete
-                                      </a>
+                                        Technical
+                                      </span>
                                     </li>
                                     <li>
-                                      <a className='dropdown-item' href='#'>
+                                      <span
+                                        className='dropdown-item'
+                                        onClick={() => makeManager(user._id)}
+                                      >
                                         <i className='bi bi-pencil-square me-3 ' />
-                                        Edit
-                                      </a>
+                                        Manager
+                                      </span>
                                     </li>
                                   </ul>
                                 </div>
