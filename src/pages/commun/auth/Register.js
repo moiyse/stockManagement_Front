@@ -87,6 +87,7 @@ function Register() {
       })
       .catch((error) => {
         console.log("error : ", error);
+        setError(error);
       });
   }
 
