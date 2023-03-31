@@ -18,13 +18,19 @@ body,html{height:100%;font-family:Inter,sans-serif;font-size:14px}
 .text-divider:before{margin-right:10px}
 .text-divider:after,.text-divider:before{content:"";display:block;height:1px;flex:1;background:#b3b3b3}
 .text-divider:after{margin-left:10px}
-.btn{font-size:15px;width:auto;display:inline-flex;align-items:center;padding:15px 30px;line-height:14px;border-radius:.5rem}
+.btn{font-size:15px;width:auto;display:inline-flex;align-items:center;padding:15px 30px;line-height:14px;border-radius:.5rem; }
 .btn.btn-sm{padding:12px 20px;font-size:12px}
 .btn.btn-lg{padding:20px 40px;font-size:16px}
 .btn.btn-block{width:100%;justify-content:center}
 .btn.btn-white{background:#fff;color:#000}
 .btn.btn-white:focus,.btn.btn-white:hover{background:hsla(0,0%,100%,.8)}
-.btn.btn-floating{height:50px;width:50px;padding:0;font-size:18px!important;justify-content:center;border-radius:50%}
+.btn.btn-floating{
+    height:50px;
+    width:50px;
+    padding:0;
+    font-size:18px!important;
+    justify-content:center;
+    border-radius:50%}
 .btn.btn-floating.btn-sm{height:35px;width:35px;font-size:14px!important}
 .btn.btn-floating.btn-lg{height:65px;width:65px;font-size:22px!important}
 .bg-facebook{background:#3b5998!important}
@@ -47,7 +53,6 @@ body,html{height:100%;font-family:Inter,sans-serif;font-size:14px}
 .border-pinperest{color:#bd081c!important;border:1px solid #bd081c!important}
 
 .custom-checkbox{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-
 
 
 

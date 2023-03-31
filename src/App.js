@@ -11,7 +11,6 @@ import axios from "axios";
 import Users from "./pages/back/users/Users";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
-import SignIn from "./pages/commun/auth/Signin";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
@@ -76,13 +75,6 @@ function App() {
             
               <TemplateBack />
        
-          }
-        />
-        <Route
-          exact
-          path='/signIn'
-          element={
-              <SignIn/>
           }
         />
         <Route

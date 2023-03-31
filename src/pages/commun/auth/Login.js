@@ -138,147 +138,130 @@ function Login() {
     return <Navigate to='/home' />;
   }
   return (
-    <div>
-      <div className='border-bottom shadow-sm'>
-        <nav className='navbar navbar-light py-2'>
-          <div className='container justify-content-center justify-content-lg-between'>
-            <a className='navbar-brand' href='../index.html'>
-              <img
-                src='../assets/images/logo/logo.png'
-                style={{ width: "80px" }}
-                alt=''
-                className='d-inline-block align-text-top'
-              />
-            </a>
-            <span className='navbar-text'>
-            Don’t have an account? ?{" "}
-              <Link to='/register'>
-             Sign Up
-              </Link>
-            </span>
-          </div>
-        </nav>
-      </div>
-      <main>
-        <section className='my-lg-14 my-8'>
-          <div className='container'>
-            <div className='row justify-content-center align-items-center'>
-              <div className='col-12 col-md-6 col-lg-4 order-lg-1 order-2'>
-                <img
-                  src='../assets/images/svg-graphics/signin-g.svg'
-                  alt=''
-                  className='img-fluid'
-                />
-              </div>
+           <div>
+              <div className="form-shape" />
+              <div className="form-wrapper">
+                <div className="container">
+                  <div className="card">
+                    <div className="row no-gutters">
+                      <div className="col">
+                        <div className="row">
+                          <div className="col-md-10 offset-md-1">
+                            <div className="ltf-block-logo d-block d-lg-none text-center text-lg-left">
+                              <img src="../assets/images/logo/logo.ico" alt="logo" />
+                            </div>
+                            <div className="my-5 text-center text-lg-left">
+                              <h3 className="font-weight-bold">Sign In</h3>
+                              <p className="text-muted">Sign in to Latform to continue</p>
+                            </div>
+                                {error && (
+                                <div className="alert alert-danger" role="alert">
+                                    {error}
+                                </div>
+                                )}
+                            <form>
+                              <div className="form-group">
+                                <div className="form-icon-wrapper">
+                                  <input 
+                                  type="email" 
+                                  className="form-control" 
+                                  placeholder="Enter email" 
+                                  onChange={handleChangeUsername}
+                                  />
 
-              <div className='col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1'>
-                <div className='mb-lg-9 mb-5'>
-                  <h1 className='mb-1 h2 fw-bold'>Sign in to EcoWaste</h1>
-                  <p>
-                    Welcome back to EcoWaste! Enter your email to get started.
-                  </p>
-                </div>
-                {error && (
-                  <div className='alert alert-danger' role='alert'>
-                    {error}
-                  </div>
-                )}
-                <form>
-                  <div className='row g-3'>
-                    <div className='col-12'>
-                      <input
-                        type='email'
-                        className='form-control'
-                        placeholder='Email'
-                        onChange={handleChangeUsername}
-                      />
-                    </div>
-                    <div className='col-12'>
-                      <div className='password-field position-relative'>
-                        <input
-                          type='password'
-                          id='fakePassword'
-                          placeholder='Enter Password'
-                          className='form-control'
-                          onChange={handleChangePassword}
-                        />
-                        <span>
-                          <i id='passwordToggler' className='bi bi-eye-slash' />
-                        </span>
-                      </div>
-                    </div>
-                    <div className='col-12'>
-                      <div className='password-field position-relative'>
-                        {twoFactorAuth &&
-                          error === "Invalid Two Factor Secret!" && (
-                            <input
-                              onChange={handTwoFactorChange}
-                              type='text'
-                              name='twoFactorAuth'
-                              className='form-control'
-                              id='twoFactor'
-                              placeholder='Two Factor Auth'
-                            />
-                          )}
-                      </div>
-                    </div>
-                    <div className='d-flex justify-content-between'>
-                      {/*  
-                        <div className="form-check">
-                          <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" />
-                         <label className="form-check-label" htmlFor="flexCheckDefault">
-                            Remember me
-                          </label>
+                                  <i className="form-icon-left mdi bi-envelope-fill" />
+                                </div>
+                              </div>
+                              <div className="form-group">
+                                <div className="form-icon-wrapper">
+                                  <input 
+                                  type="password" 
+                                  id="fakePassword"
+                                  className="form-control" 
+                                  placeholder="Enter password" 
+                                  onChange={handleChangePassword}
+                                  
+                                  />
+                                  <i className="form-icon-left mdi bi-lock-fill" />
+                                  <a href="#" className="form-icon-right password-show-hide" title="Hide or show password">
+                                    <i className="mdi mdi-eye" />
+                                  </a>
+                                </div>
+                              </div>
+                              <div className="form-group">
+                                <div className="form-icon-wrapper">
+                                {twoFactorAuth &&
+                                  error === "Invalid Two Factor Secret!" && (
+                                    <input
+                                    onChange={handTwoFactorChange}
+                                    type="text"
+                                    name="twoFactorAuth"
+                                    className="form-control"
+                                    id="twoFactor"
+                                    placeholder="Two Factor Auth"
+                                    />
+                                )}
+                               
+                                  <i className="form-icon-left mdi mdi-lock" />
+                                  <a href="#" className="form-icon-right password-show-hide" title="Hide or show password">
+                                    <i className="mdi mdi-eye" />
+                                  </a>
+                                </div>
+                              </div>
+                              <p className="text-center mb-4">
+                                Can't access your account? <Link to="/forgetPassword"><a>Reset your password now</a></Link>.
+                              </p>
+                              <div className="text-center">
+                                <button 
+                                type="submit"
+                                className="btn btn-primary mb-4"
+                                onClick={Login}
+                                >
+                                  Sign In
+                                </button>
+                              </div>
+                            </form>
+                            <div className="text-divider">or</div>
+                            <div className="social-links justify-content-center">
+                              <a  href="#" onClick={() => loginG()}>
+                                <i className="mdi bi-google bg-google" />
+                                 Sign in with Google
+                              </a>
+                              <a href="#"  onClick={handleFacebookLogin}>
+                                <i className="mdi bi-facebook bg-facebook" /> Sign in with Facebook
+                              </a>
+                            </div>
+                            <p className="text-center d-block d-lg-none mt-5 mt-lg-0">
+                              Don't have an account?  <Link to="/register"><a>Sign Up</a></Link>.
+                            </p>
+                          </div>
                         </div>
-                        */}
-                      <div>
-                        {" "}
-                        Forgot password?{" "}
-                        <Link to='/forgetPassword'>Reset It</Link>
+                      </div>
+                      <div className="col d-none d-lg-flex" style={{background: 'url(../assets/images/auth/food1.jpg)'}}>
+                        <div className="logo">
+                          <img src="../assets/images/logo/logo.ico" alt="logo" />
+                        </div>
+                        <div>
+                          <h3 className="font-weight-bold">Welcome to EcoWaste!</h3>
+                          <p className="lead my-5">If you don't have an account, would you like to register right now?</p>
+                          <Link to="/register">
+                          <a className="btn btn-white">Sign Up</a>
+                          </Link>
+                        </div>
+                        <ul className="list-inline">
+                          <li className="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                          </li>
+                          <li className="list-inline-item">
+                            <a href="#">Terms &amp; Conditions</a>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-
-                    <div className='col-12 d-grid'>
-                      {" "}
-                      <button
-                        type='submit'
-                        className='btn btn-primary'
-                        onClick={Login}
-                      >
-                        Sign In
-                      </button>
-                    </div>
-
-                    <div className='col-12 d-grid'>
-                      {" "}
-                      <a className='btn btn-info' onClick={handleFacebookLogin}>
-                        <i className='bi-brands bi-facebook'></i> Sign in with Facebook
-                      </a>
-                    </div>
-
-                    <div className='col-12 d-grid'>
-                      {" "}
-                      <a className='btn btn-secondary' onClick={() => loginG()}>
-                        <i className='bi-brands bi-google'></i> Sign in with Google
-                      </a>
-                      {/*<GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
-                      onError={()=>{console.log('login failed')}}/>*/}
-                    </div>
-
-                    <div>
-                      Don’t have an account?{" "}
-                      <Link to='/register'>
-                        Sign Up
-                      </Link>
-                    </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+    );
 }
 export default Login;
