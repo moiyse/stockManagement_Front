@@ -32,7 +32,7 @@ const logoutFunction = () => {
 };
 const updateFunction = (user) => {
   return axios
-    .put(`/modifyProfile/${user.id}`, user, {
+    .put(`/api/modifyProfile/${user.id}`, user, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

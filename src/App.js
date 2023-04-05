@@ -11,7 +11,8 @@ import axios from "axios";
 import Users from "./pages/back/users/Users";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
-import SignIn from "./pages/commun/auth/Signin";
+import SignIn from "./pages/commun/auth/Login";
+
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
@@ -53,51 +54,36 @@ function App() {
     }
   }, [currentUser]);
 
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route
           exact
-          path='*'
+          path="*"
           element={
             <Layout>
               <Home />
             </Layout>
           }
         />
-        <Route exact path='/forgetPassword' element={<ForgetPassword />} />
-        <Route exact path='/ResetPassword' element={<ResetPassword />} />
-        <Route exact path='/register' element={<Register />} />
+        <Route exact path="/forgetPassword" element={<ForgetPassword />} />
+        <Route exact path="/ResetPassword" element={<ResetPassword />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/admin" element={<TemplateBack />} />
+        <Route exact path="/signIn" element={<SignIn />} />
         <Route
           exact
-          path='/admin'
-          element={
-            
-              <TemplateBack />
-       
-          }
-        />
-        <Route
-          exact
-          path='/signIn'
-          element={
-              <SignIn/>
-          }
-        />
-        <Route
-          exact
-          path='/settings'
+          path="/settings"
           element={
             <Layout>
               <Settings />
             </Layout>
           }
         />
-        <Route exact path='/' element={<Login />} />
+        <Route exact path="/" element={<Login />} />
         <Route
           exact
-          path='/dashboard/users'
+          path="/dashboard/users"
           element={
             <LayoutBack>
               <Users />
