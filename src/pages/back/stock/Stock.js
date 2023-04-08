@@ -1,5 +1,43 @@
-function Stock(){
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Button from 'react-bootstrap/Button';
+import Collapse from 'react-bootstrap/Collapse';
 
+import { useParams } from "react-router-dom";
+function Stock(){
+    const [open, setOpen] = useState(false);
+    const [stock,setStock] = useState({quantity : 0});
+
+    const [stockHistories, setStockHistories] = useState([]);
+    const { id } = useParams();
+    useEffect(() => {
+      const fetchStockHistories = async () => {
+        console.log(stock)
+        const response = await axios.get(`/products/prod/stockHistories/${id}`);
+        setStockHistories(response.data);
+        console.log(response.data)
+
+      };
+      fetchStockHistories();
+    }, []);
+    const addToStock = async ()=>{
+        try {
+            const response = await axios.post(`/products/prod/addToStock/${id}` , stock);
+            console.log(response.data); // Assuming that the server returns some data upon successful addition to stock
+          } catch (error) {
+            console.error(error);
+          }    }
+    const handleChangeQuantity = (e) => {
+        console.log(e.target.value)
+        setStock({quantity :e.target.value});
+      };
+      const removeFromStock = async ()=>{
+        try {
+            const response = await axios.post(`/products/prod/removeFromStock/${id}` , stock);
+            console.log(response.data); // Assuming that the server returns some data upon successful addition to stock
+          } catch (error) {
+            console.error(error);
+          }    }
 
     return(
 <main className="main-content-wrapper">
@@ -18,10 +56,6 @@ function Stock(){
                     </ol>
                   </nav>
                 </div>
-                {/* button */}
-                <div>
-                  <a href="add-product.html" className="btn btn-primary">Add Product</a>
-                </div>
               </div>
             </div>
           </div>
@@ -34,16 +68,38 @@ function Stock(){
                   <div className="row justify-content-between">
                     {/* form */}
                     <div className="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                      <form className="d-flex" role="search">
-                        <input className="form-control" type="search" placeholder="Search Products" aria-label="Search" />
-                      </form>
+                    <Button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+      >
+        Update the stock
+      </Button>
+      <Collapse in={open}>
+        <div id="example-collapse-text">
+<br/>
+      
+                        <input className="form-control" type="number" placeholder="Enter the qunatity" aria-label="Search" onChange={handleChangeQuantity}/>
+                        <br/>
+                        <Button
+        aria-controls="example-collapse-text" className="m-1"         onClick={addToStock}
+        >
+Add      </Button>
+<Button className="btn btn-secondary"
+        aria-controls="example-collapse-text"
+        onClick={removeFromStock}  >
+Remove      </Button>
+                  
+        </div>
+      </Collapse>
+
                     </div>
                     {/* select option */}
                     <div className="col-lg-2 col-md-4 col-12">
                       <select className="form-select">
                         <option selected>Action</option>
-                        <option value={1}>Add</option>
-                        <option value={2}>Remove</option>
+                        <option defaultValue={1}>Add</option>
+                        <option defaultValue={2}>Remove</option>
                       </select>
                     </div>
                   </div>
@@ -66,15 +122,22 @@ function Stock(){
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>100</td>
+
+                        
+                        {stockHistories.map((stockHistories) => (
+                            <tr key={stockHistories._id}>
+                          <td>{stockHistories.newValue}</td>
                           <td>
-                            <span className="badge bg-light-primary text-dark-primary">Add</span>
+                           { stockHistories.action=="add" ? <span className="badge bg-light-primary text-dark-primary">{stockHistories.action}</span>
+                           : <span className="badge bg-light-danger text-dark-danger">{stockHistories.action}</span> }
+                           
                           </td>
-                          <td>20</td>
-                          <td>15</td>
-                          <td>24 Nov 2022</td>
-                        </tr>
+                          { stockHistories.action == "add" ? <td>{stockHistories.quantity}</td> : <td>-</td> }
+                          { stockHistories.action == "remove" ? <td>{stockHistories.quantity}</td> : <td>-</td> }
+                          <td>{stockHistories.createdAt}</td>
+                          </tr>
+                          ))}
+                      
 
                       </tbody>
                     </table>
