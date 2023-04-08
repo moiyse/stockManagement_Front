@@ -179,7 +179,7 @@ function Login() {
                                   <input 
                                   type="email" 
                                   className="form-control" 
-                                  placeholder="Enter email" 
+                                  placeholder="Enter Username" 
                                   onChange={handleChangeUsername}
                                   />
 

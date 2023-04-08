@@ -253,7 +253,7 @@ function Register() {
                         <div className="form-group">
                           <div className="form-icon-wrapper">
                           <input
-                            type='password'
+                            type={type}
                             id='password'
                             placeholder='Enter Password'
                             className='form-control'

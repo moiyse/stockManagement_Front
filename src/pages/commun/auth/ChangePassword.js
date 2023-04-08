@@ -107,7 +107,7 @@ const ChangePassword=(props) =>{
                                     />    
                                     <div className="my-5 text-center text-lg-left">
                                         <h3 className="font-weight-bold" style={{ paddingBottom: "15px" }}>Reset Password</h3>
-                                        <p className="text-muted">Type and send the email address to reset your password.</p>
+                                        <p className="text-muted">Stong password include numbers, letters, and punctuation marks..</p>
                                     </div>
                                     <form>  
                                         <div className="form-group">
@@ -115,7 +115,9 @@ const ChangePassword=(props) =>{
                                                 <input type={type} 
                                                 className="form-control" 
                                                 placeholder="Enter your new password"
-                                                required />
+                                                value={newPassword.value}
+                                                 onChange={handleChangeNewPassword}
+                                                />
                                                 <i className="form-icon-left mdi bi-lock-fill" />
                                                 <a onClick={handleToggle} className="form-icon-right password-show-hide" title="Hide or show password">
                                                     <i className={icon} />
@@ -124,14 +126,23 @@ const ChangePassword=(props) =>{
                                         </div>
                                         <div className="form-group">
                                         <div className="form-icon-wrapper">
-                                            <input type={type} className="form-control" placeholder="Retype password" required />
+                                            <input type={type} 
+                                            className="form-control" 
+                                            placeholder="Retype password"
+                                            value={confirmPassword}
+                                              onChange={(e) =>setconfirmPassword(e.target.value)}
+                                             />
                                             <i className="form-icon-left mdi bi-lock-fill" />
                                             <a onClick={handleToggle} className="form-icon-right password-show-hide" title="Hide or show password">
                                                 <i className={icon} />
                                             </a>
                                         </div>
                                         </div>
-                                        <button className="btn btn-primary mb-4">Change Password</button>
+                                        <button
+                                         className="btn btn-primary mb-4"
+                                         onClick={resetPassword}
+                                         >
+                                            Change Password</button>
                                         
                                     </form>
                                     <p className="text-center mb-4"  style={{ paddingTop: "15px" }}>
