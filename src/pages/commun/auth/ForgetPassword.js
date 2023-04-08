@@ -173,7 +173,7 @@ const ForgetPassword = (props) => {
                                 </div>
                             </form>
                             <p className="text-center d-block d-lg-none mt-4 mt-lg-0">
-                                You can now <Link to="/"><a>sign in</a></Link> or <Link to="/Signup"><a>create an account</a></Link>.
+                                You can now <Link to="/"><a>sign in</a></Link> or <Link to="/register"><a>create an account</a></Link>.
                             </p>
                             </div>
                         </div>
@@ -188,7 +188,7 @@ const ForgetPassword = (props) => {
                             <div className="text-center">
                             You can now 
                             <Link to="/"> <a className="btn btn-white btn-sm" >sign in</a></Link> or
-                             <Link to="/Signup"><a className="btn btn-white btn-sm">create an account</a></Link>.
+                             <Link to="/register"><a className="btn btn-white btn-sm">create an account</a></Link>.
                             </div>
                         </div>
                         <ul className="list-inline">

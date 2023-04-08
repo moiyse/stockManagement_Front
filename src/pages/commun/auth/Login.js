@@ -257,7 +257,7 @@ function Login() {
                         <div>
                           <h3 className="font-weight-bold">Welcome to EcoWaste!</h3>
                           <p className="lead my-5">If you don't have an account, would you like to register right now?</p>
-                          <Link to="/Signup">
+                          <Link to="/register">
                           <a className="btn btn-white">Sign Up</a>
                           </Link>
                         </div>
