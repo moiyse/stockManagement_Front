@@ -175,7 +175,7 @@ function Login() {
                 <div className='mb-lg-9 mb-5'>
                   <h1 className='mb-1 h2 fw-bold'>Sign in to EcoWaste</h1>
                   <p>
-                    Welcome back to EcoWaste! Enter your email to get started.
+                    Welcome back to EcoWaste! Enter your username to get started.
                   </p>
                 </div>
                 {error && (
@@ -189,7 +189,7 @@ function Login() {
                       <input
                         type='email'
                         className='form-control'
-                        placeholder='Email'
+                        placeholder='Username'
                         onChange={handleChangeUsername}
                       />
                     </div>
