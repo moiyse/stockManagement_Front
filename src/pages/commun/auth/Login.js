@@ -7,6 +7,20 @@ import { useGoogleLogin, GoogleLogin } from "@react-oauth/google";
 
 
 function Login() {
+  const [type, setType]=useState('password');
+  const [icon, setIcon]=useState('bi bi-eye-slash');
+
+  const handleToggle=()=>{
+      if(type==='password'){
+          setIcon('bi bi-eye');
+          setType('text');
+      }else{
+          setIcon('bi bi-eye-slash');
+          setType('password');
+      }
+  }
+
+
   const [username, setUsername] = useState("");
   const [password, SetPassword] = useState("");
 
@@ -175,7 +189,7 @@ function Login() {
                               <div className="form-group">
                                 <div className="form-icon-wrapper">
                                   <input 
-                                  type="password" 
+                                  type={type}  
                                   id="fakePassword"
                                   className="form-control" 
                                   placeholder="Enter password" 
@@ -183,8 +197,8 @@ function Login() {
                                   
                                   />
                                   <i className="form-icon-left mdi bi-lock-fill" />
-                                  <a href="#" className="form-icon-right password-show-hide" title="Hide or show password">
-                                    <i className="mdi mdi-eye" />
+                                  <a onClick={handleToggle} className="form-icon-right password-show-hide" title="Hide or show password">
+                                                    <i className={icon} />
                                   </a>
                                 </div>
                               </div>
@@ -200,12 +214,13 @@ function Login() {
                                     id="twoFactor"
                                     placeholder="Two Factor Auth"
                                     />
-                                )}
+                                ) && (
+                                  <a onClick={handleToggle} className="form-icon-right password-show-hide" title="Hide or show password">
+                                    <i className={icon} />
+                                  </a>)}
                                
-                                  <i className="form-icon-left mdi mdi-lock" />
-                                  <a href="#" className="form-icon-right password-show-hide" title="Hide or show password">
-                                    <i className="mdi mdi-eye" />
-                                  </a>
+                               
+
                                 </div>
                               </div>
                               <p className="text-center mb-4">
@@ -231,9 +246,7 @@ function Login() {
                                 <i className="mdi bi-facebook bg-facebook" /> Sign in with Facebook
                               </a>
                             </div>
-                            <p className="text-center d-block d-lg-none mt-5 mt-lg-0">
-                              Don't have an account?  <Link to="/register"><a>Sign Up</a></Link>.
-                            </p>
+                           
                           </div>
                         </div>
                       </div>
@@ -244,17 +257,13 @@ function Login() {
                         <div>
                           <h3 className="font-weight-bold">Welcome to EcoWaste!</h3>
                           <p className="lead my-5">If you don't have an account, would you like to register right now?</p>
-                          <Link to="/register">
+                          <Link to="/Signup">
                           <a className="btn btn-white">Sign Up</a>
                           </Link>
                         </div>
                         <ul className="list-inline">
-                          <li className="list-inline-item">
-                            <a href="#">Privacy Policy</a>
-                          </li>
-                          <li className="list-inline-item">
-                            <a href="#">Terms &amp; Conditions</a>
-                          </li>
+                          
+                        
                         </ul>
                       </div>
                     </div>

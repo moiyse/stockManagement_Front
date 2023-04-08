@@ -17,12 +17,14 @@ import { clearMessage } from "./actions/messages";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
-const Register = React.lazy(() => import("./pages/commun/auth/Register"));
+//const Register = React.lazy(() => import("./pages/commun/auth/Register"));
+const SignUp = React.lazy(() => import("./pages/commun/auth/SignUp"));
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
-const ResetPassword = React.lazy(() =>
-  import("./pages/commun/auth/ResetPassword")
+
+const ChangePassword = React.lazy(() =>
+  import("./pages/commun/auth/ChangePassword")
 );
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 
@@ -35,7 +37,7 @@ function App() {
   let location = useLocation();
 
   useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
+    if (["/login",  "/SignUp" ].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
@@ -65,9 +67,23 @@ function App() {
             </Layout>
           }
         />
-        <Route exact path='/forgetPassword' element={<ForgetPassword />} />
-        <Route exact path='/ResetPassword' element={<ResetPassword />} />
-        <Route exact path='/register' element={<Register />} />
+        <Route 
+          exact 
+          path='/forgetPassword'
+          element={<ForgetPassword />} 
+          />
+        
+        <Route 
+          exact 
+          path='/ChangePassword' 
+          element={<ChangePassword />} 
+        />
+        
+         <Route
+         exact 
+         path='/Signup'
+         element={<SignUp />} 
+         />
         <Route
           exact
           path='/admin'

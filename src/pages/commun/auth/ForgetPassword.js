@@ -80,7 +80,7 @@ const ForgetPassword = (props) => {
       .then((res) => {
           setMailOpened(false)
           notify("Mail is verificated!", toast, "success"); 
-          navigate(`/ResetPassword?email=${email}`);
+          navigate(`/ChangePassword?email=${email}`);
       })
       .catch((err) => {
         if({ message: "Time Expired." }){
@@ -118,11 +118,14 @@ const ForgetPassword = (props) => {
                     <div className="row no-gutters">
                         <div className="col">
                         <div className="row h-100 align-items-center">
-                            <div className="col-md-10 offset-md-1">
-                            <div className="ltf-block-logo d-block d-lg-none text-center text-lg-left">
-                                <img src="../assets/images/logo/logo.ico" alt="logo" />
-                            </div>
+                           <div className="col-md-10 offset-md-1">                            
                             <div className="my-5 text-center text-lg-left">
+                            <img
+                                        src="../assets/images/logo/logo.png"
+                                        style={{ width: "100px", paddingBottom: "30px" }}
+                                        alt=""
+                                        className="d-inline-block align-text-top"
+                                    />   
                                 <h3 className="font-weight-bold">Reset Password</h3>
                                 <p className="text-muted">Type and send the email address to reset your password.</p>
                             </div>
@@ -170,8 +173,7 @@ const ForgetPassword = (props) => {
                                 </div>
                             </form>
                             <p className="text-center d-block d-lg-none mt-4 mt-lg-0">
-                                You can now <a href="sign-in.html">sign in</a> or <a href="sign-up.html">create an
-                                account</a>.
+                                You can now <Link to="/"><a>sign in</a></Link> or <Link to="/Signup"><a>create an account</a></Link>.
                             </p>
                             </div>
                         </div>
@@ -184,8 +186,9 @@ const ForgetPassword = (props) => {
                             <h3 className="font-weight-bold">Do a different action</h3>
                             <p className="lead my-5">Are you going to do a different action?</p>
                             <div className="text-center">
-                            You can now <a className="btn btn-white btn-sm" href="sign-in.html">sign in</a> or
-                            <a className="btn btn-white btn-sm" href="sign-up.html">create an account</a>.
+                            You can now 
+                            <Link to="/"> <a className="btn btn-white btn-sm" >sign in</a></Link> or
+                             <Link to="/Signup"><a className="btn btn-white btn-sm">create an account</a></Link>.
                             </div>
                         </div>
                         <ul className="list-inline">
