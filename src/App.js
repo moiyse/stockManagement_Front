@@ -23,6 +23,7 @@ const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
 
+
 const ChangePassword = React.lazy(() =>
   import("./pages/commun/auth/ChangePassword")
 );
@@ -67,32 +68,12 @@ function App() {
             </Layout>
           }
         />
-        <Route 
-          exact 
-          path='/forgetPassword'
-          element={<ForgetPassword />} 
-          />
-        
-        <Route 
-          exact 
-          path='/ChangePassword' 
-          element={<ChangePassword />} 
-        />
-        
-         <Route
-         exact 
-         path='/register'
-         element={<Register />} 
-         />
-        <Route
-          exact
-          path='/admin'
-          element={
-            
-              <TemplateBack />
-       
-          }
-        />
+  
+        <Route exact path='/ChangePassword' element={<ChangePassword />} />
+        <Route exact path="/forgetPassword" element={<ForgetPassword />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/admin" element={<TemplateBack />} />
+
         <Route
           exact
           path='/settings'
@@ -112,6 +93,8 @@ function App() {
             </LayoutBack>
           }
         />
+             
+           
       </Routes>
     </Suspense>
   );
