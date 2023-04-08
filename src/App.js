@@ -10,7 +10,6 @@ import Settings from "./pages/front/user/Settings";
 import axios from "axios";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
-import SignIn from "./pages/commun/auth/Login";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
@@ -20,13 +19,17 @@ import Stock from "./pages/back/stock/Stock";
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
+
+
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const Users = React.lazy(() => import("./pages/back/users/Users"));
+
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
-const ResetPassword = React.lazy(() =>
-  import("./pages/commun/auth/ResetPassword")
+
+const ChangePassword = React.lazy(() =>
+  import("./pages/commun/auth/ChangePassword")
 );
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 
@@ -39,7 +42,7 @@ function App() {
   let location = useLocation();
 
   useEffect(() => {
-    if (["/login", "/register"].includes(location.pathname)) {
+    if (["/login",  "/register" ].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
@@ -68,11 +71,14 @@ function App() {
             </Layout>
           }
         />
+  
+        <Route exact path='/ChangePassword' element={<ChangePassword />} />
         <Route exact path="/forgetPassword" element={<ForgetPassword />} />
         <Route exact path="/ResetPassword" element={<ResetPassword />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<TemplateBack />} />
         <Route exact path="/signIn" element={<SignIn />} />
+
         <Route
           exact
           path="/settings"
@@ -85,6 +91,7 @@ function App() {
         <Route exact path="/" element={<Login />} />
         <Route
           exact
+
           path="/dashboard/users"
           element={
             <LayoutBack>
@@ -95,6 +102,7 @@ function App() {
                 <Route
           exact
           path="/dashboard/products"
+
           element={
             <LayoutBack>
               <Products />

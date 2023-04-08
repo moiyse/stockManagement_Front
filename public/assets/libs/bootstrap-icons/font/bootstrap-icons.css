@@ -599,7 +599,7 @@ url("fonts/bootstrap-iconsbf04.woff?24e3eb84d0bcaf83d77f904c78ac1f47") format("w
 .bi-eye-slash::before { content: "\f340"; }
 .bi-eye::before { content: "\f341"; }
 .bi-eyedropper::before { content: "\f342"; }
-.bi-eyeglasses::before { content: "\f343"; }
+.bi-eyedropper::before { content: "\f343"; }
 .bi-facebook::before { content: "\f344"; }
 .bi-file-arrow-down-fill::before { content: "\f345"; }
 .bi-file-arrow-down::before { content: "\f346"; }
