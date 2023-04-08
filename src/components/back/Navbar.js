@@ -280,7 +280,7 @@ function Navbar() {
                   className='show'
                 >
                   <img
-                   src={`http://localhost:5000/uploads/${currentUser.image}`}
+                   src={`http://localhost:5001/uploads/${currentUser.image}`}
                     alt=''
                     className='avatar avatar-md rounded-circle'
                   />

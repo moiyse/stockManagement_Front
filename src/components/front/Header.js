@@ -356,7 +356,7 @@ function Navbar() {
                       data-bs-target='#userModal'
                     >
                       <img
-                        src={`http://localhost:5000/uploads/${currentUser.image}`}
+                        src={`http://localhost:5001/uploads/${currentUser.image}`}
                         style={{ width: "25px",height: "25px",marginLeft: "4px",borderRadius: "50%" }}
                         // className='image--cover'
                         // style={{

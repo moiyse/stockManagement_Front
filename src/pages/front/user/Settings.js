@@ -244,7 +244,7 @@ const Settings = (props) => {
                     <h2 className='mb-0'>Account Setting</h2>
                     <div className='wrapper' style={{ padding: " 10px" }}>
                       <img
-                        src={`http://localhost:5000/uploads/${currentUser.image}`}
+                        src={`http://localhost:5001/uploads/${currentUser.image}`}
                         className='image--cover'
                         style={{
                           width: "150px",

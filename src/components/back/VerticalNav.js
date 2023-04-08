@@ -42,7 +42,7 @@ function VerticalNav() {
                       {" "}
                       <i className='bi bi-cart'></i>
                     </span>
-                    <span className='nav-link-text'>Products</span>
+                    <Link to='/dashboard/products'>Products</Link>
                   </div>
                 </a>
               </li>
