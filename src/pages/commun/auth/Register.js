@@ -27,7 +27,7 @@ const schema = yup
   })
   .required();
 
-function SignUp() {
+function Register() {
 
   const [type, setType]=useState('password');
   const [icon, setIcon]=useState('bi bi-eye-slash');
@@ -354,4 +354,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Register;
