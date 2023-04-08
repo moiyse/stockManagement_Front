@@ -8,25 +8,21 @@ import LayoutBack from "./components/layout/LayoutBack";
 
 import Settings from "./pages/front/user/Settings";
 import axios from "axios";
+import Users from "./pages/back/users/Users";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
-import Stock from "./pages/back/stock/Stock";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
-
-
-const Products = React.lazy(() => import("./pages/back/products/Products"));
-const Users = React.lazy(() => import("./pages/back/users/Users"));
-
+//const SignUp = React.lazy(() => import("./pages/commun/auth/SignUp"));
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
+
 
 const ChangePassword = React.lazy(() =>
   import("./pages/commun/auth/ChangePassword")
@@ -59,12 +55,13 @@ function App() {
     }
   }, [currentUser]);
 
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route
           exact
-          path="*"
+          path='*'
           element={
             <Layout>
               <Home />
@@ -74,50 +71,30 @@ function App() {
   
         <Route exact path='/ChangePassword' element={<ChangePassword />} />
         <Route exact path="/forgetPassword" element={<ForgetPassword />} />
-        <Route exact path="/ResetPassword" element={<ResetPassword />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<TemplateBack />} />
-        <Route exact path="/signIn" element={<SignIn />} />
 
         <Route
           exact
-          path="/settings"
+          path='/settings'
           element={
             <Layout>
               <Settings />
             </Layout>
           }
         />
-        <Route exact path="/" element={<Login />} />
+        <Route exact path='/' element={<Login />} />
         <Route
           exact
-
-          path="/dashboard/users"
+          path='/dashboard/users'
           element={
             <LayoutBack>
               <Users />
             </LayoutBack>
           }
         />
-                <Route
-          exact
-          path="/dashboard/products"
-
-          element={
-            <LayoutBack>
-              <Products />
-            </LayoutBack>
-          }
-        />
-                        <Route
-          exact
-          path="/dashboard/stock/:id"
-          element={
-            <LayoutBack>
-              <Stock />
-            </LayoutBack>
-          }
-        />
+             
+           
       </Routes>
     </Suspense>
   );

@@ -24,10 +24,6 @@ const schema = yup
     phoneNumber: yup.string().required(),
     firstname: yup.string().required(),
     lastname: yup.string().required(),
-    passwordConfirmation: yup.string()
-    .test('passwords-match', 'Passwords must match', function(value){
-      return this.parent.password === value
-    })
   })
   .required();
 
@@ -52,12 +48,6 @@ function Register() {
   const navigate = useNavigate();
 
   const [isTwoFactorAuthEnabled, setIsTwoFactorAuthEnabled] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-    
-  };
 
   const handleSubmitt = (data) => {
     const formData = new FormData();
@@ -71,14 +61,14 @@ function Register() {
     formData.append("roles", ["user"]);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("lastname", data.lastname);
-    formData.append("firstname", data.firstname);
+    formData.append("firstname", data.lastname);
     if (isTwoFactorAuthEnabled) {
       formData.append("enableTwoFactorAuth", "true");
     }
     console.log(formData);
 
     axios
-      .post("http://localhost:5001/auth/signup", formData)
+      .post("http://localhost:5000/api/auth/signup", formData)
       .then(function (response) {
         console.log(response.data.message);
         window.location.href = "/";
@@ -168,7 +158,6 @@ function Register() {
   return (
     <>
       {" "}
-
       <div>
         <div className="form-shape" />
         <div className="form-wrapper">
@@ -264,7 +253,7 @@ function Register() {
                         <div className="form-group">
                           <div className="form-icon-wrapper">
                           <input
-                            type='password'
+                            type={type}
                             id='password'
                             placeholder='Enter Password'
                             className='form-control'
@@ -320,7 +309,6 @@ function Register() {
                             setIsTwoFactorAuthEnabled(e.target.checked)
                           }
                         />
-
                     <label className='form-check-label' htmlFor='flexCheckDefault'>
                       Enable Two Factor Authentication
                     </label>

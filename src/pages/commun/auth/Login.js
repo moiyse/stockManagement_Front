@@ -179,10 +179,9 @@ function Login() {
                                   <input 
                                   type="email" 
                                   className="form-control" 
-                                  placeholder="Enter email" 
+                                  placeholder="Enter Username" 
                                   onChange={handleChangeUsername}
                                   />
-
 
                                   <i className="form-icon-left mdi bi-envelope-fill" />
                                 </div>
@@ -250,7 +249,6 @@ function Login() {
                            
                           </div>
                         </div>
-
                       </div>
                       <div className="col d-none d-lg-flex" style={{background: 'url(../assets/images/auth/food1.jpg)'}}>
                         <div className="logo">
