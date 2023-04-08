@@ -24,6 +24,10 @@ const schema = yup
     phoneNumber: yup.string().required(),
     firstname: yup.string().required(),
     lastname: yup.string().required(),
+    passwordConfirmation: yup.string()
+    .test('passwords-match', 'Passwords must match', function(value){
+      return this.parent.password === value
+    })
   })
   .required();
 
@@ -35,6 +39,12 @@ function Register() {
   const navigate = useNavigate();
 
   const [isTwoFactorAuthEnabled, setIsTwoFactorAuthEnabled] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+    
+  };
 
   const handleSubmitt = (data) => {
     const formData = new FormData();
@@ -48,14 +58,14 @@ function Register() {
     formData.append("roles", ["user"]);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("lastname", data.lastname);
-    formData.append("firstname", data.lastname);
+    formData.append("firstname", data.firstname);
     if (isTwoFactorAuthEnabled) {
       formData.append("enableTwoFactorAuth", "true");
     }
     console.log(formData);
 
     axios
-      .post("http://localhost:5000/api/auth/signup", formData)
+      .post("http://localhost:5001/auth/signup", formData)
       .then(function (response) {
         console.log(response.data.message);
         window.location.href = "/";
@@ -204,7 +214,7 @@ function Register() {
                     <input
                       type='text'
                       className='form-control'
-                      placeholder='First Name'
+                      placeholder='First Name*'
                       id='firstname'
                       autoComplete='off'
                       autoSave='off'
@@ -218,7 +228,7 @@ function Register() {
                     <input
                       type='text'
                       className='form-control'
-                      placeholder='Last Name'
+                      placeholder='Last Name*'
                       id='lastname'
                       autoComplete='off'
                       autoSave='off'
@@ -232,11 +242,11 @@ function Register() {
                     <input
                       type='text'
                       className='form-control'
-                      placeholder='Full Name'
+                      placeholder='Username*'
                       id='username'
                       autoComplete='off'
                       autoSave='off'
-                      aria-label='Last name'
+                      aria-label='username'
                       {...register("username")}
                     />
                     <Error message={errors.username?.message}></Error>
@@ -247,7 +257,7 @@ function Register() {
                       type='email'
                       className='form-control'
                       id='email'
-                      placeholder='Email'
+                      placeholder='Email*'
                       {...register("email")}
                     />
                     <Error message={errors.email?.message}></Error>
@@ -255,14 +265,29 @@ function Register() {
                   <div className='col-12'>
                     <div className='password-field position-relative'>
                       <input
-                        type='password'
+                          type={passwordVisible ? 'text' : 'password'}
                         id='password'
-                        placeholder='Enter Password'
+                        placeholder='Enter Password*'
                         className='form-control'
                         {...register("password")}
                       />
                       <Error message={errors.password?.message}></Error>
-                      <span>
+                      <span onClick={togglePasswordVisibility}>
+                        <i id='passwordToggler' className='bi bi-eye-slash' />
+                      </span>
+                    </div>
+                  </div>
+                  <div className='col-12'>
+                    <div className='password-field position-relative'>
+                      <input
+                        type={passwordVisible ? 'text' : 'password'}
+                        id='passwordConfirmation'
+                        placeholder='Retype Password*'
+                        className='form-control'
+                        {...register("passwordConfirmation")}
+                      />
+                      <Error message={errors.passwordConfirmation?.message}></Error>
+                      <span onClick={togglePasswordVisibility}>
                         <i id='passwordToggler' className='bi bi-eye-slash' />
                       </span>
                     </div>
@@ -272,7 +297,7 @@ function Register() {
                       <input
                         type='text'
                         id='phoneNumber'
-                        placeholder='Enter your phone number'
+                        placeholder='Enter your phone number*'
                         className='form-control'
                         {...register("phoneNumber")}
                       />
@@ -281,11 +306,13 @@ function Register() {
                   </div>
                   <div className='col-12'>
                     {/* input */}
+                    <label htmlFor='image'>Upload Your Image</label>
                     <input
                       type='file'
                       className='form-control'
                       id='image'
                       placeholder='Upload Image'
+                      accept='image/*' // Use the accept attribute to specify the file types allowed, e.g. images
                       {...register("image")}
                     />
                     <Error message={errors.image?.message}></Error>
