@@ -11,11 +11,12 @@ import axios from "axios";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
 import SignIn from "./pages/commun/auth/Login";
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
-import Stock from "./pages/back/stock/Stock";
+import Order from "./pages/commun/auth/Order";
+import OrdersList from "./pages/front/orders/OrdersList";
+import OrderDetail from "./pages/front/orders/OrderDetail"
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -72,6 +73,11 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<TemplateBack />} />
         <Route exact path="/signIn" element={<SignIn />} />
+        <Route exact path="/order" element={<Order />} />
+
+        <Route exact path="/ordersList" element={ <Layout><OrdersList /></Layout>} />
+        <Route path="/OrderDetail/:orderId" element={ <Layout><OrderDetail /></Layout>} />
+
         <Route
           exact
           path="/settings"
