@@ -62,7 +62,7 @@ function Register() {
     if (isTwoFactorAuthEnabled) {
       formData.append("enableTwoFactorAuth", "true");
     }
-    console.log(formData);
+    console.log("formData : ",formData);
 
     axios
       .post("http://localhost:5001/auth/signup", formData)
@@ -350,8 +350,8 @@ function Register() {
                   {/* Google SignUp */}
                   <div className='col-12 d-grid'>
                     {" "}
-                    <a className='btn btn-secondary' onClick={() => signupG()}>
-                      <i className='bi-brands bi-google'></i> Sign up with Google
+                    <a className='btn btn-danger' onClick={() => signupG()}>
+                      <i style={{marginRight:"7px"}} className='bi-brands bi-google'></i> Sign up with Google
                     </a>
                   </div>
                   {/* text */}

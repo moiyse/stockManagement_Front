@@ -252,14 +252,14 @@ function Login() {
                     <div className='col-12 d-grid'>
                       {" "}
                       <a className='btn btn-info' onClick={handleFacebookLogin}>
-                        <i className='bi-brands bi-facebook'></i> Sign in with Facebook
+                        <i style={{marginRight:"7px"}} className='bi-brands bi-facebook'></i> Sign in with Facebook
                       </a>
                     </div>
 
                     <div className='col-12 d-grid'>
                       {" "}
-                      <a className='btn btn-secondary' onClick={() => loginG()}>
-                        <i className='bi-brands bi-google'></i> Sign in with Google
+                      <a className='btn btn-danger' onClick={() => loginG()}>
+                        <i style={{marginRight:"7px"}} className='bi-brands bi-google'></i> Sign in with Google
                       </a>
                       {/*<GoogleLogin buttonText="Login with Google" onSuccess={res=>{handleGoogleLogin(res)}}
                       onError={()=>{console.log('login failed')}}/>*/}

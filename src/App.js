@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
 import Stock from "./pages/back/stock/Stock";
+import Categories from "./pages/back/categories/Categories";
+import AddCategory from "./pages/back/categories/AddCategory";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -92,7 +94,7 @@ function App() {
             </LayoutBack>
           }
         />
-                <Route
+        <Route
           exact
           path="/dashboard/products"
           element={
@@ -101,7 +103,34 @@ function App() {
             </LayoutBack>
           }
         />
-                        <Route
+        <Route
+          exact
+          path="/admin/categories"
+          element={
+            <LayoutBack>
+              <Categories />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path="/dashboard/addCategory"
+          element={
+            <LayoutBack>
+              <AddCategory />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path="/dashboard/addCategory/:id"
+          element={
+            <LayoutBack>
+              <AddCategory />
+            </LayoutBack>
+          }
+        />
+        <Route
           exact
           path="/dashboard/stock/:id"
           element={
