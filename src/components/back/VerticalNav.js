@@ -9,7 +9,7 @@ function VerticalNav() {
             <a href='#' className='navbar-brand'>
               <div className='d-flex justify-content-center'>
                 <img
-                  src='../assets/images/logo/logo.png'
+                  src='/assets/images/logo/logo.png'
                   style={{ width: "100px" }}
                   alt=''
                 />

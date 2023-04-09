@@ -19,7 +19,8 @@ function Stock(){
 
       };
       fetchStockHistories();
-    }, []);
+    }, [() => stock]);
+
     const addToStock = async ()=>{
         try {
             const response = await axios.post(`/products/prod/addToStock/${id}` , stock);
@@ -97,9 +98,10 @@ Remove      </Button>
                     {/* select option */}
                     <div className="col-lg-2 col-md-4 col-12">
                       <select className="form-select">
-                        <option selected>Action</option>
-                        <option defaultValue={1}>Add</option>
-                        <option defaultValue={2}>Remove</option>
+                        <option defaultValue="Action">Action</option>
+                        <option >Add</option>
+                        <option>Remove</option>
+
                       </select>
                     </div>
                   </div>

@@ -22,6 +22,8 @@ axios.defaults.baseURL = "http://localhost:5000";
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const Users = React.lazy(() => import("./pages/back/users/Users"));
+const Stock = React.lazy(() => import( "./pages/back/stock/Stock"));
+
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
