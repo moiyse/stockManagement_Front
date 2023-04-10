@@ -161,7 +161,7 @@ function Navbar() {
             <div className='col-xxl-2 col-lg-3'>
               <a className='navbar-brand d-none d-lg-block' href='index.html'>
                 <img
-                  src='assets/images/logo/logo.png'
+                  src='/assets/images/logo/logo.png'
                   alt='eCommerce HTML Template'
                   style={{ width: "70px" }}
                 />
@@ -169,7 +169,7 @@ function Navbar() {
               <div className='d-flex justify-content-between w-100 d-lg-none'>
                 <a className='navbar-brand' href='index.html'>
                   <img
-                    src='assets/images/logo/logo.png'
+                    src='/assets/images/logo/logo.png'
                     style={{ width: "70px" }}
                     alt='eCommerce HTML Template'
                   />
@@ -458,7 +458,7 @@ function Navbar() {
             <div className='d-flex justify-content-between align-items-center mb-2 d-block d-lg-none'>
               <a href='index.html'>
                 <img
-                  src='assets/images/logo/logo.png'
+                  src='/assets/images/logo/logo.png'
                   style={{ width: "70px" }}
                   alt='eCommerce HTML Template'
                 />
@@ -752,7 +752,7 @@ function Navbar() {
                       <div className='col-lg-3 col-12 mb-4 mb-lg-0'>
                         <div className='card border-0'>
                           <img
-                            src='assets/images/banner/menu-banner.jpg'
+                            src='/assets/images/banner/menu-banner.jpg'
                             alt='eCommerce HTML Template'
                             className='img-fluid'
                           />
@@ -868,9 +868,9 @@ function Navbar() {
                         <li>
                           <a
                             className='dropdown-item'
-                            href='pages/account-orders.html'
+                          
                           >
-                            Orders
+                           <Link to='/ordersList'>Orders</Link>
                           </a>
                         </li>
                         <li>

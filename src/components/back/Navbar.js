@@ -32,7 +32,6 @@ function Navbar() {
             <a
               className='text-inherit d-block d-xl-none me-4'
               data-bs-toggle='offcanvas'
-              href='#offcanvasExample'
               role='button'
               aria-controls='offcanvasExample'
             >
@@ -61,7 +60,7 @@ function Navbar() {
               <li className='dropdown '>
                 <a
                   className='position-relative btn-icon btn-ghost-secondary btn rounded-circle'
-                  href='#'
+                 
                   role='button'
                   data-bs-toggle='dropdown'
                   aria-expanded='false'
@@ -80,9 +79,9 @@ function Navbar() {
                       <h5 className='mb-1'>Notifications</h5>
                       <p className='mb-0 small'>You have 2 unread messages</p>
                     </div>
-                    <a href='#!' className='text-muted'></a>
+                    <a  className='text-muted'></a>
                     <a
-                      href='#'
+                   
                       className='btn btn-ghost-secondary btn-icon rounded-circle'
                       data-bs-toggle='tooltip'
                       data-bs-placement='bottom'
@@ -129,7 +128,7 @@ function Navbar() {
                               <ul className='list-group list-group-flush notification-list-scroll fs-6'>
                                 {/* List group item */}
                                 <li className='list-group-item px-5 py-4 list-group-item-action active'>
-                                  <a href='#!' className='text-muted'>
+                                  <a className='text-muted'>
                                     <div className='d-flex'>
                                       <img
                                         src='../assets/images/avatar/avatar-1.jpg'
@@ -164,7 +163,7 @@ function Navbar() {
                                   </a>
                                 </li>
                                 <li className='list-group-item  px-5 py-4 list-group-item-action'>
-                                  <a href='#!' className='text-muted'>
+                                  <a  className='text-muted'>
                                     <div className='d-flex'>
                                       <img
                                         src='../assets/images/avatar/avatar-5.jpg'
@@ -200,7 +199,7 @@ function Navbar() {
                                   </a>
                                 </li>
                                 <li className='list-group-item px-5 py-4 list-group-item-action'>
-                                  <a href='#!' className='text-muted'>
+                                  <a className='text-muted'>
                                     <div className='d-flex'>
                                       <img
                                         src='../assets/images/avatar/avatar-2.jpg'
@@ -264,7 +263,7 @@ function Navbar() {
                     </div>
                   </div>
                   <div className='border-top px-5 py-4 text-center'>
-                    <a href='#!' className=' '>
+                    <a  className=' '>
                       View All
                     </a>
                   </div>
@@ -272,7 +271,7 @@ function Navbar() {
               </li>
               <li className='dropdown ms-4'>
                 <a
-                  href='#'
+                 
                   onClick={openDiv}
                   role='button'
                   data-bs-toggle='dropdown'
@@ -296,17 +295,17 @@ function Navbar() {
                   </div>
                   <ul className='list-unstyled px-2 py-3'>
                     <li>
-                      <a className='dropdown-item' href='#!'>
+                      <a className='dropdown-item' >
                         Home
                       </a>
                     </li>
                     <li>
-                      <a className='dropdown-item' href='#!'>
+                      <a className='dropdown-item' >
                         Profile
                       </a>
                     </li>
                     <li>
-                      <a className='dropdown-item' href='#!'>
+                      <a className='dropdown-item' >
                         Settings
                       </a>
                     </li>

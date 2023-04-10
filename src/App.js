@@ -11,11 +11,12 @@ import axios from "axios";
 import Home from "./pages/front/home/Home";
 import Login from "./pages/commun/auth/Login";
 import SignIn from "./pages/commun/auth/Login";
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
-import Stock from "./pages/back/stock/Stock";
+import Order from "./pages/commun/auth/Order";
+import OrdersList from "./pages/front/orders/OrdersList";
+import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
 
@@ -24,12 +25,12 @@ axios.defaults.baseURL = "http://localhost:5000";
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const Users = React.lazy(() => import("./pages/back/users/Users"));
+const Stock = React.lazy(() => import( "./pages/back/stock/Stock"));
+
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
 );
-const ResetPassword = React.lazy(() =>
-  import("./pages/commun/auth/ResetPassword")
-);
+
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 
 function App() {
@@ -71,10 +72,14 @@ function App() {
           }
         />
         <Route exact path="/forgetPassword" element={<ForgetPassword />} />
-        <Route exact path="/ResetPassword" element={<ResetPassword />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/admin" element={<TemplateBack />} />
         <Route exact path="/signIn" element={<SignIn />} />
+        <Route exact path="/order" element={<Order />} />
+
+        <Route exact path="/ordersList" element={ <Layout><OrdersList /></Layout>} />
+        <Route path="/OrderDetail/:orderId" element={ <Layout><OrderDetail /></Layout>} />
+
         <Route
           exact
           path="/settings"
