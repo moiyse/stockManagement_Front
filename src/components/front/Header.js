@@ -1,8 +1,18 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 import { Link } from "react-router-dom";
 
 function Navbar() {
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [allCategories,setAllCategories ] = useState([])
+
+  useEffect(() => {
+    axios.get("/products/cat").then((res) => {
+      setAllCategories(res.data);
+    });
+  }, [])
 
   return (
     <div className='border-bottom '>
@@ -430,41 +440,15 @@ function Navbar() {
               All Categories
             </button>
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Dairy, Bread & Eggs
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Snacks & Munchies
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Fruits & Vegetables
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Cold Drinks & Juices
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Breakfast & Instant Food
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Bakery & Biscuits
-                </a>
-              </li>
-              <li>
-                <a className='dropdown-item' href='pages/shop-grid.html'>
-                  Chicken, Meat & Fish
-                </a>
-              </li>
+            {allCategories?.map((category, index) => {
+              return(
+                <li key={index}>
+                  <a className='dropdown-item' href='pages/shop-grid.html'>
+                    {category.label}
+                  </a>
+                </li>
+              );
+            })}
             </ul>
           </div>
           <div
@@ -563,41 +547,15 @@ function Navbar() {
               <div className='collapse mt-2' id='collapseExample'>
                 <div className='card card-body'>
                   <ul className='mb-0 list-unstyled'>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Dairy, Bread & Eggs
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Snacks & Munchies
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Fruits & Vegetables
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Cold Drinks & Juices
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Breakfast & Instant Food
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Bakery & Biscuits
-                      </a>
-                    </li>
-                    <li>
-                      <a className='dropdown-item' href='pages/shop-grid.html'>
-                        Chicken, Meat & Fish
-                      </a>
-                    </li>
+                  {allCategories?.map((category, index) => {
+                    return(
+                      <li>
+                        <a className='dropdown-item' href='pages/shop-grid.html'>
+                          {category.label}
+                        </a>
+                      </li>
+                    );
+                  })}
                   </ul>
                 </div>
               </div>
@@ -770,170 +728,26 @@ function Navbar() {
                   </a>
                   <div className=' dropdown-menu pb-0'>
                     <div className='row p-2 p-lg-4'>
-                      <div className='col-lg-3 col-6 mb-4 mb-lg-0'>
-                        <h6 className='text-primary ps-3'>
-                          Dairy, Bread & Eggs
-                        </h6>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Butter
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Milk Drinks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Curd & Yogurt
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Eggs
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Buns & Bakery
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Cheese
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Condensed Milk
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Dairy Products
-                        </a>
-                      </div>
-                      <div className='col-lg-3 col-6 mb-4 mb-lg-0'>
-                        <h6 className='text-primary ps-3'>
-                          Breakfast & Instant Food
-                        </h6>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Breakfast Cereal
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Noodles, Pasta & Soup
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Frozen Veg Snacks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Frozen Non-Veg Snacks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Vermicelli
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Instant Mixes
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Batter
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          {" "}
-                          Fruit and Juices
-                        </a>
-                      </div>
-                      <div className='col-lg-3 col-12 mb-4 mb-lg-0'>
-                        <h6 className='text-primary ps-3'>
-                          Cold Drinks & Juices
-                        </h6>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Soft Drinks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Fruit Juices
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Coldpress
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Water & Ice Cubes
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Soda & Mixers
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Health Drinks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Herbal Drinks
-                        </a>
-                        <a
-                          className='dropdown-item'
-                          href='pages/shop-grid.html'
-                        >
-                          Milk Drinks
-                        </a>
+                      <div className="col-9">
+                        <div className='row p-2 p-lg-4'>
+                          {allCategories.map((category, index) => {
+                            return (
+                              
+                                <div className='col-lg-3 col-6 mb-4 mb-lg-0' style={{cursor:"pointer"}}>
+                                  <a className='dropdown-item'>
+                                    <h6 className='text-primary ps-3' style={{fontSize:"1.1rem"}}>
+                                      <img className="mr-2" style={{width:"23px",height:"23px",marginRight:"4px"}} src={`http://localhost:5002/categoryUploads/${category.imagePath}`}></img>{category.label}
+                                      <a
+                                      className='dropdown-item px-0' style={{whiteSpace: 'pre-wrap',lineHeight:"16px",fontSize: "0.9rem"}}
+                                      >
+                                        {category.description}
+                                      </a>
+                                    </h6>
+                                  </a>
+                                </div>
+                            );
+                          })}
+                        </div>
                       </div>
                       <div className='col-lg-3 col-12 mb-4 mb-lg-0'>
                         <div className='card border-0'>
@@ -953,6 +767,10 @@ function Navbar() {
                           </div>
                         </div>
                       </div>
+                        
+                        
+                      
+                      
                     </div>
                   </div>
                 </li>

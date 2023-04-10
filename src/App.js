@@ -16,7 +16,9 @@ import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/messages";
 import Order from "./pages/commun/auth/Order";
 import OrdersList from "./pages/front/orders/OrdersList";
-import OrderDetail from "./pages/front/orders/OrderDetail"
+import OrderDetail from "./pages/front/orders/OrderDetail";
+import Categories from "./pages/back/categories/Categories";
+import AddCategory from "./pages/back/categories/AddCategory";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -97,7 +99,7 @@ function App() {
             </LayoutBack>
           }
         />
-                <Route
+        <Route
           exact
           path="/dashboard/products"
           element={
@@ -106,7 +108,34 @@ function App() {
             </LayoutBack>
           }
         />
-                        <Route
+        <Route
+          exact
+          path="/admin/categories"
+          element={
+            <LayoutBack>
+              <Categories />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path="/dashboard/addCategory"
+          element={
+            <LayoutBack>
+              <AddCategory />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path="/dashboard/addCategory/:id"
+          element={
+            <LayoutBack>
+              <AddCategory />
+            </LayoutBack>
+          }
+        />
+        <Route
           exact
           path="/dashboard/stock/:id"
           element={

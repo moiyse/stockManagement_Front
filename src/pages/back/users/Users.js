@@ -11,6 +11,7 @@ const Users = (props) => {
   useEffect(() => {
     const searchObject = { username: searchQueryByUsername };
     if (searchQueryByUsername?.length > 0) {
+      console.log("here")
       axios
         .post("/api/auth/searchUserByUsername", searchObject)
         .then((res) => {

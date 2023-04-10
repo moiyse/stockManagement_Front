@@ -65,7 +65,7 @@ function Register() {
     if (isTwoFactorAuthEnabled) {
       formData.append("enableTwoFactorAuth", "true");
     }
-    console.log(formData);
+    console.log("formData : ",formData);
 
     axios
       .post("http://localhost:5000/api/auth/signup", formData)

@@ -46,17 +46,20 @@ function VerticalNav() {
                   </div>
                 </a>
               </li>
-              <li className='nav-item '>
-                <a className='nav-link ' href='#'>
-                  <div className='d-flex align-items-center'>
-                    <span className='nav-link-icon'>
-                      {" "}
-                      <i className='bi bi-list-task'></i>
-                    </span>
-                    <span className='nav-link-text'>Categories</span>
-                  </div>
-                </a>
-              </li>
+              <Link to='/admin/categories'>
+                <li className='nav-item '>
+                  <a className='nav-link ' href='#'>
+                    <div className='d-flex align-items-center'>
+                      <span className='nav-link-icon'>
+                        {" "}
+                        <i className='bi bi-list-task'></i>
+                      </span>
+                      <span className='nav-link-text'>Categories</span>
+                    </div>
+                  </a>
+                </li>
+              </Link>
+              
               <li className='nav-item'>
                 <a
                   className='nav-link   collapsed '
