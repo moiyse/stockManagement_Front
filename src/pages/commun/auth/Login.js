@@ -179,7 +179,7 @@ function Login() {
                                   <input 
                                   type="email" 
                                   className="form-control" 
-                                  placeholder="Enter Username" 
+                                  placeholder="Enter Username*" 
                                   onChange={handleChangeUsername}
                                   />
 
@@ -192,7 +192,7 @@ function Login() {
                                   type={type}  
                                   id="fakePassword"
                                   className="form-control" 
-                                  placeholder="Enter password" 
+                                  placeholder="Enter password*" 
                                   onChange={handleChangePassword}
                                   
                                   />
@@ -212,7 +212,7 @@ function Login() {
                                     name="twoFactorAuth"
                                     className="form-control"
                                     id="twoFactor"
-                                    placeholder="Two Factor Auth"
+                                    placeholder="Two Factor Auth*"
                                     />
                                 ) && (
                                   <a onClick={handleToggle} className="form-icon-right password-show-hide" title="Hide or show password">

@@ -1,0 +1,181 @@
+import { Link, useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import axios from "axios";
+import {  toast } from "react-toastify";
+import { notify } from "../../../utils/HelperFunction";
+import { useParams } from 'react-router-dom';
+
+const ProductDetail = (props) => {
+
+    const { productId } = useParams();
+
+    const [product, setProduct] = useState("");
+
+
+    useEffect(()=> {
+        axios
+        .post("http://localhost:5000/products/prod/:id", {
+          id: productId,
+        })
+        .then(function (response) {
+            setProduct(response.data.product[0]);
+        })
+    })
+
+
+
+
+    const [productName, setProductName] = useState("");
+    const [productCode, setProductCode] = useState("");
+    const [productPrice, setProductPrice] = useState("");
+    const [productReduction, setProductReduction] = useState("");
+    const [expirationDate, setExpirationDate] = useState("");
+    const [productionDate, setProductionDate] = useState("");
+    const [productDescription, setProductDescription] = useState("");
+    const [inStock, setInStock] = useState("");
+
+   
+  
+    return (
+    <>
+
+        <div >
+            <div className="container">
+            <div className="modal-dialog modal-xl modal-dialog-centered">
+                <div className="modal-content " style={{paddingTop:"150 px", marginTop:"150 px"}}>
+                <div className="modal-body p-8">
+                    <div className="position-absolute top-0 end-0 me-3 mt-3">
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                    </div>
+                    <div className="row">
+                    <div className="col-lg-6">
+                        {/* img slide */}
+                        <div className="product productModal" id="productModal">
+                        <div className="zoom" onmousemove="zoom(event)" style={{backgroundImage: 'url(../assets/images/products/product-single-img-1.jpg)'}}>
+                            {/* img */}
+                            <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
+                        </div>
+                        
+                        </div>
+                        {/* product tools */}
+                        <div className="product-tools">
+                        <div className="thumbnails row g-3" id="productModalThumbnails">
+                            <div className="col-3">
+                            <div className="thumbnails-img">
+                                {/* img */}
+                                <img src="../assets/images/products/product-single-img-1.jpg" alt="" />
+                            </div>
+                            </div>
+                            <div className="col-3">
+                            <div className="thumbnails-img">
+                                {/* img */}
+                                <img src="../assets/images/products/product-single-img-2.jpg" alt="" />
+                            </div>
+                            </div>
+                            <div className="col-3">
+                            <div className="thumbnails-img">
+                                {/* img */}
+                                <img src="../assets/images/products/product-single-img-3.jpg" alt="" />
+                            </div>
+                            </div>
+                            <div className="col-3">
+                            <div className="thumbnails-img">
+                                {/* img */}
+                                <img src="../assets/images/products/product-single-img-4.jpg" alt="" />
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-6">
+                        <div className="ps-lg-8 mt-6 mt-lg-0">
+                        <a href="#!" className="mb-4 d-block">Bakery Biscuits</a>
+                        <h2 className="mb-1 h1">Napolitanke Ljesnjak</h2>
+                        <div className="mb-4">
+                            <small className="text-warning">
+                            <i className="bi bi-star-fill" />
+                            <i className="bi bi-star-fill" />
+                            <i className="bi bi-star-fill" />
+                            <i className="bi bi-star-fill" />
+                            <i className="bi bi-star-half" /></small><a href="#" className="ms-2">(30 reviews)</a>
+                        </div>
+                        <div className="fs-4">
+                            <span className="fw-bold text-dark">$32</span>
+                            <span className="text-decoration-line-through text-muted">$35</span><span><small className="fs-6 ms-2 text-danger">26% Off</small></span>
+                        </div>
+                        <hr className="my-6" />
+                        <div className="mb-4">
+                            <button type="button" className="btn btn-outline-secondary">
+                            250g
+                            </button>
+                            <button type="button" className="btn btn-outline-secondary">
+                            500g
+                            </button>
+                            <button type="button" className="btn btn-outline-secondary">
+                            1kg
+                            </button>
+                        </div>
+                        <div>
+                            {/* input */}
+                            {/* input */}
+                            <div className="input-group input-spinner  ">
+                            <input type="button" defaultValue="-" className="button-minus  btn  btn-sm " data-field="quantity" />
+                            <input type="number" step={1} max={10} defaultValue={1} name="quantity" className="quantity-field form-control-sm form-input   " />
+                            <input type="button" defaultValue="+" className="button-plus btn btn-sm " data-field="quantity" />
+                            </div>
+                        </div>
+                        <div className="mt-3 row justify-content-start g-2 align-items-center">
+                            <div className="col-lg-4 col-md-5 col-6 d-grid">
+                            {/* button */}
+                            {/* btn */}
+                            <button type="button" className="btn btn-primary">
+                                <i className="feather-icon icon-shopping-bag me-2" />Add to
+                                cart
+                            </button>
+                            </div>
+                            <div className="col-md-4 col-5">
+                            {/* btn */}
+                            <a className="btn btn-light" href="#" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Compare"><i className="bi bi-arrow-left-right" /></a>
+                            <a className="btn btn-light" href="#!" data-bs-toggle="tooltip" data-bs-html="true" aria-label="Wishlist"><i className="feather-icon icon-heart" /></a>
+                            </div>
+                        </div>
+                        <hr className="my-6" />
+                        <div>
+                            <table className="table table-borderless">
+                            <tbody>
+                                <tr>
+                                <td>Product Code:</td>
+                                <td>FBB00255</td>
+                                </tr>
+                                <tr>
+                                <td>Availability:</td>
+                                <td>In Stock</td>
+                                </tr>
+                                <tr>
+                                <td>Type:</td>
+                                <td>Fruits</td>
+                                </tr>
+                                <tr>
+                                <td>Shipping:</td>
+                                <td>
+                                    <small>01 day shipping.<span className="text-muted">( Free pickup today)</span></small>
+                                </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+      </>
+    );
+  };
+  export default ProductDetail;
+  

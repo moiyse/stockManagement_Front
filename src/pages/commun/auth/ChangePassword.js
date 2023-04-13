@@ -114,7 +114,7 @@ const ChangePassword=(props) =>{
                                             <div className="form-icon-wrapper ">
                                                 <input type={type} 
                                                 className="form-control" 
-                                                placeholder="Enter your new password"
+                                                placeholder="Enter your new password*"
                                                 value={newPassword.value}
                                                  onChange={handleChangeNewPassword}
                                                 />
@@ -128,7 +128,7 @@ const ChangePassword=(props) =>{
                                         <div className="form-icon-wrapper">
                                             <input type={type} 
                                             className="form-control" 
-                                            placeholder="Retype password"
+                                            placeholder="Retype password*"
                                             value={confirmPassword}
                                               onChange={(e) =>setconfirmPassword(e.target.value)}
                                              />
