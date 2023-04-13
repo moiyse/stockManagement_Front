@@ -136,7 +136,7 @@ const ForgetPassword = (props) => {
                                     <input type="email"
                                     className="form-control" 
                                     onChange={CheckEmail} 
-                                    placeholder="Enter email" 
+                                    placeholder="Enter email*" 
                                     autofocus 
                                     value={email} />    
                                )}
@@ -146,7 +146,7 @@ const ForgetPassword = (props) => {
                                 id="mailCode" maxLength={4} 
                                 value={codeOpt}
                                 onChange={handleChangeCodeOpt} 
-                                placeholder="Enter Your Code" 
+                                placeholder="Enter Your Code*" 
                                 required /> 
                               )}
                                 </div>
@@ -199,11 +199,7 @@ const ForgetPassword = (props) => {
                     </div>
                 </div>
                 </div>
-                  {/*console.log(mailOpened)}
-                    {(mailOpened && mailOpened===true) && <MailVerification/>*/}
-                    { /*  <MailVerification  verifCode={verifCode} handleChangeCodeOpt={handleChangeCodeOpt} mailOpened={mailOpened}/>*/}
-           
-           {console.log(mailOpened)}
+                 
          
           </div>
           
