@@ -48,10 +48,7 @@ function Stock(){
                   <h2>Products</h2>
                   {/* breacrumb */}
                   <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb mb-0">
-                      <li className="breadcrumb-item"><a href="#" className="text-inherit">Dashboard</a></li>
-                      <li className="breadcrumb-item active" aria-current="page">Products</li>
-                    </ol>
+                    
                   </nav>
                 </div>
               </div>

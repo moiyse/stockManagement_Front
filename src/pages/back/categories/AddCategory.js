@@ -97,11 +97,7 @@ const AddCategory = (props) => {
                   <h2>Add New Category</h2>
                   {/* breacrumb */}
                   <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb mb-0">
-                      <li className="breadcrumb-item"><a href="#" className="text-inherit">Dashboard</a></li>
-                      <li className="breadcrumb-item"><a href="#" className="text-inherit">Categories</a></li>
-                      <li className="breadcrumb-item active" aria-current="page">Add New Category</li>
-                    </ol>
+                    
                   </nav>
                 </div>
                 <div>
