@@ -54,10 +54,7 @@ const OrderDetail = () => {
               <h2>Order Details</h2>
               {/* breacrumb */}
               <nav aria-label="breadcrumb">
-                <ol className="breadcrumb mb-0">
-                  <li className="breadcrumb-item"><a className="text-inherit">Dashboard</a></li>
-                  <li className="breadcrumb-item active" >Order Details</li>
-                </ol>
+               
               </nav>
             </div>
             {/* button */}

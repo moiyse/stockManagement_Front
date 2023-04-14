@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Button from 'react-bootstrap/Button';
-import Collapse from 'react-bootstrap/Collapse';
-
 import { useParams } from "react-router-dom";
 function Stock(){
     const [open, setOpen] = useState(false);
@@ -51,10 +48,7 @@ function Stock(){
                   <h2>Products</h2>
                   {/* breacrumb */}
                   <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb mb-0">
-                      <li className="breadcrumb-item"><a href="#" className="text-inherit">Dashboard</a></li>
-                      <li className="breadcrumb-item active" aria-current="page">Products</li>
-                    </ol>
+                    
                   </nav>
                 </div>
               </div>
@@ -69,30 +63,31 @@ function Stock(){
                   <div className="row justify-content-between">
                     {/* form */}
                     <div className="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                    <Button
-        onClick={() => setOpen(!open)}
+                    <button type='button'
+         onClick={() => setOpen(!open)}
         aria-controls="example-collapse-text"
         aria-expanded={open}
       >
         Update the stock
-      </Button>
-      <Collapse in={open}>
+      </button>
+      <div className="collapse" in={open}>
         <div id="example-collapse-text">
-<br/>
+                    <br/>
       
                         <input className="form-control" type="number" placeholder="Enter the qunatity" aria-label="Search" onChange={handleChangeQuantity}/>
                         <br/>
-                        <Button
+                        <button
         aria-controls="example-collapse-text" className="m-1"         onClick={addToStock}
         >
-Add      </Button>
-<Button className="btn btn-secondary"
+Add      </button>
+<button type='button'
+className="btn btn-secondary"
         aria-controls="example-collapse-text"
         onClick={removeFromStock}  >
-Remove      </Button>
+Remove      </button>
                   
         </div>
-      </Collapse>
+      </div>
 
                     </div>
                     {/* select option */}

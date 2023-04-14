@@ -23,7 +23,6 @@ import AddCategory from "./pages/back/categories/AddCategory";
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
-const Products = React.lazy(() => import("./pages/back/products/Products"));
 const Users = React.lazy(() => import("./pages/back/users/Users"));
 const Stock = React.lazy(() => import( "./pages/back/stock/Stock"));
 
@@ -32,6 +31,9 @@ const ForgetPassword = React.lazy(() =>
 );
 
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
+const Products = React.lazy(() => import("./pages/back/products/Products"));
+const AddProduct = React.lazy(() => import("./pages/back/products/AddProduct"));
+const ProductDetail  = React.lazy(() => import("./pages/back/products/ProductDetail"));
 
 function App() {
   const [showCustomerBoard, setShowCustomerBoard] = useState(false);
@@ -80,6 +82,7 @@ function App() {
         <Route exact path="/ordersList" element={ <Layout><OrdersList /></Layout>} />
         <Route path="/OrderDetail/:orderId" element={ <Layout><OrderDetail /></Layout>} />
 
+
         <Route
           exact
           path="/settings"
@@ -99,9 +102,10 @@ function App() {
             </LayoutBack>
           }
         />
+
         <Route
           exact
-          path="/dashboard/products"
+          path='/dashboard/products'
           element={
             <LayoutBack>
               <Products />
@@ -144,6 +148,28 @@ function App() {
             </LayoutBack>
           }
         />
+
+        <Route
+          exact
+          path='/dashboard/productDetail'
+          element={
+            <LayoutBack>
+              <ProductDetail />
+            </LayoutBack>
+          }
+        />
+        
+        <Route
+          exact
+          path='/dashboard/addProduct'
+          element={
+            <LayoutBack>
+              <AddProduct />
+            </LayoutBack>
+          }
+        />
+             
+           
       </Routes>
     </Suspense>
   );

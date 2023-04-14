@@ -48,14 +48,7 @@ const OrdersList = () => {
               <h2>Previous Orders List</h2>
               {/* breacrumb */}
               <nav aria-label="breadcrumb">
-                <ol className="breadcrumb mb-0">
-                  <li className="breadcrumb-item">
-                    <a >Dashboard</a>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Order List
-                  </li>
-                </ol>
+                
               </nav>
             </div>
           </div>
