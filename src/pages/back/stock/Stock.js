@@ -77,14 +77,18 @@ function Stock(){
                         <input className="form-control" type="number" placeholder="Enter the qunatity" aria-label="Search" onChange={handleChangeQuantity}/>
                         <br/>
                         <button
-        aria-controls="example-collapse-text" className="m-1"         onClick={addToStock}
-        >
-Add      </button>
-<button type='button'
-className="btn btn-secondary"
-        aria-controls="example-collapse-text"
-        onClick={removeFromStock}  >
-Remove      </button>
+                          type="button"
+                          aria-controls="example-collapse-text" className="m-1"         onClick={addToStock}
+                          >
+                          Add      
+                          </button>
+                        <button
+                        type="button" 
+                        className="btn btn-secondary"
+                        aria-controls="example-collapse-text"
+                        onClick={removeFromStock}  >
+                          Remove     
+                        </button>
                   
         </div>
       </div>
