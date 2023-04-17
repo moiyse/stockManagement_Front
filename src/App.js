@@ -33,7 +33,7 @@ const ForgetPassword = React.lazy(() =>
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const AddProduct = React.lazy(() => import("./pages/back/products/AddProduct"));
-const ProductDetail  = React.lazy(() => import("./pages/back/products/ProductDetail"));
+const ProductDetail  = React.lazy(() => import("./pages/front/products/ProductDetail"));
 
 function App() {
   const [showCustomerBoard, setShowCustomerBoard] = useState(false);
@@ -70,6 +70,15 @@ function App() {
           element={
             <Layout>
               <Home />
+            </Layout>
+          }
+        />
+                <Route
+          exact
+          path='/productDetail'
+          element={
+            <Layout>
+              <ProductDetail />
             </Layout>
           }
         />
@@ -149,15 +158,6 @@ function App() {
           }
         />
 
-        <Route
-          exact
-          path='/dashboard/productDetail'
-          element={
-            <LayoutBack>
-              <ProductDetail />
-            </LayoutBack>
-          }
-        />
         
         <Route
           exact
@@ -167,7 +167,10 @@ function App() {
               <AddProduct />
             </LayoutBack>
           }
-        />
+          />
+
+          
+
              
            
       </Routes>

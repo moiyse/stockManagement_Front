@@ -219,18 +219,24 @@ const Products = (props) => {
                               onClick={() => navigate('/dashboard/stock/64318a960d370aad6854bb50') }>
                                 show
                               </a>*/}
-                              <div className="dropdown">
+                              <div className="dropd
+                              own">
                                 <a href="#" className="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
                                 
                                 <i className='feather-icon icon-more-vertical fs-5' />
                                 </a>
                                 <ul className="dropdown-menu">
                                   <li>
-                                    <a className="dropdown-item" 
-                                   >
+                                    <a className="dropdown-item" >
                                     <i className="bi bi-trash me-3" />
-                                    Delete</a></li>
-                                  <li><a className="dropdown-item" href="#"><i className="bi bi-pencil-square me-3 " />Edit</a>
+                                     Delete
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a className="dropdown-item" href="#">
+                                      <i className="bi bi-pencil-square me-3 " />
+                                      Edit
+                                    </a>
                                   </li>
                                 </ul>
                               </div>
