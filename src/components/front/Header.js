@@ -12,149 +12,21 @@ function Navbar() {
     axios.get("/products/cat").then((res) => {
       setAllCategories(res.data);
     });
-  }, [])
+  }, []);
+
+  const openDiv = () => {
+    var div = document.getElementById("myDiv");
+    if (div.style.display === "none") {
+      div.style.display = "block";
+    } else {
+      div.style.display = "none";
+    }
+  };
 
   return (
     <div className='border-bottom '>
-      <div className='bg-light py-1'>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-md-6 col-12 text-center text-md-start'>
-              <span> Super Value Deals - Save more with coupons</span>
-            </div>
-            <div className='col-6 text-end d-none d-md-block'>
-              <div className='dropdown'>
-                <a
-                  className='dropdown-toggle text-decoration-none  text-muted'
-                  href='#'
-                  role='button'
-                  databstoggle='dropdown'
-                  aria-expanded='false'
-                >
-                  <span className='me-1'>
-                    <svg
-                      width='16'
-                      height='13'
-                      viewBox='0 0 16 13'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
-                    >
-                      <g clipPath='url(#selectedlang)'>
-                        <path d='M0 0.5H16V12.5H0V0.5Z' fill='#012169' />
-                        <path
-                          d='M1.875 0.5L7.975 5.025L14.05 0.5H16V2.05L10 6.525L16 10.975V12.5H14L8 8.025L2.025 12.5H0V11L5.975 6.55L0 2.1V0.5H1.875Z'
-                          fill='white'
-                        />
-                        <path
-                          d='M10.6 7.525L16 11.5V12.5L9.225 7.525H10.6ZM6 8.025L6.15 8.9L1.35 12.5H0L6 8.025ZM16 0.5V0.575L9.775 5.275L9.825 4.175L14.75 0.5H16ZM0 0.5L5.975 4.9H4.475L0 1.55V0.5Z'
-                          fill='#C8102E'
-                        />
-                        <path
-                          d='M6.025 0.5V12.5H10.025V0.5H6.025ZM0 4.5V8.5H16V4.5H0Z'
-                          fill='white'
-                        />
-                        <path
-                          d='M0 5.325V7.725H16V5.325H0ZM6.825 0.5V12.5H9.225V0.5H6.825Z'
-                          fill='#C8102E'
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id='selectedlang'>
-                          <rect
-                            width='16'
-                            height='12'
-                            fill='white'
-                            transform='translate(0 0.5)'
-                          />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </span>
-                  English
-                </a>
-
-                <ul className='dropdown-menu'>
-                  <li>
-                    <a className='dropdown-item ' href='#'>
-                      <span className='me-2'>
-                        <svg
-                          width='16'
-                          height='13'
-                          viewBox='0 0 16 13'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <g clipPath='url(#clip0_5543_19744)'>
-                            <path
-                              fillRule='evenodd'
-                              clipRule='evenodd'
-                              d='M0 0.5H16V12.5H0V0.5Z'
-                              fill='white'
-                            />
-                            <path
-                              fillRule='evenodd'
-                              clipRule='evenodd'
-                              d='M0 0.5H5.3325V12.5H0V0.5Z'
-                              fill='#002654'
-                            />
-                            <path
-                              fillRule='evenodd'
-                              clipRule='evenodd'
-                              d='M10.668 0.5H16.0005V12.5H10.668V0.5Z'
-                              fill='#CE1126'
-                            />
-                          </g>
-                          <defs>
-                            <clipPath id='clip0_5543_19744'>
-                              <rect
-                                width='16'
-                                height='12'
-                                fill='white'
-                                transform='translate(0 0.5)'
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </span>
-                      Français
-                    </a>
-                  </li>
-                  <li>
-                    <a className='dropdown-item ' href='#'>
-                      <span className='me-2'>
-                        <svg
-                          width='16'
-                          height='13'
-                          viewBox='0 0 16 13'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <g clipPath='url(#clip0_5543_19751)'>
-                            <path d='M0 8.5H16V12.5H0V8.5Z' fill='#FFCE00' />
-                            <path d='M0 0.5H16V4.5H0V0.5Z' fill='black' />
-                            <path d='M0 4.5H16V8.5H0V4.5Z' fill='#DD0000' />
-                          </g>
-                          <defs>
-                            <clipPath id='clip0_5543_19751'>
-                              <rect
-                                width='16'
-                                height='12'
-                                fill='white'
-                                transform='translate(0 0.5)'
-                              />
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </span>
-                      Deutsch
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* */}
+      
       <div className='py-4 pt-lg-3 pb-lg-0'>
         <div className='container'>
           <div className='row w-100 align-items-center gx-lg-2 gx-0'>
@@ -360,10 +232,11 @@ function Navbar() {
                 <div className='list-inline-item'>
                   {currentUser && (
                     <a
-                      href='#!'
                       className='text-muted'
                       data-bs-toggle='modal'
                       data-bs-target='#userModal'
+                      onClick={openDiv}
+                      role='button'
                     >
                       <img
                         src={`http://localhost:5001/uploads/${currentUser.image}`}
@@ -380,28 +253,37 @@ function Navbar() {
                       />
                     </a>
                   )}
-                  {/* <a
-                    href="#!"
-                    className="text-muted"
-                    data-bs-toggle="modal"
-                    data-bs-target="#userModal"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-user"
-                    >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                      <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                  </a> */}
+                  <div
+                  className='dropdown-menu dropdown-menu-end p-0 '
+                  id='myDiv'
+                  data-bs-popper='static'
+                >
+                  <div className='lh-1 px-5 py-4 border-bottom'>
+                    <h5 className='mb-1 h6'>{currentUser.username}</h5>
+                    <small>{currentUser.email}</small>
+                  </div>
+                  <ul className='list-unstyled px-2 py-3'>
+                    <li>
+                      <a className='dropdown-item' >
+                        Home
+                      </a>
+                    </li>
+                    <li>
+                      <a className='dropdown-item' >
+                        Profile
+                      </a>
+                    </li>
+                    <li>
+                      <a className='dropdown-item' >
+                        Settings
+                      </a>
+                    </li>
+                  </ul>
+                  <div className='border-top px-5 py-3'>
+                    <a   type='button' >Log Out</a>
+                  </div>
+                </div>
+                  
                 </div>
               </div>
             </div>

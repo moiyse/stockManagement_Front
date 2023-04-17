@@ -17,7 +17,28 @@ const AddProduct = (props) => {
     const [image, setProductImage] = useState("");
     const [quantity, setProductQuantity] = useState("");
 
+    const [selectedFile, setSelectedFile] = useState(null);
+    const handleFileSelect = (event) => {
+      console.log("event.target : ",event.target.files[0])
+      setSelectedFile(event.target.files[0]);
+    }
+
     const handleSave = async (e) => {
+      /*
+      const formData = new FormData();
+      formData.append("name", productName);
+      formData.append("price", productPrice);
+      formData.append("reduction", productReduction);
+      formData.append("code", productCode);
+      formData.append("description", productDescription);
+      formData.append("production", productionDate);
+      formData.append("expiration", expirationDate);
+      formData.append("inStock", inStock);
+      formData.append("quantity", quantity);
+      */
+        
+
+
         const ProductObject = {
             name: productName,
             price: productPrice,
@@ -28,9 +49,11 @@ const AddProduct = (props) => {
             expiration: expirationDate,
             inStock: inStock,
             quantity: quantity,
-            image : image[0]
+            image : image
         };
         e.preventDefault();
+       
+        console.log("selected file : ",image)
 
 
         axios
@@ -152,16 +175,20 @@ const AddProduct = (props) => {
                           <div className="mb-3 col-lg-12 mt-5">
                             {/* heading */}
                             <h4 className="mb-3 h5">Product Images</h4>
-                           
+                            <img 
+                              className="image icon-shape icon-xxxl bg-light rounded-4"
+                              src={`http://localhost:5002/productUploads/${image}`} 
+                              alt="Image" />
                             {/* input */}
                             <form  action="#" class="d-block dropzone border-dashed rounded-2 ">
                                     <div class="fallback">
                                     <input 
                                     name="file"
-                                     type="file"   
-                                    value={image}
-                                    onChange={(e) => setProductImage(e.target.value)}
-                                     multiple/>
+                                    type="file"   
+                                    onChange={(e) => setProductImage(e.target.files[0])}
+                                    />
+                                    {/*onChange={(e) => setProductImage(e.target.value)}
+                                     multiple/>*/}
                                     </div>
                             </form>
                           </div>
