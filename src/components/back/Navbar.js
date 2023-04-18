@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import {  logout } from "../../../src/actions/auth";
+import { logout } from "../../../src/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 function Navbar() {
@@ -60,7 +60,6 @@ function Navbar() {
               <li className='dropdown '>
                 <a
                   className='position-relative btn-icon btn-ghost-secondary btn rounded-circle'
-                 
                   role='button'
                   data-bs-toggle='dropdown'
                   aria-expanded='false'
@@ -79,9 +78,8 @@ function Navbar() {
                       <h5 className='mb-1'>Notifications</h5>
                       <p className='mb-0 small'>You have 2 unread messages</p>
                     </div>
-                    <a  className='text-muted'></a>
+                    <a className='text-muted'></a>
                     <a
-                   
                       className='btn btn-ghost-secondary btn-icon rounded-circle'
                       data-bs-toggle='tooltip'
                       data-bs-placement='bottom'
@@ -163,7 +161,7 @@ function Navbar() {
                                   </a>
                                 </li>
                                 <li className='list-group-item  px-5 py-4 list-group-item-action'>
-                                  <a  className='text-muted'>
+                                  <a className='text-muted'>
                                     <div className='d-flex'>
                                       <img
                                         src='../assets/images/avatar/avatar-5.jpg'
@@ -263,15 +261,12 @@ function Navbar() {
                     </div>
                   </div>
                   <div className='border-top px-5 py-4 text-center'>
-                    <a  className=' '>
-                      View All
-                    </a>
+                    <a className=' '>View All</a>
                   </div>
                 </div>
               </li>
               <li className='dropdown ms-4'>
                 <a
-                 
                   onClick={openDiv}
                   role='button'
                   data-bs-toggle='dropdown'
@@ -279,7 +274,7 @@ function Navbar() {
                   className='show'
                 >
                   <img
-                   src={`http://localhost:5001/uploads/${currentUser.image}`}
+                    src={`http://localhost:5001/uploads/${currentUser?.image}`}
                     alt=''
                     className='avatar avatar-md rounded-circle'
                   />
@@ -290,28 +285,24 @@ function Navbar() {
                   data-bs-popper='static'
                 >
                   <div className='lh-1 px-5 py-4 border-bottom'>
-                    <h5 className='mb-1 h6'>{currentUser.username}</h5>
+                    <h5 className='mb-1 h6'>{currentUser?.username}</h5>
                     <small>{currentUser.email}</small>
                   </div>
                   <ul className='list-unstyled px-2 py-3'>
                     <li>
-                      <a className='dropdown-item' >
-                        Home
-                      </a>
+                      <a className='dropdown-item'>Home</a>
                     </li>
                     <li>
-                      <a className='dropdown-item' >
-                        Profile
-                      </a>
+                      <a className='dropdown-item'>Profile</a>
                     </li>
                     <li>
-                      <a className='dropdown-item' >
-                        Settings
-                      </a>
+                      <a className='dropdown-item'>Settings</a>
                     </li>
                   </ul>
                   <div className='border-top px-5 py-3'>
-                    <a   type='button' onClick={Logout}>Log Out</a>
+                    <a type='button' onClick={Logout}>
+                      Log Out
+                    </a>
                   </div>
                 </div>
               </li>
