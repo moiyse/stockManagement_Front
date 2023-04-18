@@ -72,7 +72,7 @@ const AddCategory = (props) => {
     .post("http://localhost:5002/cat", formData)
     .then(function (response) {
         console.log(response.data)
-        navigate("/admin/categories")
+        //navigate("/admin/categories")
         
     })
     .catch((error) => {

@@ -65,16 +65,25 @@ const Products = (props) => {
   }, [searchQueryByProductname, currentPage, itemsPerPage, searchQueryByStock]);
 
 
-/*
-  const handleDelete = (ProductId) => {
+
+  const editProduct = (id) => {
+    if (id) {
+      navigate('/dashboard/editProduct', { state: { id } });
+    }
+  }
+
+
+
+  const deleteProduct= (id) => {
     axios
-      .delete("http://localhost:5000/products/prod/", { id: ProductId })
-      console.log("delete")
-      .then((res) => {
-        notify("Product was deleted successfully", toast, "success");
-      })
-      .catch((err) => console.log(err));
-  };*/
+        .delete(`http://localhost:5000/products/prod/${id}`)
+        .then((res) => {
+          axios.get("/products/prod").then((res) => {
+            setAllProducts(res.data);
+          });
+        })
+        .catch((err) => console.log(err));
+  }
 
  
   return (
@@ -87,7 +96,7 @@ const Products = (props) => {
                   {/* page header */}
                   <div className="d-md-flex justify-content-between align-items-center">
                     <div>
-                      <h2>Products</h2>
+                      <h2>Products </h2>
                       
                     </div>
                     {/* button */}
@@ -226,14 +235,15 @@ const Products = (props) => {
                                 <i className='feather-icon icon-more-vertical fs-5' />
                                 </a>
                                 <ul className="dropdown-menu">
-                                  <li>
+                                  <li onClick={() => deleteProduct(product._id)}>
                                     <a className="dropdown-item" >
                                     <i className="bi bi-trash me-3" />
                                      Delete
                                     </a>
                                   </li>
-                                  <li>
-                                    <a className="dropdown-item" href="#">
+                                  <li >
+                                    <a onClick={() => editProduct(product._id)}
+                                    className="dropdown-item" href="#">
                                       <i className="bi bi-pencil-square me-3 " />
                                       Edit
                                     </a>
