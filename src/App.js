@@ -19,6 +19,8 @@ import OrdersList from "./pages/front/orders/OrdersList";
 import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
+//import EditProduct from "./pages/back/products/EditProduct";
+
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -34,6 +36,8 @@ const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const AddProduct = React.lazy(() => import("./pages/back/products/AddProduct"));
 const ProductDetail  = React.lazy(() => import("./pages/front/products/ProductDetail"));
+const EditProduct  = React.lazy(() => import("./pages/back/products/EditProduct"));
+
 
 function App() {
   const [showCustomerBoard, setShowCustomerBoard] = useState(false);
@@ -169,6 +173,15 @@ function App() {
           }
           />
 
+          <Route
+          exact
+          path='/dashboard/editProduct'
+          element={
+            <LayoutBack>
+              <EditProduct />
+            </LayoutBack>
+          }
+          />
           
 
              
