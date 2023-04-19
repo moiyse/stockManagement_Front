@@ -19,6 +19,7 @@ import OrdersList from "./pages/front/orders/OrdersList";
 import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
+import ShopByCategory from "./pages/front/shop/ShopByCategory";
 
 axios.defaults.baseURL = "http://localhost:5000";
 
@@ -90,7 +91,7 @@ function App() {
 
         <Route exact path="/ordersList" element={ <Layout><OrdersList /></Layout>} />
         <Route path="/OrderDetail/:orderId" element={ <Layout><OrderDetail /></Layout>} />
-
+        <Route exact path="/shopByCategory/:idCategory" element={ <Layout><ShopByCategory /></Layout>} />
 
         <Route
           exact
@@ -168,6 +169,7 @@ function App() {
             </LayoutBack>
           }
           />
+        
 
           
 

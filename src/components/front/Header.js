@@ -8,10 +8,13 @@ function Navbar() {
   const { user: currentUser } = useSelector((state) => state.auth);
   const [allCategories,setAllCategories ] = useState([])
 
+  
+
   useEffect(() => {
     axios.get("/products/cat").then((res) => {
       setAllCategories(res.data);
     });
+    console.log("here !! ")
   }, []);
 
   const openDiv = () => {
@@ -31,20 +34,25 @@ function Navbar() {
         <div className='container'>
           <div className='row w-100 align-items-center gx-lg-2 gx-0'>
             <div className='col-xxl-2 col-lg-3'>
-              <a className='navbar-brand d-none d-lg-block' href='index.html'>
+              <a className='navbar-brand d-none d-lg-block' >
+                <Link to="/home">
                 <img
                   src='/assets/images/logo/logo.png'
                   alt='eCommerce HTML Template'
                   style={{ width: "70px" }}
                 />
+                </Link>
+                
               </a>
               <div className='d-flex justify-content-between w-100 d-lg-none'>
-                <a className='navbar-brand' href='index.html'>
-                  <img
+                <a className='navbar-brand'>
+                  <Link to="/home">
+                  <img 
                     src='/assets/images/logo/logo.png'
                     style={{ width: "70px" }}
                     alt='eCommerce HTML Template'
                   />
+                  </Link>
                 </a>
 
                 <div className='d-flex align-items-center lh-1'>
@@ -324,6 +332,7 @@ function Navbar() {
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton1'>
             {allCategories?.map((category, index) => {
               return(
+                
                 <li key={index}>
                   <a className='dropdown-item' href='pages/shop-grid.html'>
                     {category.label}
@@ -616,6 +625,7 @@ function Navbar() {
                             return (
                               
                                 <div className='col-lg-3 col-6 mb-4 mb-lg-0' style={{cursor:"pointer"}}>
+                                  <Link to={`/shopByCategory/${category._id}`}>
                                   <a className='dropdown-item'>
                                     <h6 className='text-primary ps-3' style={{fontSize:"1.1rem"}}>
                                       <img className="mr-2" style={{width:"23px",height:"23px",marginRight:"4px"}} src={`http://localhost:5002/categoryUploads/${category.imagePath}`}></img>{category.label}
@@ -626,6 +636,7 @@ function Navbar() {
                                       </a>
                                     </h6>
                                   </a>
+                                  </Link> 
                                 </div>
                             );
                           })}

@@ -8,6 +8,11 @@ const Categories = (props) => {
   const [allCategories, setAllCategories] = useState([]);
   const [searchQueryByCategoryName, setsearchQueryByCategoryName] = useState("");
   const [seeMore, setSeeMore] = useState(5);
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(4);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   useEffect(() => {
     const searchObject = { label: searchQueryByCategoryName };
@@ -113,7 +118,7 @@ const Categories = (props) => {
                         </tr>
                       </thead>
                       <tbody style={{minHeight:"100px"}}>
-                        {allCategories?.slice(0, seeMore).map((category, index) => {
+                        {allCategories?.slice(startIndex,endIndex).map((category, index) => {
                           return (
                             <tr key={index}>
                               <td>
@@ -134,12 +139,12 @@ const Categories = (props) => {
                                   </a>
                                   <ul className="dropdown-menu">
                                     <li>
-                                      <a className="dropdown-item" onClick={() => deleteCategory(category._id)}><i className="bi bi-trash me-3" />
+                                      <a style={{cursor:"pointer"}} className="dropdown-item" onClick={() => deleteCategory(category._id)}><i className="bi bi-trash me-3" />
                                       Delete
                                       </a>
                                     </li>
                                     <li>
-                                      <a className="dropdown-item" onClick={() => editCategory(category._id)}><i className="bi bi-pencil-square me-3 " />
+                                      <a style={{cursor:"pointer"}} className="dropdown-item" onClick={() => editCategory(category._id)}><i className="bi bi-pencil-square me-3 " />
                                       Edit
                                       </a>
                                     </li>
@@ -151,20 +156,54 @@ const Categories = (props) => {
                         })}
                         
                       </tbody>
+                      <tfoot>
+                            <tr>
+                              <td colSpan="10">
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <div>
+                                    Showing {Math.min(itemsPerPage, allCategories.length)} of {allCategories.length} categories
+                                  </div>
+                                  <div>
+                                    <nav aria-label="Page navigation">
+                                      <ul className="pagination">
+                                      {(startIndex>1)  && 
+                                      <li className="page-item ">
+                                        <a className="page-link " onClick={() => setCurrentPage(currentPage - 1)}>
+                                          Previous</a>
+                                      </li>}
+                                      {(currentPage===1)  && 
+                                      <li className="page-item disabled">
+                                        <a className="page-link " >
+                                          Previous</a>
+                                      </li>}
+                                        {Array.from({ length: Math.ceil(allCategories.length / itemsPerPage) }, (_, i) => (
+                                          <li
+                                            key={i}
+                                            className={`page-item ${i + 1 === currentPage ? "active" : ""}`}
+                                            onClick={() => setCurrentPage(i + 1)}
+                                          >
+                                            <span className="page-link">{i + 1}</span>
+                                          </li>
+                                        ))}
+                                        { (endIndex<allCategories.length)  &&                                    
+                                          <li className="page-item">
+                                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a></li>
+                                        
+                                        }
+                                        { (endIndex>=allCategories.length)  &&                                    
+                                          <li className="page-item disabled">
+                                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a></li>
+                                        
+                                        }
+                                      </ul>
+                                    </nav>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
                     </table>
                   </div>
-                </div>
-                <div className="border-top d-md-flex justify-content-between align-items-center  px-6 py-6">
-                  <span>Showing 1 to 8 of 12 entries</span>
-                  <nav className="mt-2 mt-md-0">
-                    <ul className="pagination mb-0 ">
-                      <li className="page-item disabled"><a className="page-link " href="#!">Previous</a></li>
-                      <li className="page-item"><a className="page-link active" href="#!">1</a></li>
-                      <li className="page-item"><a className="page-link" href="#!">2</a></li>
-                      <li className="page-item"><a className="page-link" href="#!">3</a></li>
-                      <li className="page-item"><a className="page-link" href="#!">Next</a></li>
-                    </ul>
-                  </nav>
                 </div>
               </div>
             </div>

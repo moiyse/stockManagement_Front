@@ -9,6 +9,7 @@ const AddCategory = (props) => {
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [imagePath, setImagePath] = useState("");
+  const [imageSrc,setImageSrc] = useState("")
   const location = useLocation();
   const id = location.state?.id;
 
@@ -16,7 +17,6 @@ const AddCategory = (props) => {
   useEffect(() => {
     if (id) {
       console.log("id : ",id)
-      // Fetch existing category data and pre-populate the form fields
         axios
         .get(`/products/cat/${id}`)
         .then(function (response) {
@@ -35,6 +35,27 @@ const AddCategory = (props) => {
   const handleFileSelect = (event) => {
     console.log("event.target : ",event.target.files[0])
     setSelectedFile(event.target.files[0]);
+    convertBase64(event.target.files[0])
+  }
+
+  const convertBase64 = (file) => {
+    console.log("File : ",file)
+    const mimeType = file.type;
+    setImagePath("")
+
+  // Check if the MIME type starts with 'image'
+  if (mimeType.startsWith('image')) {
+    // Read the file as a data URL
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result.replace('data:', '').replace(/^.+,/, '');
+      setImageSrc(`data:${mimeType};base64,${base64String}`);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    console.error('Invalid file type.');
+  }
+
   }
 
   const handleCategoryDescriptionChange = (e) => {
@@ -101,7 +122,7 @@ const AddCategory = (props) => {
                   </nav>
                 </div>
                 <div>
-                  <Link to="/dashboard/categories"><a href="categories.html" className="btn btn-secondary">Back to Categories</a></Link>
+                  <Link to="/admin/categories"><a href="categories.html" className="btn btn-secondary">Back to Categories</a></Link>
                 </div>
               </div>
             </div>
@@ -112,13 +133,23 @@ const AddCategory = (props) => {
               <div className="card mb-6 shadow border-0">
                 <form onSubmit={handleSubmit}>
                   <div className="card-body p-6 ">
-                    <h4 className="mb-5 h5">Category Image</h4>
+                    <h4 className="mb-5 h5">Category Image*</h4>
                     <div className="mb-4 d-flex">
                       <div className="position-relative">
-                        <img 
-                        className="image icon-shape icon-xxxl bg-light rounded-4"
-                         src={`http://localhost:5002/categoryUploads/${imagePath}`} 
-                         alt="Image" />
+                      {imagePath !== "" ? (
+                        <img
+                          className="image icon-shape icon-xxxl bg-light rounded-4"
+                          src={`http://localhost:5002/categoryUploads/${imagePath}`}
+                          alt="Image"
+                        />
+                      ) : (
+                        <img
+                          className="image icon-shape icon-xxxl bg-light rounded-4"
+                          src={imageSrc}
+                          alt="Image"
+                        />
+                      )}
+                        
                         <div className="file-upload position-absolute end-0 top-0 mt-n2 me-n1">
                           <input 
                            type="file"
@@ -136,7 +167,7 @@ const AddCategory = (props) => {
                     <div className="row">
                       {/* input */}
                       <div className="mb-3 col-lg-6">
-                        <label className="form-label">Category Name</label>
+                        <label className="form-label">Category Name*</label>
                         <input type="text"
                           className="form-control"
                           placeholder="Category Name"
@@ -159,7 +190,7 @@ const AddCategory = (props) => {
                       </div>
                       {/* input */}
                       <div className="mb-3 col-lg-12 ">
-                        <label className="form-label">Descriptions</label>
+                        <label className="form-label">Description*</label>
                         <textarea
                          className="form-control"
                           rows={3}
@@ -173,9 +204,12 @@ const AddCategory = (props) => {
                         <button type="submit" className="btn btn-light-primary">
                         {id ? 'Update' : 'Create'} Category
                         </button>
+                        <Link to="/admin/categories">
                         <a className="btn btn-secondary ms-2">
                           cancel
                         </a>
+                        </Link>
+                        
                       </div>
                     </div>
                   </div>

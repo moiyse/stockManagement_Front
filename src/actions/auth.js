@@ -47,14 +47,14 @@ const updateFunction = (user) => {
       return response.data;
     });
 };
-const googleLoginFunction = (accessToken) => {
-  return axios
+const googleLoginFunction = async (accessToken) => {
+  return await  axios
     .post(`/api/auth/googleSignin`, {
       accessToken,
     })
-    .then((response) => {
+    .then(async (response) => {
       if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        await localStorage.setItem("user", JSON.stringify(response.data));
       }
       console.log(
         "google login data returned in loginfunction  : ",
@@ -181,16 +181,16 @@ export const modifyUser = (user) => (dispatch, getState) => {
   );
 };
 
-export const loginGoogle = (accessToken) => (dispatch) => {
-  return googleLoginFunction(accessToken).then(
-    (data) => {
+export const loginGoogle = async (accessToken) => async (dispatch) => {
+  return await googleLoginFunction(accessToken).then(
+    async (data) => {
       console.log("Google Login success ! : ", data);
 
-      dispatch({
+      await dispatch({
         type: GOOGLE_LOGIN_SUCCESS,
         payload: { user: data },
       });
-      return Promise.resolve(data);
+      return await Promise.resolve(data);
     },
     (error) => {
       const message =
