@@ -200,7 +200,7 @@ const Products = (props) => {
                               </td>
                               
                               <td>
-                                {product.category}
+                                {product.category.label}
                               </td>
                               <td  style={{ textAlign: "center" }}  >
                                 <span 

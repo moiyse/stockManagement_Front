@@ -7,6 +7,7 @@ import Categories from "../categories/Categories";
 
 const AddProduct = (props) => {
 
+    //////form Data
     const [productName, setProductName] = useState("");
     const [productCode, setProductCode] = useState("");
     const [productPrice, setProductPrice] = useState("");
@@ -15,6 +16,9 @@ const AddProduct = (props) => {
     const [productionDate, setProductionDate] = useState("");
     const [productDescription, setProductDescription] = useState("");
     const [inStock, setInStock] = useState(false);
+    const [selectedCategory,setSelectedCategory] = useState()
+    //////
+    const [allCategories, setAllCategories] = useState([]);
    // const [image, setProductImage] = useState("");
     const [quantity, setProductQuantity] = useState("");
 
@@ -24,6 +28,12 @@ const AddProduct = (props) => {
       console.log("event.target : ",event.target.files[0])
       setSelectedFile(event.target.files[0]);
     }
+
+    useEffect(()=> {
+      axios.get("/products/cat").then((res) => {
+        setAllCategories(res.data);
+      });
+    },[])
 
     /*
     const handleSave = async (e) => {
@@ -66,7 +76,13 @@ const AddProduct = (props) => {
        
       };
   */
-
+      useEffect(()=> {
+        if(selectedCategory)
+        {
+          console.log("selected category : ",selectedCategory.label)
+        }
+        
+      },[selectedCategory])
 
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,6 +96,7 @@ const AddProduct = (props) => {
         formData.append("inStock", inStock);
         formData.append("productionDate", productionDate);
         formData.append("expirationDate", expirationDate);
+        formData.append("category", selectedCategory);
         //formData.append("category", category);
         if(selectedFile)
         {
@@ -256,11 +273,15 @@ const AddProduct = (props) => {
                           {/* input */}
                           <div className="mb-3 ">
                             <label className="form-label">Product Category</label>
-                            <select className="form-select" >
-                              <option selected>Product Category</option>
-                              <option value="Dairy, Bread & Eggs">Dairy, Bread &amp; Eggs</option>
-                              <option value="Snacks & Munchies">Snacks &amp; Munchies</option>
-                              <option value="Fruits & Vegetables">Fruits &amp; Vegetables</option>
+                            <select className="form-select" onChange={(event) => {setSelectedCategory(event.target.value)}}>
+                              <option selected disabled>Product Category</option>
+                            {allCategories.map((category, index) => {
+                              return (
+                                <option key={category._id} value={category._id}>{category.label}</option>
+                              
+                              )
+                            })}
+                              
                             </select>
                           </div>
                           
