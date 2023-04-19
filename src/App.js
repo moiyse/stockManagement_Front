@@ -20,12 +20,14 @@ import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
 import ShopByCategory from "./pages/front/shop/ShopByCategory";
+//import EditProduct from "./pages/back/products/EditProduct";
+
 
 axios.defaults.baseURL = "http://localhost:5000";
 
 const Register = React.lazy(() => import("./pages/commun/auth/Register"));
 const Users = React.lazy(() => import("./pages/back/users/Users"));
-const Stock = React.lazy(() => import( "./pages/back/stock/Stock"));
+const Stock = React.lazy(() => import("./pages/back/stock/Stock"));
 
 const ForgetPassword = React.lazy(() =>
   import("./pages/commun/auth/ForgetPassword")
@@ -34,7 +36,10 @@ const ForgetPassword = React.lazy(() =>
 const TemplateBack = React.lazy(() => import("./components/back/TemplateBack"));
 const Products = React.lazy(() => import("./pages/back/products/Products"));
 const AddProduct = React.lazy(() => import("./pages/back/products/AddProduct"));
+
 const ProductDetail  = React.lazy(() => import("./pages/front/products/ProductDetail"));
+const EditProduct  = React.lazy(() => import("./pages/back/products/EditProduct"));
+
 
 function App() {
   const [showCustomerBoard, setShowCustomerBoard] = useState(false);
@@ -67,14 +72,14 @@ function App() {
       <Routes>
         <Route
           exact
-          path="*"
+          path='*'
           element={
             <Layout>
               <Home />
             </Layout>
           }
         />
-                <Route
+        <Route
           exact
           path='/productDetail'
           element={
@@ -83,29 +88,51 @@ function App() {
             </Layout>
           }
         />
-        <Route exact path="/forgetPassword" element={<ForgetPassword />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/admin" element={<TemplateBack />} />
-        <Route exact path="/signIn" element={<SignIn />} />
-        <Route exact path="/order" element={<Order />} />
-
-        <Route exact path="/ordersList" element={ <Layout><OrdersList /></Layout>} />
-        <Route path="/OrderDetail/:orderId" element={ <Layout><OrderDetail /></Layout>} />
-        <Route exact path="/shopByCategory/:idCategory" element={ <Layout><ShopByCategory /></Layout>} />
+        <Route exact path='/forgetPassword' element={<ForgetPassword />} />
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/admin' element={<TemplateBack />} />
+        <Route exact path='/signIn' element={<SignIn />} />
+        <Route exact path='/order' element={<Order />} />
 
         <Route
           exact
-          path="/settings"
+          path='/ordersList'
+          element={
+            <Layout>
+              <OrdersList />
+            </Layout>
+          }
+        />
+        <Route
+          path='/OrderDetail/:orderId'
+          element={
+            <Layout>
+              <OrderDetail />
+            </Layout>
+          }
+        />
+        <Route
+         exact 
+         path="/shopByCategory/:idCategory" 
+         element={
+           <Layout
+           ><ShopByCategory />
+           </Layout>
+          } />
+
+        <Route
+          exact
+          path='/settings'
           element={
             <Layout>
               <Settings />
             </Layout>
           }
         />
-        <Route exact path="/" element={<Login />} />
+        <Route exact path='/' element={<Login />} />
         <Route
           exact
-          path="/dashboard/users"
+          path='/dashboard/users'
           element={
             <LayoutBack>
               <Users />
@@ -124,7 +151,7 @@ function App() {
         />
         <Route
           exact
-          path="/admin/categories"
+          path='/admin/categories'
           element={
             <LayoutBack>
               <Categories />
@@ -133,7 +160,7 @@ function App() {
         />
         <Route
           exact
-          path="/dashboard/addCategory"
+          path='/dashboard/addCategory'
           element={
             <LayoutBack>
               <AddCategory />
@@ -142,7 +169,7 @@ function App() {
         />
         <Route
           exact
-          path="/dashboard/addCategory/:id"
+          path='/dashboard/addCategory/:id'
           element={
             <LayoutBack>
               <AddCategory />
@@ -151,7 +178,7 @@ function App() {
         />
         <Route
           exact
-          path="/dashboard/stock/:id"
+          path='/dashboard/stock/:id'
           element={
             <LayoutBack>
               <Stock />
@@ -159,7 +186,6 @@ function App() {
           }
         />
 
-        
         <Route
           exact
           path='/dashboard/addProduct'
@@ -168,13 +194,23 @@ function App() {
               <AddProduct />
             </LayoutBack>
           }
-          />
-        
 
+        />
+
+          <Route
+          exact
+          path='/dashboard/editProduct'
+          element={
+            <LayoutBack>
+              <EditProduct />
+            </LayoutBack>
+          }
+          />
           
 
              
            
+
       </Routes>
     </Suspense>
   );

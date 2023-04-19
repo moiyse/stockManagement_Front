@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function LeftNavButton(props) {
   const { className, onClick } = props;
@@ -23,17 +24,22 @@ function RightNavButton(props) {
 }
 
 function Home() {
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const [allProducts, setAllProducts] = useState([]);
   const [searchQueryByProductname, setSearchQueryByProductname] = useState("");
-
+  const [allProductsForCart, setAllProductsForCart] = useState([]);
+  const [call, setCall] = useState(false);
 
   useEffect(() => {
     const searchObject = { name: searchQueryByProductname };
-     if (searchQueryByProductname?.length > 0) {
+    if (searchQueryByProductname?.length > 0) {
       console.log(searchObject);
       axios
-        .post("http://localhost:5000/products/prod/searchProductByName", searchObject)
+        .post(
+          "http://localhost:5000/products/prod/searchProductByName",
+          searchObject
+        )
         .then((res) => {
           setAllProducts(res.data);
         })
@@ -49,8 +55,51 @@ function Home() {
         });
     }
   }, [searchQueryByProductname]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:5000/api/getAllProductsFromCart/${currentUser?.email}`
+      )
+      .then((res) => {
+        console.log(res.data);
+        setAllProductsForCart(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [call]);
+  const addProdcutToCart = (prod) => {
+    const req = {
+      email: currentUser?.email,
+      products: prod,
+    };
+    axios
+      .put("http://localhost:5000/api/addProdcutToCart/", req)
+      .then((res) => {
+        setCall(!call);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-
+  const removeProdcutFromCart = (removeProdcutFromCart) => {
+    console.log(removeProdcutFromCart);
+    const req = {
+      email: currentUser?.email,
+      id: removeProdcutFromCart._id,
+    };
+    console.log(req);
+    axios
+      .put("http://localhost:5000/api/removeProdcutFromCart/", req)
+      .then((res) => {
+        setCall(!call);
+        console.log("hi");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const introductions = [
     {
       imageUrl: "assets/images/slider/slide-1.jpg",
@@ -180,7 +229,6 @@ function Home() {
             <h5 id='offcanvasRightLabel' className='mb-0 fs-4'>
               Shop Cart
             </h5>
-            <small>Location in 382480</small>
           </div>
           <button
             type='button'
@@ -191,418 +239,68 @@ function Home() {
         </div>
         <div className='offcanvas-body'>
           <div className=''>
-            <div className='alert alert-danger p-2' role='alert'>
-              You’ve got FREE delivery. Start{" "}
-              <a href='#!' className='alert-link'>
-                checkout now!
-              </a>
-            </div>
             <ul className='list-group list-group-flush'>
-              <li className='list-group-item py-3 ps-0 border-top'>
-                <div className='row align-items-center'>
-                  <div className='col-3 col-md-2'>
-                    <img
-                      src='assets/images/products/product-img-1.jpg'
-                      alt='Ecommerce'
-                      className='img-fluid'
-                    />
-                  </div>
-                  <div className='col-4 col-md-6 col-lg-5'>
-                    <a href='pages/shop-single.html' className='text-inherit'>
-                      <h6 className='mb-0'>Haldiram's Sev Bhujia</h6>
-                    </a>
-                    <span>
-                      <small className='text-muted'>.98 / lb</small>
-                    </span>
-
-                    <div className='mt-2 small lh-1'>
-                      {" "}
-                      <a
-                        href='#!'
-                        className='text-decoration-none text-inherit'
-                      >
-                        {" "}
-                        <span className='me-1 align-text-bottom'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='14'
-                            height='14'
-                            viewBox='0 0 24 24'
-                            fill='none'
-                            stroke='currentColor'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            className='feather feather-trash-2 text-success'
+              {allProductsForCart.map((productForCart) => {
+                return (
+                  <li className='list-group-item py-3 ps-0 border-top'>
+                    <div className='row align-items-center'>
+                      <div className='col-3 col-md-2'>
+                        <img
+                          src={productForCart?.image}
+                          alt='image product'
+                          className='img-fluid'
+                        />
+                      </div>
+                      <div className='col-4 col-md-6 col-lg-5'>
+                        <a
+                          href='pages/shop-single.html'
+                          className='text-inherit'
+                        >
+                          <h4 className='mb-0'>{productForCart?.name}</h4>
+                        </a>
+                      </div>
+                      <div className='col-3 col-md-2'>
+                        <div className='mt-2 small lh-1'>
+                          {" "}
+                          <span
+                            className='text-decoration-none text-inherit'
+                            onClick={() =>
+                              removeProdcutFromCart(productForCart)
+                            }
+                            style={{ cursor: "pointer" }}
                           >
-                            <polyline points='3 6 5 6 21 6'></polyline>
-                            <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                            <line x1='10' y1='11' x2='10' y2='17'></line>
-                            <line x1='14' y1='11' x2='14' y2='17'></line>
-                          </svg>
+                            {" "}
+                            <span className='me-1 align-text-bottom'>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                width='20'
+                                height='20'
+                                viewBox='0 0 24 24'
+                                fill='none'
+                                stroke='currentColor'
+                                strokeWidth='2'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                className='feather feather-trash-2 text-success'
+                              >
+                                <polyline points='3 6 5 6 21 6'></polyline>
+                                <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                                <line x1='10' y1='11' x2='10' y2='17'></line>
+                                <line x1='14' y1='11' x2='14' y2='17'></line>
+                              </svg>
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                      <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
+                        <span className='fw-bold'>
+                          {productForCart?.price}$
                         </span>
-                        <span className='text-muted'>Remove</span>
-                      </a>
+                      </div>
                     </div>
-                  </div>
-
-                  <div className='col-3 col-md-3 col-lg-3'>
-                    <div className='input-group input-spinner  '>
-                      <input
-                        type='button'
-                        defaultValue='-'
-                        className='button-minus  btn  btn-sm '
-                        data-field='quantity'
-                      />
-                      <input
-                        type='number'
-                        step='1'
-                        max='10'
-                        defaultValue='1'
-                        name='quantity'
-                        className='quantity-field form-control-sm form-input   '
-                      />
-                      <input
-                        type='button'
-                        defaultValue='+'
-                        className='button-plus btn btn-sm '
-                        data-field='quantity'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
-                    <span className='fw-bold'>$5.00</span>
-                  </div>
-                </div>
-              </li>
-
-              <li className='list-group-item py-3 ps-0'>
-                <div className='row align-items-center'>
-                  <div className='col-3 col-md-2'>
-                    <img
-                      src='assets/images/products/product-img-2.jpg'
-                      alt='Ecommerce'
-                      className='img-fluid'
-                    />
-                  </div>
-                  <div className='col-4 col-md-6 col-lg-5'>
-                    <a href='pages/shop-single.html' className='text-inherit'>
-                      <h6 className='mb-0'>NutriChoice Digestive </h6>
-                    </a>
-                    <span>
-                      <small className='text-muted'>250g</small>
-                    </span>
-
-                    <div className='mt-2 small lh-1'>
-                      {" "}
-                      <a
-                        href='#!'
-                        className='text-decoration-none text-inherit'
-                      >
-                        {" "}
-                        <span className='me-1 align-text-bottom'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='14'
-                            height='14'
-                            viewBox='0 0 24 24'
-                            fill='none'
-                            stroke='currentColor'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            className='feather feather-trash-2 text-success'
-                          >
-                            <polyline points='3 6 5 6 21 6'></polyline>
-                            <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                            <line x1='10' y1='11' x2='10' y2='17'></line>
-                            <line x1='14' y1='11' x2='14' y2='17'></line>
-                          </svg>
-                        </span>
-                        <span className='text-muted'>Remove</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className='col-3 col-md-3 col-lg-3'>
-                    <div className='input-group input-spinner  '>
-                      <input
-                        type='button'
-                        defaultValue='-'
-                        className='button-minus  btn  btn-sm '
-                        data-field='quantity'
-                      />
-                      <input
-                        type='number'
-                        step='1'
-                        max='10'
-                        defaultValue='1'
-                        name='quantity'
-                        className='quantity-field form-control-sm form-input   '
-                      />
-                      <input
-                        type='button'
-                        defaultValue='+'
-                        className='button-plus btn btn-sm '
-                        data-field='quantity'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
-                    <span className='fw-bold text-danger'>$20.00</span>
-                    <div className='text-decoration-line-through text-muted small'>
-                      $26.00
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li className='list-group-item py-3 ps-0'>
-                <div className='row align-items-center'>
-                  <div className='col-3 col-md-2'>
-                    <img
-                      src='assets/images/products/product-img-3.jpg'
-                      alt='Ecommerce'
-                      className='img-fluid'
-                    />
-                  </div>
-                  <div className='col-4 col-md-6 col-lg-5'>
-                    <a href='pages/shop-single.html' className='text-inherit'>
-                      <h6 className='mb-0'>Cadbury 5 Star Chocolate</h6>
-                    </a>
-                    <span>
-                      <small className='text-muted'>1 kg</small>
-                    </span>
-
-                    <div className='mt-2 small lh-1'>
-                      {" "}
-                      <a
-                        href='#!'
-                        className='text-decoration-none text-inherit'
-                      >
-                        {" "}
-                        <span className='me-1 align-text-bottom'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='14'
-                            height='14'
-                            viewBox='0 0 24 24'
-                            fill='none'
-                            stroke='currentColor'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            className='feather feather-trash-2 text-success'
-                          >
-                            <polyline points='3 6 5 6 21 6'></polyline>
-                            <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                            <line x1='10' y1='11' x2='10' y2='17'></line>
-                            <line x1='14' y1='11' x2='14' y2='17'></line>
-                          </svg>
-                        </span>
-                        <span className='text-muted'>Remove</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className='col-3 col-md-3 col-lg-3'>
-                    <div className='input-group input-spinner  '>
-                      <input
-                        type='button'
-                        defaultValue='-'
-                        className='button-minus  btn  btn-sm '
-                        data-field='quantity'
-                      />
-                      <input
-                        type='number'
-                        step='1'
-                        max='10'
-                        defaultValue='1'
-                        name='quantity'
-                        className='quantity-field form-control-sm form-input   '
-                      />
-                      <input
-                        type='button'
-                        defaultValue='+'
-                        className='button-plus btn btn-sm '
-                        data-field='quantity'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
-                    <span className='fw-bold'>$15.00</span>
-                    <div className='text-decoration-line-through text-muted small'>
-                      $20.00
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li className='list-group-item py-3 ps-0'>
-                <div className='row align-items-center'>
-                  <div className='col-3 col-md-2'>
-                    <img
-                      src='assets/images/products/product-img-4.jpg'
-                      alt='Ecommerce'
-                      className='img-fluid'
-                    />
-                  </div>
-                  <div className='col-4 col-md-6 col-lg-5'>
-                    <a href='pages/shop-single.html' className='text-inherit'>
-                      <h6 className='mb-0'>Onion Flavour Potato</h6>
-                    </a>
-                    <span>
-                      <small className='text-muted'>250g</small>
-                    </span>
-
-                    <div className='mt-2 small lh-1'>
-                      {" "}
-                      <a
-                        href='#!'
-                        className='text-decoration-none text-inherit'
-                      >
-                        {" "}
-                        <span className='me-1 align-text-bottom'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='14'
-                            height='14'
-                            viewBox='0 0 24 24'
-                            fill='none'
-                            stroke='currentColor'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            className='feather feather-trash-2 text-success'
-                          >
-                            <polyline points='3 6 5 6 21 6'></polyline>
-                            <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                            <line x1='10' y1='11' x2='10' y2='17'></line>
-                            <line x1='14' y1='11' x2='14' y2='17'></line>
-                          </svg>
-                        </span>
-                        <span className='text-muted'>Remove</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className='col-3 col-md-3 col-lg-3'>
-                    <div className='input-group input-spinner  '>
-                      <input
-                        type='button'
-                        defaultValue='-'
-                        className='button-minus  btn  btn-sm '
-                        data-field='quantity'
-                      />
-                      <input
-                        type='number'
-                        step='1'
-                        max='10'
-                        defaultValue='1'
-                        name='quantity'
-                        className='quantity-field form-control-sm form-input   '
-                      />
-                      <input
-                        type='button'
-                        defaultValue='+'
-                        className='button-plus btn btn-sm '
-                        data-field='quantity'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
-                    <span className='fw-bold'>$15.00</span>
-                    <div className='text-decoration-line-through text-muted small'>
-                      $20.00
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <li className='list-group-item py-3 ps-0 border-bottom'>
-                <div className='row align-items-center'>
-                  <div className='col-3 col-md-2'>
-                    <img
-                      src='assets/images/products/product-img-5.jpg'
-                      alt='Ecommerce'
-                      className='img-fluid'
-                    />
-                  </div>
-                  <div className='col-4 col-md-6 col-lg-5'>
-                    <a href='pages/shop-single.html' className='text-inherit'>
-                      <h6 className='mb-0'>Salted Instant Popcorn </h6>
-                    </a>
-                    <span>
-                      <small className='text-muted'>100g</small>
-                    </span>
-
-                    <div className='mt-2 small lh-1'>
-                      {" "}
-                      <a
-                        href='#!'
-                        className='text-decoration-none text-inherit'
-                      >
-                        {" "}
-                        <span className='me-1 align-text-bottom'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='14'
-                            height='14'
-                            viewBox='0 0 24 24'
-                            fill='none'
-                            stroke='currentColor'
-                            strokeWidth='2'
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            className='feather feather-trash-2 text-success'
-                          >
-                            <polyline points='3 6 5 6 21 6'></polyline>
-                            <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                            <line x1='10' y1='11' x2='10' y2='17'></line>
-                            <line x1='14' y1='11' x2='14' y2='17'></line>
-                          </svg>
-                        </span>
-                        <span className='text-muted'>Remove</span>
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className='col-3 col-md-3 col-lg-3'>
-                    <div className='input-group input-spinner  '>
-                      <input
-                        type='button'
-                        defaultValue='-'
-                        className='button-minus  btn  btn-sm '
-                        data-field='quantity'
-                      />
-                      <input
-                        type='number'
-                        step='1'
-                        max='10'
-                        defaultValue='1'
-                        name='quantity'
-                        className='quantity-field form-control-sm form-input   '
-                      />
-                      <input
-                        type='button'
-                        defaultValue='+'
-                        className='button-plus btn btn-sm '
-                        data-field='quantity'
-                      />
-                    </div>
-                  </div>
-
-                  <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
-                    <span className='fw-bold'>$15.00</span>
-                    <div className='text-decoration-line-through text-muted small'>
-                      $25.00
-                    </div>
-                  </div>
-                </div>
-              </li>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className='d-flex justify-content-between mt-4'>
@@ -859,8 +557,7 @@ function Home() {
           </div>
         </section>
 
-
-       {/****** Product List   ********/}
+        {/****** Product List   ********/}
         <section className='my-lg-14 my-8'>
           <div className='container'>
             <div className='row'>
@@ -869,132 +566,138 @@ function Home() {
               </div>
             </div>
             <div className='row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3'>
-            {allProducts?.map((product, index) => {
-              return(
-                <div className='col' key={index}>
-                  <div className='card card-product'>
-                    <div className='card-body'>
-                      <div className='text-center position-relative '>
-                         {/* stock */}
-                        <div className=' position-absolute top-0 start-0'>
-                          <span 
-                          className={`badge 
-                          ${product?.inStock ? 
-                          "bg-success" : "bg-danger"}`
-                          }>
-                          {product?.inStock ? "In Stock" : "Out of Stock"}
-                          </span>
-                        </div>
-                        {/* image */}
-                        <a href='#!'>
-                          {" "}
-                          <img
-                            src='assets/images/products/product-img-1.jpg'
-                            alt='Grocery Ecommerce Template'
-                            className='mb-3 img-fluid'
-                          />
-                        </a>
-                        {/* action */}
-                        <div className='card-product-action'>
-                          <a
-                            href='#!'
-                            className='btn-action'
-                            data-bs-toggle='modal'
-                            data-bs-target='#quickViewModal'
-                          >
-                            <i
-                              className='bi bi-eye'
+              {allProducts?.map((product, index) => {
+                return (
+                  <div className='col' key={index}>
+                    <div className='card card-product'>
+                      <div className='card-body'>
+                        <div className='text-center position-relative '>
+                          {/* stock */}
+                          <div className=' position-absolute top-0 start-0'>
+                            <span
+                              className={`badge 
+                          ${product?.inStock ? "bg-success" : "bg-danger"}`}
+                            >
+                              {product?.inStock ? "In Stock" : "Out of Stock"}
+                            </span>
+                          </div>
+                          {/* image */}
+                          <a href='#!'>
+                            {" "}
+                            <img
+                              src='assets/images/products/product-img-1.jpg'
+                              alt='Grocery Ecommerce Template'
+                              className='mb-3 img-fluid'
+                            />
+                          </a>
+                          {/* action */}
+                          <div className='card-product-action'>
+                            <a
+                              href='#!'
+                              className='btn-action'
+                              data-bs-toggle='modal'
+                              data-bs-target='#quickViewModal'
+                            >
+                              <i
+                                className='bi bi-eye'
+                                data-bs-toggle='tooltip'
+                                data-bs-html='true'
+                                title='Quick View'
+                              ></i>
+                            </a>
+                            <a
+                              href='#!'
+                              className='btn-action'
                               data-bs-toggle='tooltip'
                               data-bs-html='true'
-                              title='Quick View'
-                            ></i>
-                          </a>
-                          <a
-                            href='#!'
-                            className='btn-action'
-                            data-bs-toggle='tooltip'
-                            data-bs-html='true'
-                            title='Wishlist'
-                          >
-                            <i className='bi bi-heart'></i>
-                          </a>
-                          <a
-                            href='#!'
-                            className='btn-action'
-                            data-bs-toggle='tooltip'
-                            data-bs-html='true'
-                            title='Compare'
-                          >
-                            <i className='bi bi-arrow-left-right'></i>
-                          </a>
-                        </div>
-                      </div>
-                       {/* category */}
-                      <div className='text-small mb-1'>
-                        <a href='#!' className='text-decoration-none text-muted'>
-                          <small> {product.category}</small>
-                        </a>
-                      </div>
-                       {/* name */}
-                      <h2 className='fs-6'>
-                      <Link to={`/productDetail?id=${product._id}`}>
-                        <a
-                          href='pages/shop-single.html'
-                          className='text-inherit text-decoration-none'
-                        >
-                           {product.name}
-                        </a>
-                        </Link>
-                      </h2>
-                       {/* rating */}
-                      <div>
-                        <small className='text-warning'>
-                          {" "}
-                          <i className='bi bi-star-fill'></i>
-                          <i className='bi bi-star-fill'></i>
-                          <i className='bi bi-star-fill'></i>
-                          <i className='bi bi-star-fill'></i>
-                          <i className='bi bi-star-half'></i>
-                        </small>{" "}
-                        <span className='text-muted small'>4.5(149)</span>
-                      </div>
-                      
-                      <div className='d-flex justify-content-between align-items-center mt-3'>
-                        {/* Price */}
-                        <div>
-                          <span className='text-dark'>{product.reduction} DT</span>{" "}
-                          <span className='text-decoration-line-through text-muted'>
-                          {product.price} DT
-                          </span>
-                        </div>
-                        {/* Add to shop */}
-                        <div>
-                          <a href='#!' className='btn btn-primary btn-sm'>
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              width='16'
-                              height='16'
-                              viewBox='0 0 24 24'
-                              fill='none'
-                              stroke='currentColor'
-                              strokeWidth='2'
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              className='feather feather-plus'
+                              title='Wishlist'
                             >
-                              <line x1='12' y1='5' x2='12' y2='19'></line>
-                              <line x1='5' y1='12' x2='19' y2='12'></line>
-                            </svg>{" "}
-                            Add
+                              <i className='bi bi-heart'></i>
+                            </a>
+                            <a
+                              href='#!'
+                              className='btn-action'
+                              data-bs-toggle='tooltip'
+                              data-bs-html='true'
+                              title='Compare'
+                            >
+                              <i className='bi bi-arrow-left-right'></i>
+                            </a>
+                          </div>
+                        </div>
+                        {/* category */}
+                        <div className='text-small mb-1'>
+                          <a
+                            href='#!'
+                            className='text-decoration-none text-muted'
+                          >
+                            <small> {product.category}</small>
                           </a>
+                        </div>
+                        {/* name */}
+                        <h2 className='fs-6'>
+                          <Link to={`/productDetail?id=${product._id}`}>
+                            <a
+                              href='pages/shop-single.html'
+                              className='text-inherit text-decoration-none'
+                            >
+                              {product.name}
+                            </a>
+                          </Link>
+                        </h2>
+                        {/* rating */}
+                        <div>
+                          <small className='text-warning'>
+                            {" "}
+                            <i className='bi bi-star-fill'></i>
+                            <i className='bi bi-star-fill'></i>
+                            <i className='bi bi-star-fill'></i>
+                            <i className='bi bi-star-fill'></i>
+                            <i className='bi bi-star-half'></i>
+                          </small>{" "}
+                          <span className='text-muted small'>4.5(149)</span>
+                        </div>
+
+                        <div className='d-flex justify-content-between align-items-center mt-3'>
+                          {/* Price */}
+                          <div>
+                            <span className='text-dark'>
+                              {product.reduction} DT
+                            </span>{" "}
+                            <span className='text-decoration-line-through text-muted'>
+                              {product.price} DT
+                            </span>
+                          </div>
+                          {/* Add to shop */}
+                          <div>
+                            <span
+                              className='btn btn-primary btn-sm'
+                              onClick={() => addProdcutToCart(product)}
+                            >
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                width='16'
+                                height='16'
+                                viewBox='0 0 24 24'
+                                fill='none'
+                                stroke='currentColor'
+                                strokeWidth='2'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                className='feather feather-plus'
+                              >
+                                <line x1='12' y1='5' x2='12' y2='19'></line>
+                                <line x1='5' y1='12' x2='19' y2='12'></line>
+                              </svg>{" "}
+                              Add
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-              );
-            })}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -1430,8 +1133,7 @@ function Home() {
         </section>
       </main>
 
-
-    {/* quick View Modal */}
+      {/* quick View Modal */}
       <div
         className='modal fade'
         id='quickViewModal'
