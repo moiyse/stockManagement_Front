@@ -3,7 +3,7 @@
 import axios from 'axios';
 import React from 'react'
 import { useState,useEffect } from "react";
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 
 export default function ShopByCategory() {
     const [allCategories,setAllCategories ] = useState([])
@@ -18,18 +18,22 @@ export default function ShopByCategory() {
     const endIndex = startIndex + itemsPerPage;
 
     useEffect(() => {
-        console.log("location.state? : ",idCategory)
         axios.get("/products/cat").then((res) => {
           setAllCategories(res.data);
         }).catch((error) => {console.log("getAllCategory returned an error : ",error)})
-        axios.get(`/products/prod/productsByCategory/${idCategory}`).then((res) => {
-            setProductsOfCategory(res.data);
-          }).catch((error) => {console.log("producytsByCategory returned an error : ",error)})
-        axios.get(`/products/cat/${idCategory}`).then((res) => {
-            console.log("res.data category : ", res.data)
-            setCategorySelected(res.data);
-        }).catch((error) => {console.log("Category selected returned an error : ",error)})
-      }, []);
+        
+    }, []);
+
+    useEffect(()=> {
+      axios.get(`/products/prod/productsByCategory/${idCategory}`).then((res) => {
+        console.log("products of category : ",productsOfCategory)
+        setProductsOfCategory(res.data);
+      }).catch((error) => {console.log("producytsByCategory returned an error : ",error)})
+      axios.get(`/products/cat/${idCategory}`).then((res) => {
+          console.log("res.data category : ", res.data)
+          setCategorySelected(res.data);
+      }).catch((error) => {console.log("Category selected returned an error : ",error)})
+    },[idCategory])
 
 
 
@@ -76,14 +80,20 @@ export default function ShopByCategory() {
                       <ul className="nav nav-category" id="categoryCollapseMenu">
                         {allCategories?.map((category, index) => {
                             return(
+                              
                                 <li style={{display:"inline-flex"}} key={index} className="nav-item border-bottom w-100 collapsed" data-bs-toggle="collapse" 
                                 data-bs-target="#categoryFlushOne" aria-expanded="false" 
                                 aria-controls="categoryFlushOne">
+                                  
                                     <img className="mr-2" style={{width:"23px",height:"23px",margin:" auto 4px auto 0px"}} src={`http://localhost:5002/categoryUploads/${category.imagePath}`}></img>
-                                    <a href="#" className="nav-link">
+                                    <Link to={`/shopByCategory/${category._id}`}>
+                                    <span className="nav-link">
                                     {category.label}
-                                    </a>
+                                    </span>
+                                    </Link>
+                                  
                                 </li>
+                              
                             );
                         })}
                       </ul>
@@ -310,7 +320,7 @@ export default function ShopByCategory() {
                                     {/* badge */}
                                     <div className="text-center position-relative ">
                                     <div className=" position-absolute top-0 start-0">
-                                        <span className="badge bg-danger">Out of stock</span>
+                                        {product?.inStock === false && <span className="badge bg-danger">Out of stock</span>}
                                     </div>
                                     <a href="shop-single.html">
                                         {/* img */}<img src="../assets/images/products/product-img-1.jpg" alt="Grocery Ecommerce Template" className="mb-3 img-fluid" /></a>
@@ -328,10 +338,10 @@ export default function ShopByCategory() {
                                     
                                     {/* price */}
                                     <div className="d-flex justify-content-between align-items-center mt-3">
-                                    <div><span className="text-dark">{product.price}</span> 
+                                    <div><span className="text-dark">{product.price + " "}DT</span> 
                                     </div>
                                     {/* btn */}
-                                    <div><a href="#!" className="btn btn-primary btn-sm">
+                                    <div><a href="#!" className={`btn btn-primary btn-sm ${product.inStock === false ? "disabled" : ""}`}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="feather feather-plus">
                                             <line x1={12} y1={5} x2={12} y2={19} />
                                             <line x1={5} y1={12} x2={19} y2={12} />

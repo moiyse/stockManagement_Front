@@ -631,7 +631,7 @@ function Home() {
                             href='#!'
                             className='text-decoration-none text-muted'
                           >
-                            <small> {product.category}</small>
+                            <small> {product.category.label}</small>
                           </a>
                         </div>
                         {/* name */}

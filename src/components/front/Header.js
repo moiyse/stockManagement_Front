@@ -628,7 +628,7 @@ function Navbar() {
                                 className='col-lg-3 col-6 mb-4 mb-lg-0'
                                 style={{ cursor: "pointer" }}
                               >
-                                <Link to={`/shopByCategory/${category._id}`}>
+                                <Link to={`/shopByCategory/${category._id}`} reloadDocument={true}>
                                 <a className='dropdown-item'>
                                   <h6
                                     className='text-primary ps-3'
