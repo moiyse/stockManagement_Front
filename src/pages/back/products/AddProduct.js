@@ -90,9 +90,7 @@ const AddProduct = (props) => {
         console.log("formdata get : ",formData.get("name"),formData.get("price"))
         
           axios
-          .post("http://localhost:5002/prod", formData, {
-                headers: { "Content-Type": "application/json" },
-              })
+          .post("http://localhost:5002/prod", formData)
         .then(function (res) {
           notify("Product was created successfully!", toast, "success");
           console.log(res.data);

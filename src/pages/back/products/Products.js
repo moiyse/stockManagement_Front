@@ -182,7 +182,7 @@ const Products = (props) => {
                               <td>
                                 <a href="#!"> 
                                   <img 
-                                  src="../assets/images/products/product-img-1.jpg" 
+                                  src={`http://localhost:5002/productUploads/${product.image}`}
                                   alt="" 
                                   className="icon-shape icon-md" 
                                   />

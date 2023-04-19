@@ -19,6 +19,7 @@ import OrdersList from "./pages/front/orders/OrdersList";
 import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
+import ShopByCategory from "./pages/front/shop/ShopByCategory";
 //import EditProduct from "./pages/back/products/EditProduct";
 
 
@@ -110,6 +111,14 @@ function App() {
             </Layout>
           }
         />
+        <Route
+         exact 
+         path="/shopByCategory/:idCategory" 
+         element={
+           <Layout
+           ><ShopByCategory />
+           </Layout>
+          } />
 
         <Route
           exact

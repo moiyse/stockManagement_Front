@@ -79,7 +79,7 @@ const Settings = (props) => {
   const Logout = async () => {
     try {
       await dispatch(logout());
-      return <Navigate to='/' />;
+      return <Navigate to='' />;
     } catch (error) {
       // handle error
     }

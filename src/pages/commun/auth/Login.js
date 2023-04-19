@@ -70,10 +70,10 @@ function Login() {
       });
   };
 
-  function handleGoogleLoginSuccess(tokenResponse) {
+  async function handleGoogleLoginSuccess(tokenResponse) {
     const accessToken = tokenResponse.access_token;
 
-    dispatch(loginGoogle(accessToken))
+    await dispatch(await loginGoogle(accessToken))
       .then((data) => {
         console.log("data from dispatch : ", data);
         console.log("role of user : ", data.roles[0]);
@@ -112,7 +112,8 @@ function Login() {
      }(document, 'script', 'facebook-jssdk'));
   }, []);
 
-  const handleFacebookLogin = async () => {
+  const handleFacebookLogin = async (e) => {
+    e.preventDefault();
     await window.FB.Event.subscribe('auth.statusChange', async function(response) {
       if (response.authResponse) {
         console.log("auth Response : ",response.authResponse.accessToken)

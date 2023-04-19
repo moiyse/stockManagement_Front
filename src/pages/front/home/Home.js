@@ -476,7 +476,7 @@ function Home() {
           <div className='container'>
             <div className='row'>
               <div className='col-12 mb-6'>
-                <h3 className='mb-0'>Featured Categories</h3>
+                <h3 className='mb-0'>Products almost expired</h3>
               </div>
             </div>
             <div className='category-slider'>
