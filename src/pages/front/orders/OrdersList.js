@@ -7,7 +7,10 @@ import {  useSelector } from "react-redux";
 const OrdersList = () => {
   const [allOrders, setAllOrders] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   useEffect(() => {
    
     axios
@@ -91,7 +94,7 @@ const OrdersList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {allOrders?.map((order, index) => {
+                      {allOrders?.slice(startIndex,endIndex).map((order, index) => {
                         return (
                           <tr key={index}>
                             <td>
@@ -147,35 +150,39 @@ const OrdersList = () => {
               </div>
               <div className="border-top d-md-flex justify-content-between align-items-center p-6">
                 <span>Orders: {allOrders.length}</span>
-                <nav className="mt-2 mt-md-0">
-                  <ul className="pagination mb-0 ">
-                    <li className="page-item disabled">
-                      <a className="page-link " >
-                        Previous
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link active" >
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" >
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" >
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" >
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                <nav aria-label="Page navigation">
+                                      <ul className="pagination">
+                                      {(startIndex>1)  && 
+                                      <li className="page-item ">
+                                        <a className="page-link " onClick={() => setCurrentPage(currentPage - 1)}>
+                                          Previous</a>
+                                      </li>}
+                                      {(currentPage===1)  && 
+                                      <li className="page-item disabled">
+                                        <a className="page-link " >
+                                          Previous</a>
+                                      </li>}
+                                        {Array.from({ length: Math.ceil(allOrders.length / itemsPerPage) }, (_, i) => (
+                                          <li
+                                            key={i}
+                                            className={`page-item ${i + 1 === currentPage ? "active" : ""}`}
+                                            onClick={() => setCurrentPage(i + 1)}
+                                          >
+                                            <span className="page-link">{i + 1}</span>
+                                          </li>
+                                        ))}
+                                        { (endIndex<allOrders.length)  &&                                    
+                                          <li className="page-item">
+                                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a></li>
+                                        
+                                        }
+                                        { (endIndex>=allOrders.length)  &&                                    
+                                          <li className="page-item disabled">
+                                            <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a></li>
+                                        
+                                        }
+                                      </ul>
+                                    </nav>
               </div>
             </div>
           </div>
