@@ -22,6 +22,7 @@ import AddCategory from "./pages/back/categories/AddCategory";
 import ShopByCategory from "./pages/front/shop/ShopByCategory";
 import Orders from "./pages/back/orders/Orders";
 import OrderDetailBack from "./pages/back/orders/OrderDetail";
+import Coupons from "./pages/back/coupons/Coupons";
 //import EditProduct from "./pages/back/products/EditProduct";
 
 
@@ -148,6 +149,15 @@ function App() {
           element={
             <LayoutBack>
               <Products />
+            </LayoutBack>
+          }
+        />
+                       <Route
+          exact
+          path='/dashboard/coupons'
+          element={
+            <LayoutBack>
+              <Coupons />
             </LayoutBack>
           }
         />

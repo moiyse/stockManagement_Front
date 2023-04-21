@@ -102,8 +102,8 @@ function Home() {
       orderLines: orderLineIds,
       customer: currentUser.id,
       totalAmount: totalAmount,
-      paymentMethod: "creditcard",
-      status: "processing",
+      paymentMethod: "Credit Card",
+      status: "New",
     };
     axios
       .post("http://localhost:5000/orders/order", orderInfo)
