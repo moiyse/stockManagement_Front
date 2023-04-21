@@ -6,19 +6,30 @@ import { useParams } from "react-router-dom";
 import { notify } from "../../../utils/HelperFunction";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const OrderDetail = () => {
+const OrderDetailBack = () => {
   const { orderId } = useParams();
 
   const [order, setOrder] = useState("");
   const { user: currentUser } = useSelector((state) => state.auth);
   const [products, setProducts] = useState([]);
-  function cancelOrder(){
-    axios.post("http://localhost:5000/orders/updateOrderStatusToCanceled", {
+  function rejectOrder(){
+    axios.post("http://localhost:5000/orders/updateOrderStatusToRejected", {
         orderId: orderId,
       })
       .then(function (response) { 
-        notify('Order Canceled Succesfully !',toast, "success")
+        notify('Order Rejected Succesfully !' ,toast, "success")
+        return response;
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
+  function confirmOrder(){
+    axios.post("http://localhost:5000/orders/updateOrderStatusToConfirmed", {
+        orderId: orderId,
+      })
+      .then(function (response) { 
+        notify('Order Confirmed Succesfully !' ,toast, "success")
         return response;
     })
     .catch(function (error) {
@@ -70,8 +81,9 @@ const OrderDetail = () => {
       });
   }, []);
   return (
-    <main className="pt-5">
-       <ToastContainer />
+    
+    <main className="main-content-wrapper">
+                    <ToastContainer />
       {/* container */}
       <div className="container">
         {/* row */}
@@ -87,7 +99,7 @@ const OrderDetail = () => {
               {/* button */}
               <div>
                 <a className="btn btn-primary">
-                  <Link to={`/ordersList/`}>Back to all orders</Link>
+                  <Link to={`/dashboard/orders/`}>Back to all orders</Link>
                 </a>
               </div>
             </div>
@@ -110,8 +122,9 @@ const OrderDetail = () => {
                   <div className="d-md-flex">
                     {/* button */}
                     <div className="ms-md-3">
-                    <a className="btn btn-danger mx-2" onClick={()=>cancelOrder()} >Cancel Order</a>
-                      <a className="btn btn-secondary" onClick={()=>downloadInvoice()}>Download Invoice</a>
+                    <a className="btn btn-danger mx-2" onClick={()=>rejectOrder()} >Reject Order</a>
+                      <a className="btn btn-primary " onClick={()=>confirmOrder()} >Confirm Order</a>
+                      <a className="btn btn-secondary mx-2" onClick={()=>downloadInvoice()}>Download Invoice</a>
                     </div>
                   </div>
                 </div>
@@ -180,7 +193,7 @@ const OrderDetail = () => {
                                   <div className="d-flex align-items-center">
                                     <div>
                                       <img
-                                        src="../assets/images/products/product-img-1.jpg"
+                                        src={`http://localhost:5002/productUploads/${product.image}`}
                                         alt=""
                                         className="icon-shape icon-lg"
                                       />
@@ -273,4 +286,4 @@ const OrderDetail = () => {
   );
 };
 
-export default OrderDetail;
+export default OrderDetailBack;

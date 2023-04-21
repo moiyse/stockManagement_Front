@@ -59,15 +59,12 @@ function VerticalNav() {
                   </a>
                 </li>
               </Link>
-              
+           
               <li className='nav-item'>
+              <Link to='/dashboard/orders'>
                 <a
                   className='nav-link   collapsed '
                   href='#'
-                  data-bs-toggle='collapse'
-                  data-bs-target='#navCategoriesOrders'
-                  aria-expanded='false'
-                  aria-controls='navCategoriesOrders'
                 >
                   <div className='d-flex align-items-center'>
                     <span className='nav-link-icon'>
@@ -77,27 +74,9 @@ function VerticalNav() {
                     <span className='nav-link-text'>Orders</span>
                   </div>
                 </a>
-                <div
-                  id='navCategoriesOrders'
-                  className='collapse '
-                  data-bs-parent='#sideNavbar'
-                >
-                  <ul className='nav flex-column'>
-                    <li className='nav-item '>
-                      <a className='nav-link ' href='#'>
-                        List
-                      </a>
-                    </li>
-
-                    <li className='nav-item '>
-                      <a className='nav-link ' href='#'>
-                        Single
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                
+              </Link>
               </li>
-
               <li className='nav-item '>
                 <a className='nav-link ' href='#'>
                   <div className='d-flex align-items-center'>

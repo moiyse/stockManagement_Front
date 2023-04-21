@@ -20,6 +20,8 @@ import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
 import ShopByCategory from "./pages/front/shop/ShopByCategory";
+import Orders from "./pages/back/orders/Orders";
+import OrderDetailBack from "./pages/back/orders/OrderDetail";
 //import EditProduct from "./pages/back/products/EditProduct";
 
 
@@ -146,6 +148,24 @@ function App() {
           element={
             <LayoutBack>
               <Products />
+            </LayoutBack>
+          }
+        />
+                <Route
+          exact
+          path='/dashboard/orders'
+          element={
+            <LayoutBack>
+              <Orders />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path='/dashboard/OrderDetail/:orderId'
+          element={
+            <LayoutBack>
+              <OrderDetailBack />
             </LayoutBack>
           }
         />
