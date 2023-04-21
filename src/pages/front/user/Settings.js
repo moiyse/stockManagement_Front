@@ -314,11 +314,12 @@ const Settings = (props) => {
                               Your current phone is : {currentUser.phoneNumber}
                             </label>
                             <input
-                              type='text'
+                              type='number'
                               className='form-control'
                               onChange={handleChangePhoneNumber}
                               placeholder='Phone number'
                               maxLength={8}
+                              min={0}
                             />
                           </div>
                           {error && (
