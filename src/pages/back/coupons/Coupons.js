@@ -48,7 +48,8 @@ const Coupons = (props) => {
 
   const editProduct = (id) => {
     if (id) {
-      navigate("/dashboard/editProduct", { state: { id } });
+      console.log(id);
+      navigate("/dashboard/editCoupon", { state: { id } });
     }
   };
 
@@ -79,7 +80,7 @@ const Coupons = (props) => {
                 {/* button */}
 
                 <div>
-                  <Link to="/dashboard/addProduct">
+                  <Link to="/dashboard/addCoupon">
                     <a className="btn btn-primary">Add Coupon</a>{" "}
                   </Link>
                 </div>
