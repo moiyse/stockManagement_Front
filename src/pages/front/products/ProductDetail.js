@@ -26,22 +26,26 @@ const ProductDetail = (props) => {
 
     const[reviewMessage,setReviewMessage]= useState(""); 
     const[headline,setHeadline]= useState(""); 
-    console.log(currentUser)
+    const [error, setError] = useState(null);
+    const [seeMore, setSeeMore] = useState(2);
+
 
     const handleRating = (rate) => {
       setRatingValue(rate)
     }
-  console.log(product);
+
+
     useEffect(() => {
         console.log(id)
       axios.get(`http://localhost:5000/products/prod/${id}`)
         .then(function (response) {
-            console.log(response.data)
+          
           setProduct(response.data);
           //setName(response.data.name);
         })
         .catch(function (error) {
           console.log(error);
+          
         });
     }, [id]);
 
@@ -61,15 +65,16 @@ const ProductDetail = (props) => {
   };
   const addReview = async () => {
     setReview({ username: currentUser.username , image : currentUser.image , rating: ratingValue  , review : reviewMessage , headline : headline});
-    console.log(review)
-    console.log("ddddddddddddddddddddddddddddd")
     try {
       const response = await axios.post(
         `/products/prod/addReview/${id}`,
         { username: currentUser.username , image : currentUser.image , rating: ratingValue  , review : reviewMessage , headline : headline}      );
-      console.log(response.data); // Assuming that the server returns some data upon successful addition to stock
+        document.getElementById("myForm").reset(); // reset the form
+
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      setError(error.response.data.message);
+
     }
   };
   useEffect(() => {
@@ -80,7 +85,9 @@ const ProductDetail = (props) => {
     fetchReviews();
   }, [() => review]);
    
-  
+  const handleSeeMore = () => {
+    setSeeMore((prevState) => prevState + 2);
+  };
     return (
     <>
 
@@ -143,7 +150,7 @@ const ProductDetail = (props) => {
                             <i className="bi bi-star-fill" />
                             <i className="bi bi-star-fill" />
                             <i className="bi bi-star-fill" />
-                            <i className="bi bi-star-half" /></small><a href="#" className="ms-2">(30 reviews)</a>
+                            <i className="bi bi-star-half" /></small><a href="#" className="ms-2">({product.nbReviewers} reviews)</a>
                         </div>
                         <div className="fs-4">
                             <span className="fw-bold text-dark">{product.reduction} DT  </span>
@@ -269,7 +276,7 @@ const ProductDetail = (props) => {
                                 <i className="bi bi-star-fill" />
                                 <i className="bi bi-star-fill" />
                                 <i className="bi bi-star-half" />
-                                </small><span className="ms-3">4.1 out of 5</span><small className="ms-3">11,130 global ratings</small></span>
+                                </small><span className="ms-3">{product.stars} out of 5</span><small className="ms-3">{product.nbReviewers} global ratings</small></span>
                           </div>
                           <div className="mb-8">
                             {/* progress */}
@@ -342,8 +349,8 @@ const ProductDetail = (props) => {
                               </select>
                             </div>
                           </div>
-                          {reviews.map((reviews) => (
-                          <div className="d-flex border-bottom pb-6 mb-6 pt-4">
+                          {reviews.slice(0, seeMore).map((reviews,index) => (
+                          <div className="d-flex border-bottom pb-6 mb-6 pt-4" key={index}>
                             {/* img */}<img src={`http://localhost:5001/uploads/${reviews.image}`} alt="" className="rounded-circle avatar-lg" />
                             <div className="ms-5">
                               <h6 className="mb-1">
@@ -372,22 +379,21 @@ const ProductDetail = (props) => {
 
                                 <span className="ms-3 text-dark fw-bold">{reviews.headline}</span>
                               </div>
-                              <p>Product quality is good. But, weight seemed less than 1kg. Since it is being sent in open
-                                package, there is a possibility of pilferage in between. FreshCart sends the veggies and
-                                fruits through sealed plastic covers and Barcode on the weight etc. .</p>
+                              <p>{reviews.review} .</p>
 
                             </div>
                           </div>
- ))}
+ ))}{reviews.length > seeMore && (
                           <div>
-                            <a href="#" className="btn btn-outline-gray-400 text-muted">Read More Reviews</a>
+                            <a className="btn btn-outline-gray-400 text-muted" onClick={handleSeeMore}>Read More Reviews</a>
                           </div>
+                          )}
                         </div>
                         <div>
                           {/* rating */}
                           <h3 className="mb-5">Create Review</h3>
                           <div className="border-bottom py-4 mb-4">
-                            <h4 className="mb-3">Overall rating</h4>
+                            <h4 className="mb-3">Overall rating*</h4>
                             <div id="rater" />
                             <Rating
                                 onClick={handleRating}
@@ -401,22 +407,30 @@ const ProductDetail = (props) => {
                           </div>
 
                           {/* form control */}
+                          <form id="myForm">
                           <div className="border-bottom py-4 mb-4">
-                            <h5>Add a headline</h5>
+                            <h5>Add a headline*</h5>
                             <input type="text" className="form-control" placeholder="What’s most important to know" 
                             onChange={(e) => setHeadline(e.target.value)} />
                           </div>
 
                           <div className=" py-4 mb-4">
                             {/* heading */}
-                            <h5>Add a written review</h5>
-                            <textarea className="form-control" rows={3} placeholder="What did you like or dislike? What did you use this product for?" onChange={(e) => setReviewMessage(e.target.value)} />
+                            <h5>Add a written review*</h5>
+                            <textarea className="form-control" rows={3} placeholder="What did you like or dislike? What did you use this product for?" onChange={(e) => setReviewMessage(e.target.value) } />
                           </div>
+                          {error && (
+                            <div className="alert alert-danger" role="alert">
+                              {error}
+                            </div>
+                          )}
                           {/* button */}
                           <div className="d-flex justify-content-end">
-                            <a type="button" href="#" className="btn btn-primary"   onClick={addReview}>Submit Review</a>
+                            <a type="button"  className="btn btn-primary"   onClick={addReview}>Submit Review</a>
                           </div>
+                          </form>
                         </div>
+                     
                       </div>
                     </div>
                   </div>
