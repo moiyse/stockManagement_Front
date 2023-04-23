@@ -37,6 +37,9 @@ function Home() {
   const [searchQueryByProductname, setSearchQueryByProductname] = useState("");
   const [allProductsForCart, setAllProductsForCart] = useState([]);
   const [call, setCall] = useState(false);
+  const [couponEnable, setCouponEnable] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+
   var total = 0;
   useEffect(() => {
     dispatch(refreshUser(currentUser?.id));
@@ -73,7 +76,11 @@ function Home() {
         setAllProductsForCart(res.data);
         const tempCart = [];
         res.data.map((e) => {
-          tempCart.push({ product: e._id, quantity: 1, price: e.price });
+          tempCart.push({
+            product: e._id,
+            quantity: e.quantity,
+            price: e.price,
+          });
           total = total + e.price;
         });
         setCart(tempCart);
@@ -95,8 +102,11 @@ function Home() {
             c
           );
           orderLineIds.push(response.data._id);
+
           return response;
         } catch (error) {
+          notify("Order failed!", toast, "error");
+
           console.log(error);
         }
       })
@@ -108,10 +118,23 @@ function Home() {
       totalAmount: totalAmount,
       paymentMethod: "Credit Card",
       status: "New",
+      couponCode: couponCode,
     };
     axios
       .post("http://localhost:5000/orders/order", orderInfo)
       .then(function (response) {
+        notify("Order was created succesfully!", toast, "success");
+        setAllProductsForCart([]);
+        axios
+          .put("http://localhost:5000/api/removeAllProdcutsFromCart/", {
+            email: currentUser.email,
+          })
+          .then((res) => {
+            dispatch(refreshUser(currentUser?.id));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         console.log(response);
       })
       .catch(function (error) {
@@ -121,7 +144,7 @@ function Home() {
   const addProdcutToCart = (prod) => {
     const req = {
       email: currentUser?.email,
-      products: { ...prod, quantity: 1, price: prod.price / prod.quantity },
+      products: { ...prod, quantity: 1 },
     };
     axios
       .put("http://localhost:5000/api/addProdcutToCart/", req)
@@ -430,6 +453,24 @@ function Home() {
                 );
               })}
             </ul>
+            <input
+              className='form-check-input'
+              type='checkbox'
+              value=''
+              id='flexCheckDefault'
+              onChange={(e) => setCouponEnable(e.target.checked)}
+            />
+            <label> Add coupon code</label>
+            {couponEnable && (
+              <input
+                onChange={(e) => setCouponCode(e.target.value)}
+                type='text'
+                name='Coupon code'
+                className='form-control'
+                id='twoFactor'
+                placeholder='Coupon code'
+              />
+            )}
 
             <div className='d-flex justify-content-between mt-4'>
               <a href='#!' className='btn btn-primary'>
