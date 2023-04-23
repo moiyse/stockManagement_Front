@@ -11,7 +11,7 @@ const Users = (props) => {
   useEffect(() => {
     const searchObject = { username: searchQueryByUsername };
     if (searchQueryByUsername?.length > 0) {
-      console.log("here")
+      console.log("here");
       axios
         .post("/api/auth/searchUserByUsername", searchObject)
         .then((res) => {
@@ -58,9 +58,7 @@ const Users = (props) => {
                 <div>
                   <h2>Customers</h2>
                   {/* breacrumb */}
-                  <nav aria-label='breadcrumb'>
-                    
-                  </nav>
+                  <nav aria-label='breadcrumb'></nav>
                 </div>
                 {/*   <div>
                   <a href='#!' className='btn btn-primary'>
@@ -139,7 +137,7 @@ const Users = (props) => {
                               <td>
                                 <div className='d-flex align-items-center'>
                                   <img
-                                    src={`http://localhost:5001/uploads/${user.image}`}
+                                    src={`http://localhost:5001/uploads/${user?.image}`}
                                     alt=''
                                     className='avatar avatar-xs rounded-circle'
                                   />

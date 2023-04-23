@@ -4,7 +4,7 @@ import Header from "../../../components/front/Header";
 import { toast, ToastContainer } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
 import "react-toastify/dist/ReactToastify.css";
-import { Navigate,Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { modifyUser, logout } from "../../../actions/auth";
 const Settings = (props) => {
@@ -244,7 +244,7 @@ const Settings = (props) => {
                     <h2 className='mb-0'>Account Setting</h2>
                     <div className='wrapper' style={{ padding: " 10px" }}>
                       <img
-                        src={`http://localhost:5001/uploads/${currentUser.image}`}
+                        src={`http://localhost:5001/uploads/${currentUser?.image}`}
                         className='image--cover'
                         style={{
                           width: "150px",
@@ -395,7 +395,10 @@ const Settings = (props) => {
                       <div className='col-lg-12'>
                         <p className='mb-4'>
                           Can’t remember your current password?
-                          <Link to='/forgetPassword'> Reset your password.</Link>
+                          <Link to='/forgetPassword'>
+                            {" "}
+                            Reset your password.
+                          </Link>
                         </p>
                         <span
                           className='btn btn-primary'
