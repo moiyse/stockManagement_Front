@@ -354,8 +354,7 @@ if(errorMessage !== "Insuffiant Quantity") {
     //     getHardResponse(sampleText);
     // }, 1000)
   };
-  
-  
+
 
 
   const introductions = [
@@ -933,6 +932,29 @@ if(errorMessage !== "Insuffiant Quantity") {
             </div>
             <div className='row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3'>
               {allProducts?.map((product, index) => {
+                const expirationDate = new Date(product.expirationDate).getTime(); // get expiration date in milliseconds
+                const now = new Date().getTime(); // get current time in milliseconds
+                const distance = expirationDate - now; // calculate the time remaining in milliseconds
+              
+                // calculate days, hours, minutes, and seconds remaining
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              
+                // update the countdown every second
+                setInterval(() => {
+                  const now = new Date().getTime();
+                  const distance = expirationDate - now;
+              
+                  days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                  hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              
+                  // update the countdown timer display
+                  document.querySelector(`#countdown-${index} .days`).textContent = days;
+                  document.querySelector(`#countdown-${index} .hours`).textContent = hours;
+                  document.querySelector(`#countdown-${index} .minutes`).textContent = minutes;
+                }, 1000);
                 return (
                   <div className='col' key={index}>
                     <div className='card card-product'>
@@ -1056,6 +1078,22 @@ if(errorMessage !== "Insuffiant Quantity") {
                                 <line x1='5' y1='12' x2='19' y2='12'></line>
                               </svg>{" "}
                               Add
+                            </span>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-start text-center mt-3">
+                          <div class="deals-countdown w-100" id={`countdown-${index}`}>
+                            <span class="countdown-section">
+                              <span class="countdown-amount hover-up days">{days}</span>
+                              <span class="countdown-period"> days </span>
+                            </span>
+                            <span class="countdown-section">
+                              <span class="countdown-amount hover-up hours">{hours}</span>
+                              <span class="countdown-period"> hours </span>
+                            </span>
+                            <span class="countdown-section">
+                              <span class="countdown-amount hover-up minutes">{minutes}</span>
+                              <span class="countdown-period"> mins </span>
                             </span>
                           </div>
                         </div>
