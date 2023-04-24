@@ -68,7 +68,7 @@ function Register() {
     console.log("formData : ",formData);
 
     axios
-      .post("http://localhost:5000/api/auth/signup", formData)
+      .post("http://localhost:5001/auth/signup", formData)
       .then(function (response) {
         console.log(response.data.message);
         window.location.href = "/";
@@ -191,7 +191,7 @@ function Register() {
                               <input
                                 type='text'
                                 className='form-control'
-                                placeholder='Enter First Name'
+                                placeholder='Enter First Name *'
                                 id='firstname'
                                 autoComplete='off'
                                 autoSave='off'
@@ -205,7 +205,7 @@ function Register() {
                               <input
                                 type='text'
                                 className='form-control'
-                                placeholder='Enter Last Name'
+                                placeholder='Enter Last Name *'
                                 id='lastname'
                                 autoComplete='off'
                                 autoSave='off'
@@ -223,7 +223,7 @@ function Register() {
                           <input
                             type='text'
                             className='form-control'
-                            placeholder='Enter Full Name'
+                            placeholder='Enter Username*'
                             id='username'
                             autoComplete='off'
                             autoSave='off'
@@ -242,7 +242,7 @@ function Register() {
                             type='email'
                             className='form-control'
                             id='email'
-                            placeholder='Enter Email'
+                            placeholder='Enter Email*'
                             {...register("email")}
                           />
                             <i className="form-icon-left mdi bi-envelope-fill" />
@@ -255,7 +255,7 @@ function Register() {
                           <input
                             type={type}
                             id='password'
-                            placeholder='Enter Password'
+                            placeholder='Enter Password*'
                             className='form-control'
                             {...register("password")}
                           />
@@ -274,7 +274,7 @@ function Register() {
                           <input
                             type='number'
                             id='phoneNumber'
-                            placeholder='Enter your phone number'
+                            placeholder='Enter your phone number*'
                             className='form-control'
                             {...register("phoneNumber")}
                           />

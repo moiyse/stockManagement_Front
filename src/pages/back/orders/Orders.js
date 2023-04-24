@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import {  useSelector } from "react-redux";
 
-const OrdersList = () => {
+const Orders = () => {
   const [allOrders, setAllOrders] = useState([]);
   const { user: currentUser } = useSelector((state) => state.auth);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,9 +14,7 @@ const OrdersList = () => {
   useEffect(() => {
    
     axios
-      .post("http://localhost:5000/orders/getCustomerOrders", {
-        customerId: currentUser.id,
-      })
+      .get("http://localhost:5000/orders/getAllOrders")
       .then(function (response) {
         console.log(response.data.orders);
         setAllOrders(response.data.orders);
@@ -26,7 +24,7 @@ const OrdersList = () => {
       });
   }, [currentUser.id]);
   return (
-    <main className="pt-5">
+    <main className="main-content-wrapper">
       <div className="container">
         {/* row */}
         <div className="row mb-8">
@@ -98,6 +96,7 @@ const OrdersList = () => {
                             </td>
 
                             <td>{currentUser.username}</td>
+                            
                             <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                             <td>{order.paymentMethod}</td>
                             <td>
@@ -120,7 +119,7 @@ const OrdersList = () => {
                                   <li>
                                     <a className="dropdown-item">
                                       <i className="bi bi-pencil-square me-3 " />
-                                      <Link to={`/OrderDetail/${order._id}`}>Details</Link>
+                                      <Link to={`/dashboard/OrderDetail/${order._id}`}>Details</Link>
                                     </a>
                                   </li>
                                 </ul>
@@ -174,7 +173,9 @@ const OrdersList = () => {
         </div>
       </div>
     </main>
+
+    
   );
 };
 
-export default OrdersList;
+export default Orders;

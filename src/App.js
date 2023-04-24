@@ -20,6 +20,11 @@ import OrderDetail from "./pages/front/orders/OrderDetail";
 import Categories from "./pages/back/categories/Categories";
 import AddCategory from "./pages/back/categories/AddCategory";
 import ShopByCategory from "./pages/front/shop/ShopByCategory";
+import Orders from "./pages/back/orders/Orders";
+import OrderDetailBack from "./pages/back/orders/OrderDetail";
+import Coupons from "./pages/back/coupons/Coupons";
+import AddCoupon from "./pages/back/coupons/AddCoupon";
+import EditCoupon from "./pages/back/coupons/EditCoupon";
 //import EditProduct from "./pages/back/products/EditProduct";
 
 
@@ -149,6 +154,33 @@ function App() {
             </LayoutBack>
           }
         />
+                       <Route
+          exact
+          path='/dashboard/coupons'
+          element={
+            <LayoutBack>
+              <Coupons />
+            </LayoutBack>
+          }
+        />
+                <Route
+          exact
+          path='/dashboard/orders'
+          element={
+            <LayoutBack>
+              <Orders />
+            </LayoutBack>
+          }
+        />
+        <Route
+          exact
+          path='/dashboard/OrderDetail/:orderId'
+          element={
+            <LayoutBack>
+              <OrderDetailBack />
+            </LayoutBack>
+          }
+        />
         <Route
           exact
           path='/admin/categories'
@@ -164,6 +196,15 @@ function App() {
           element={
             <LayoutBack>
               <AddCategory />
+            </LayoutBack>
+          }
+        />
+          <Route
+          exact
+          path='/dashboard/addCoupon'
+          element={
+            <LayoutBack>
+              <AddCoupon />
             </LayoutBack>
           }
         />
@@ -203,6 +244,15 @@ function App() {
           element={
             <LayoutBack>
               <EditProduct />
+            </LayoutBack>
+          }
+          />
+          <Route
+          exact
+          path='/dashboard/editCoupon'
+          element={
+            <LayoutBack>
+              <EditCoupon />
             </LayoutBack>
           }
           />

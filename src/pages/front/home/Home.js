@@ -1,14 +1,18 @@
 import "./slider.css";
 import "./chat.css";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { notify } from "../../../utils/HelperFunction";
+import { toast, ToastContainer } from "react-toastify";
+import { modifyUser, refreshUser } from "../../../actions/auth";
 import chatbotData from './chat.json';
 
 function LeftNavButton(props) {
   const { className, onClick } = props;
+
   return (
     <span onClick={onClick} className='slick-prev slick-arrow'>
       <i className='feather-icon icon-chevron-left'></i>
@@ -26,22 +30,28 @@ function RightNavButton(props) {
 }
 
 function Home() {
-  const { user: currentUser } = useSelector((state) => state.auth);
+  const [error, setError] = useState(null);
 
+  const { user: currentUser } = useSelector((state) => state.auth);
+  var orderLineIds = [];
+  const dispatch = useDispatch();
+
+  const [cart, setCart] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [allProducts, setAllProducts] = useState([]);
   const [searchQueryByProductname, setSearchQueryByProductname] = useState("");
   const [allProductsForCart, setAllProductsForCart] = useState([]);
   const [call, setCall] = useState(false);
+  const [couponEnable, setCouponEnable] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
   const [isActive, setIsActive] = useState(false);
   const [maxHeight, setMaxHeight] = useState("0px");
-  const [botMessage, setBotMessage] = useState("How's it going?");
-    const [chatMessages, setChatMessages] = useState([]);
-    const [userInput, setUserInput] = useState('');
-    const chatboxRef = useRef(null);
 
 
 
+  var total = 0;
   useEffect(() => {
+    dispatch(refreshUser(currentUser?.id));
     const searchObject = { name: searchQueryByProductname };
     if (searchQueryByProductname?.length > 0) {
       console.log(searchObject);
@@ -64,6 +74,7 @@ function Home() {
           console.log(error);
         });
     }
+    console.log(total);
   }, [searchQueryByProductname]);
   useEffect(() => {
     axios
@@ -71,28 +82,97 @@ function Home() {
         `http://localhost:5000/api/getAllProductsFromCart/${currentUser?.email}`
       )
       .then((res) => {
-        console.log(res.data);
         setAllProductsForCart(res.data);
+        const tempCart = [];
+        res.data.map((e) => {
+          tempCart.push({
+            product: e._id,
+            quantity: e.quantity,
+            price: e.price,
+          });
+          total = total + e.price;
+        });
+        setCart(tempCart);
+
+        setTotalAmount(total);
+        //setCart(tempCart);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [call]);
+
+  const confirmOrder = async () => {
+    let errorMessage ;
+    await Promise.all(
+      cart.map(async (c) => {
+        try {
+          const response = await axios.post(
+            "http://localhost:5000/orders/orderLine",
+            c
+          );
+          orderLineIds.push(response.data._id);
+
+          return response;
+        } catch (error) {
+         // notify(error.response.data.message, toast, "error");
+         errorMessage = error.response.data.message;
+          setError(error.response.data.message);
+
+          console.log(error);
+        }
+      })
+    );
+if(errorMessage !== "Insuffiant Quantity") {
+    var orderInfo = {
+      orderLines: orderLineIds,
+      customer: currentUser.id,
+      totalAmount: totalAmount,
+      paymentMethod: "Credit Card",
+      status: "New",
+      couponCode: couponCode,
+    };
+    axios
+      .post("http://localhost:5000/orders/order", orderInfo)
+      .then(function (response) {
+        notify("Order was created succesfully!", toast, "success");
+        setAllProductsForCart([]);
+        axios
+          .put("http://localhost:5000/api/removeAllProdcutsFromCart/", {
+            email: currentUser.email,
+          })
+          .then((res) => {
+            dispatch(refreshUser(currentUser?.id));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+}
+
   const addProdcutToCart = (prod) => {
     const req = {
       email: currentUser?.email,
-      products: prod,
+      products: { ...prod, quantity: 1 },
     };
     axios
       .put("http://localhost:5000/api/addProdcutToCart/", req)
       .then((res) => {
+        notify("Product was added to the cart!", toast, "success");
         setCall(!call);
+
+        dispatch(refreshUser(currentUser?.id));
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
+  console.log(currentUser);
   const removeProdcutFromCart = (removeProdcutFromCart) => {
     console.log(removeProdcutFromCart);
     const req = {
@@ -104,7 +184,42 @@ function Home() {
       .put("http://localhost:5000/api/removeProdcutFromCart/", req)
       .then((res) => {
         setCall(!call);
-        console.log("hi");
+        console.log(removeProdcutFromCart.price);
+        total = total - removeProdcutFromCart.price;
+        //setTotalAmount(totalAmount - removeProdcutFromCart.price);
+        setTotalAmount(total);
+        dispatch(refreshUser(currentUser?.id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const removeQuantityProductToCart = (removeQuantityProductToCart) => {
+    const req = {
+      email: currentUser?.email,
+      id: removeQuantityProductToCart,
+    };
+    console.log(req);
+    axios
+      .put("http://localhost:5000/api/removeQuantityProductToCart/", req)
+      .then((res) => {
+        setCall(!call);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const addQuantityProductToCart = (addQuantityProductToCart) => {
+    const req = {
+      email: currentUser?.email,
+      id: addQuantityProductToCart,
+    };
+    console.log(req);
+    axios
+      .put("http://localhost:5000/api/addQuantityProductToCart/", req)
+      .then((res) => {
+        setCall(!call);
       })
       .catch((error) => {
         console.log(error);
@@ -239,10 +354,6 @@ function Home() {
     //     getHardResponse(sampleText);
     // }, 1000)
   };
-
-  const sendButton = () => {
-    getResponse();
-  };
   
   
 
@@ -365,6 +476,8 @@ function Home() {
 
   return (
     <div>
+      <ToastContainer />
+
       <div
         className='offcanvas offcanvas-end'
         tabIndex='-1'
@@ -391,14 +504,14 @@ function Home() {
                 return (
                   <li className='list-group-item py-3 ps-0 border-top'>
                     <div className='row align-items-center'>
-                      <div className='col-3 col-md-2'>
+                      <div className='col-2 col-md-2'>
                         <img
                           src={productForCart?.image}
                           alt='image product'
                           className='img-fluid'
                         />
                       </div>
-                      <div className='col-4 col-md-6 col-lg-5'>
+                      <div className='col-2 col-md-2 col-lg-5'>
                         <a
                           href='pages/shop-single.html'
                           className='text-inherit'
@@ -406,7 +519,7 @@ function Home() {
                           <h4 className='mb-0'>{productForCart?.name}</h4>
                         </a>
                       </div>
-                      <div className='col-3 col-md-2'>
+                      <div className='col-1 col-md-1'>
                         <div className='mt-2 small lh-1'>
                           {" "}
                           <span
@@ -439,9 +552,47 @@ function Home() {
                           </span>
                         </div>
                       </div>
-                      <div className='col-2 text-lg-end text-start text-md-end col-md-2'>
+                      <div className='col-3 col-md-3 col-lg-3'>
+                        {/* input */}
+                        {/* input */}
+                        <div className='input-group input-spinner  '>
+                          {productForCart.quantity > 0 && (
+                            <input
+                              type='button'
+                              value='-'
+                              className='button-minus  btn  btn-sm '
+                              data-field='quantity'
+                              onClick={() =>
+                                removeQuantityProductToCart(productForCart._id)
+                              }
+                            />
+                          )}
+
+                          <input
+                            type='number'
+                            step='1'
+                            max='10'
+                            value={productForCart?.quantity}
+                            name='quantity'
+                            className='quantity-field form-control-sm form-input   '
+                          />
+                          <input
+                            type='button'
+                            value='+'
+                            className='button-plus btn btn-sm '
+                            data-field='quantity'
+                            onClick={() =>
+                              addQuantityProductToCart(productForCart._id)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className='col-1 text-lg-end text-start text-md-end col-md-1'>
                         <span className='fw-bold'>
-                          {productForCart?.price}$
+                          {productForCart?.price < 1
+                            ? productForCart?.price
+                            : productForCart?.price * productForCart?.quantity}
+                          $
                         </span>
                       </div>
                     </div>
@@ -449,14 +600,37 @@ function Home() {
                 );
               })}
             </ul>
-
+            <input
+              className='form-check-input'
+              type='checkbox'
+              value=''
+              id='flexCheckDefault'
+              onChange={(e) => setCouponEnable(e.target.checked)}
+            />
+            <label> Add coupon code</label>
+            {couponEnable && (
+              <input
+                onChange={(e) => setCouponCode(e.target.value)}
+                type='text'
+                name='Coupon code'
+                className='form-control'
+                id='twoFactor'
+                placeholder='Coupon code'
+              />
+            )}
+                          {error && (
+                            <div className="alert alert-danger" role="alert">
+                              {error}
+                            </div>
+                          )}
             <div className='d-flex justify-content-between mt-4'>
               <a href='#!' className='btn btn-primary'>
                 Continue Shopping
               </a>
-              <a href='#!' className='btn btn-dark'>
-                Update Cart
-              </a>
+
+              <button className='btn btn-primary' onClick={confirmOrder}>
+                Confirm Order
+              </button>
             </div>
           </div>
         </div>
@@ -823,7 +997,7 @@ function Home() {
                             href='#!'
                             className='text-decoration-none text-muted'
                           >
-                            <small> {product.category.label}</small>
+                            <small> {product?.category?.label}</small>
                           </a>
                         </div>
                         {/* name */}

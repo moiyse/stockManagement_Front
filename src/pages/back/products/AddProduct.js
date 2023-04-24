@@ -105,7 +105,8 @@ const AddProduct = (props) => {
         console.log("selected file : ",selectedFile)
         console.log("image: ", formData.get("ProductImage"))
         console.log("formdata get : ",formData.get("name"),formData.get("price"))
-        
+        console.log("formdata get : ",formData.get("name"),formData.get("quantity"))
+
           axios
           .post("http://localhost:5002/prod", formData)
         .then(function (res) {

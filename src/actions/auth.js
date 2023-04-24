@@ -7,6 +7,7 @@ import {
   SET_MESSAGE,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
+  REFRESH_USER_SUCCESS,
 } from "./types";
 
 import axios from "axios";
@@ -48,7 +49,7 @@ const updateFunction = (user) => {
     });
 };
 const googleLoginFunction = async (accessToken) => {
-  return await  axios
+  return await axios
     .post(`/api/auth/googleSignin`, {
       accessToken,
     })
@@ -71,14 +72,16 @@ const googleSignupFunction = (accessToken) => {
       accessToken,
     })
     .then((response) => {
-      console.log( "google Signup data returned in Signupfunction  : ",response.data );
+      console.log(
+        "google Signup data returned in Signupfunction  : ",
+        response.data
+      );
       return response.data;
     });
 };
 
-
 const facebookLoginFunction = (accessToken) => {
-  console.log("access Token in function : ",accessToken)
+  console.log("access Token in function : ", accessToken);
   return axios
     .post(`/api/auth/facebookSignin`, {
       accessToken,
@@ -97,18 +100,19 @@ const facebookLoginFunction = (accessToken) => {
 };
 
 const facebookSignupFunction = (accessToken) => {
-  console.log("access Token in function : ",accessToken)
+  console.log("access Token in function : ", accessToken);
   return axios
     .post(`/api/auth/facebookSignup`, {
       accessToken,
     })
     .then((response) => {
-      console.log( "google Signup data returned in Signupfunction  : ",response.data );
+      console.log(
+        "google Signup data returned in Signupfunction  : ",
+        response.data
+      );
       return response.data;
     });
 };
-
-
 
 export const login = (username, password, twoFactorCode) => (dispatch) => {
   return loginFunction(username, password, twoFactorCode).then(
@@ -249,9 +253,8 @@ export const signupGoogle = (accessToken) => (dispatch) => {
   );
 };
 
-
 export const loginFacebook = (accessToken) => (dispatch) => {
-  console.log("accessToken : ",accessToken)
+  console.log("accessToken : ", accessToken);
   return facebookLoginFunction(accessToken).then(
     (data) => {
       console.log("Google Login success ! : ", data);
@@ -286,7 +289,7 @@ export const loginFacebook = (accessToken) => (dispatch) => {
 };
 
 export const signupFacebook = (accessToken) => (dispatch) => {
-  console.log("accessToken : ",accessToken)
+  console.log("accessToken : ", accessToken);
   return facebookSignupFunction(accessToken).then(
     (data) => {
       console.log("Google Login success ! : ", data);
@@ -319,7 +322,52 @@ export const signupFacebook = (accessToken) => (dispatch) => {
     }
   );
 };
+const getUser = (id) => {
+  return axios
+    .get(`http://localhost:5001/auth/getUser/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
 
+export const refreshUser = (id) => (dispatch, getState) => {
+  const currentUser = getState().auth.user;
+
+  return getUser(id).then(
+    (data) => {
+      console.log(data);
+      dispatch({
+        type: REFRESH_USER_SUCCESS,
+        payload: { user: { ...currentUser, cart: data.cart } },
+      });
+
+      return Promise.resolve(data);
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      dispatch({
+        type: UPDATE_USER_FAIL,
+        payload: { user: currentUser },
+      });
+
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+
+      return Promise.reject(message);
+    }
+  );
+};
 
 export default {
   login,

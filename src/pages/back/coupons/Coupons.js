@@ -4,12 +4,12 @@ import { toast, ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { notify } from "../../../utils/HelperFunction";
 
-const Products = (props) => {
+const Coupons = (props) => {
   const navigate = useNavigate();
 
-  const [allProducts, setAllProducts] = useState([]);
-  const [searchQueryByProductname, setSearchQueryByProductname] = useState("");
-  const [searchQueryByStock, setSearchQueryByStock] = useState("");
+  const [allCoupons, setAllCoupons] = useState([]);
+  const [searchQueryByCouponCode, setSearchQueryByCouponCode] = useState("");
+
   const [stock, setStock] = useState("");
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,66 +17,50 @@ const Products = (props) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const handleStockChange = (e) => {
-    const selectedValue = e.target.value;
-    console.log(searchQueryByStock);
-    if (selectedValue === "In stock") {
-      setStock(true);
-    } else if (selectedValue === "Out of stock") {
-      setStock(false);
-    }
-    setSearchQueryByStock(selectedValue);
-  };
+ 
 
   useEffect(() => {
-    const searchObject = { name: searchQueryByProductname };
+    const searchObject = { name: searchQueryByCouponCode };
     const sObject = { inStock: stock };
-    if (searchQueryByStock != "") {
+   if (searchQueryByCouponCode?.length > 0) {
+     
       axios
         .post(
-          "http://localhost:5000/products/prod/searchProductByStock",
-          sObject
+          "http://localhost:5000/orders/searchCouponByCode",
+          {code :searchObject.name}
         )
         .then((res) => {
-          setAllProducts(res.data);
-        })
-        .catch((err) => console.log(err));
-    } else if (searchQueryByProductname?.length > 0) {
-      console.log(searchObject);
-      axios
-        .post(
-          "http://localhost:5000/products/prod/searchProductByName",
-          searchObject
-        )
-        .then((res) => {
-          setAllProducts(res.data);
+          setAllCoupons(res.data);
         })
         .catch((err) => console.log(err));
     } else {
       axios
-        .get("http://localhost:5000/products/prod")
+        .get("http://localhost:5000/orders/getAllCoupons")
         .then((res) => {
-          setAllProducts(res.data);
-          console.log(res);
+          setAllCoupons(res.data);
+          
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [searchQueryByProductname, currentPage, itemsPerPage, searchQueryByStock]);
+  }, [searchQueryByCouponCode, currentPage, itemsPerPage]);
 
   const editProduct = (id) => {
     if (id) {
-      navigate("/dashboard/editProduct", { state: { id } });
+      console.log(id);
+      navigate("/dashboard/editCoupon", { state: { id } });
     }
   };
 
-  const deleteProduct = (id) => {
+  const deleteCoupon = (id) => {
     axios
-      .delete(`http://localhost:5000/products/prod/${id}`)
+      .post(`http://localhost:5000/orders/deleteCoupon`,{
+        id
+      })
       .then((res) => {
-        axios.get("/products/prod").then((res) => {
-          setAllProducts(res.data);
+        axios.get("/orders/getAllCoupons").then((res) => {
+          setAllCoupons(res.data);
         });
       })
       .catch((err) => console.log(err));
@@ -91,13 +75,13 @@ const Products = (props) => {
               {/* page header */}
               <div className="d-md-flex justify-content-between align-items-center">
                 <div>
-                  <h2>Products </h2>
+                  <h2>Coupons </h2>
                 </div>
                 {/* button */}
 
                 <div>
-                  <Link to="/dashboard/addProduct">
-                    <a className="btn btn-primary">Add Product</a>{" "}
+                  <Link to="/dashboard/addCoupon">
+                    <a className="btn btn-primary">Add Coupon</a>{" "}
                   </Link>
                 </div>
               </div>
@@ -116,26 +100,18 @@ const Products = (props) => {
                         <input
                           className="form-control"
                           type="search"
-                          placeholder="Search Customers"
+                          placeholder="Search Coupons"
                           aria-label="Search"
-                          value={searchQueryByProductname}
+                          value={searchQueryByCouponCode}
                           onChange={(e) =>
-                            setSearchQueryByProductname(e.target.value)
+                            setSearchQueryByCouponCode(e.target.value)
                           }
                         />
                       </form>
                     </div>
                     {/* select option */}
                     <div className="col-lg-2 col-md-4 col-12">
-                      <select
-                        className="form-select"
-                        value={searchQueryByStock}
-                        onChange={handleStockChange}
-                      >
-                        <option value="">Status</option>
-                        <option value="In stock">In stock</option>
-                        <option value="Out of stock">Out of stock</option>
-                      </select>
+                      
                     </div>
                   </div>
                 </div>
@@ -160,22 +136,20 @@ const Products = (props) => {
                               ></label>
                             </div>
                           </th>
-                          <th>Image</th>
                           <th>Code</th>
-                          <th>Product Name</th>
-                          <th>Category</th>
-                          <th>Stock</th>
-                          <th>Price</th>
-                          <th>Reduction Price</th>
-                          <th>Create at</th>
+                          <th>Discount</th>
+                          <th>Max Uses</th>
+                          <th>Used Times</th>
+                          <th>Expiration Date</th>
+                          <th>Update Date</th>
                           <th>Action</th>
                           <th />
                         </tr>
                       </thead>
                       <tbody>
-                        {allProducts
+                        {allCoupons
                           ?.slice(startIndex, endIndex)
-                          .map((product, index) => {
+                          .map((coupon, index) => {
                             return (
                               <tr key={index}>
                                 <td>
@@ -184,69 +158,43 @@ const Products = (props) => {
                                       className="form-check-input"
                                       type="checkbox"
                                       defaultValue
-                                      id="productOne"
+                                      id="couponOne"
                                     />
                                     <label
                                       className="form-check-label"
-                                      htmlFor="productOne"
+                                      htmlFor="couponOne"
                                     ></label>
                                   </div>
                                 </td>
-                                <td>
-                                  <a href="#!">
-                                    <img
-                                      src={`http://localhost:5002/productUploads/${product.image}`}
-                                      alt=""
-                                      className="icon-shape icon-md"
-                                    />
-                                  </a>
-                                </td>
-                                <td>#{product.code}</td>
+                               
+                                <td>#{coupon.code}</td>
                                 <td>
                                   <a href="#" className="text-reset">
-                                    {product.name}
+                                    {coupon.discount}
                                   </a>
                                 </td>
 
-                                <td>{product.category.label}</td>
+                                <td>{coupon.maxUses}</td>
+                                
+                                  
                                 <td style={{ textAlign: "center" }}>
-                                  <span
-                                    className={`badge 
-                                    ${
-                                      product?.inStock
-                                        ? "bg-light-primary text-dark-primary"
-                                        : "bg-light-danger text-dark-danger"
-                                    }`}
-                                    onClick={() =>
-                                      navigate(
-                                        `/dashboard/stock/${product._id}`
-                                      )
-                                    }
-                                  >
-                                    {product?.inStock
-                                      ? "In Stock"
-                                      : "Out of Stock"}
-                                  </span>
+                                  {coupon.usedCount}
                                 </td>
+                             
                                 <td style={{ textAlign: "center" }}>
-                                  {product.price}
-                                </td>
-                                <td style={{ textAlign: "center" }}>
-                                  {product.reduction}
-                                </td>
-                                <td style={{ textAlign: "center" }}>
-                                  {/*
-                                {new Date(product.addedDate).toLocaleString()}
-                                */}
+                               
                                   {new Date(
-                                    product.addedDate
+                                    coupon.expiresAt
+                                  ).toLocaleDateString()}
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                               
+                                  {new Date(
+                                    coupon.updatedAt
                                   ).toLocaleDateString()}
                                 </td>
                                 <td>
-                                  {/*<a className="text-reset" 
-                              onClick={() => navigate('/dashboard/stock/64318a960d370aad6854bb50') }>
-                                show
-                              </a>*/}
+                                
                                   <div
                                     className="dropd
                               own"
@@ -262,7 +210,7 @@ const Products = (props) => {
                                     <ul className="dropdown-menu">
                                       <li
                                         onClick={() =>
-                                          deleteProduct(product._id)
+                                          deleteCoupon(coupon._id)
                                         }
                                       >
                                         <a className="dropdown-item">
@@ -273,7 +221,7 @@ const Products = (props) => {
                                       <li>
                                         <a
                                           onClick={() =>
-                                            editProduct(product._id)
+                                            editProduct(coupon._id)
                                           }
                                           className="dropdown-item"
                                           href="#"
@@ -295,8 +243,8 @@ const Products = (props) => {
                             <div className="d-flex justify-content-between align-items-center">
                               <div>
                                 Showing{" "}
-                                {Math.min(itemsPerPage, allProducts.length)} of{" "}
-                                {allProducts.length} products
+                                {Math.min(itemsPerPage, allCoupons.length)} of{" "}
+                                {allCoupons.length} Coupons
                               </div>
                               <div>
                                 <nav aria-label="Page navigation">
@@ -321,7 +269,7 @@ const Products = (props) => {
                                     {Array.from(
                                       {
                                         length: Math.ceil(
-                                          allProducts.length / itemsPerPage
+                                          allCoupons.length / itemsPerPage
                                         ),
                                       },
                                       (_, i) => (
@@ -340,7 +288,7 @@ const Products = (props) => {
                                         </li>
                                       )
                                     )}
-                                    {endIndex < allProducts.length && (
+                                    {endIndex < allCoupons.length && (
                                       <li className="page-item">
                                         <a
                                           className="page-link"
@@ -352,7 +300,7 @@ const Products = (props) => {
                                         </a>
                                       </li>
                                     )}
-                                    {endIndex >= allProducts.length && (
+                                    {endIndex >= allCoupons.length && (
                                       <li className="page-item disabled">
                                         <a
                                           className="page-link"
@@ -382,4 +330,4 @@ const Products = (props) => {
     </>
   );
 };
-export default Products;
+export default Coupons;
