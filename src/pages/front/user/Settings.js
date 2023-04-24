@@ -79,7 +79,7 @@ const Settings = (props) => {
   const Logout = async () => {
     try {
       await dispatch(logout());
-      return <Navigate to='' />;
+      return <Navigate to="" />;
     } catch (error) {
       // handle error
     }
@@ -122,7 +122,7 @@ const Settings = (props) => {
   };
 
   if (!currentUser) {
-    return <Navigate to='/' />;
+    return <Navigate to="/" />;
   }
   const resetPassword = () => {
     setSubmited(true);
@@ -160,92 +160,92 @@ const Settings = (props) => {
         {/* section */}
         <section>
           {/* container */}
-          <div className='container'>
+          <div className="container">
             {/* row */}
-            <div className='row'>
+            <div className="row">
               {/* col */}
-              <div className='col-12'>
-                <div className='d-flex justify-content-between align-items-center d-md-none py-4'>
+              <div className="col-12">
+                <div className="d-flex justify-content-between align-items-center d-md-none py-4">
                   {/* heading */}
-                  <h3 className='fs-5 mb-0'>Account Setting</h3>
+                  <h3 className="fs-5 mb-0">Account Setting</h3>
                   {/* button */}
                   <button
-                    className='btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 '
-                    type='button'
-                    data-bs-toggle='offcanvas'
-                    data-bs-target='#offcanvasAccount'
-                    aria-controls='offcanvasAccount'
+                    className="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3 "
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasAccount"
+                    aria-controls="offcanvasAccount"
                   >
-                    <i className='bi bi-text-indent-left fs-3'></i>
+                    <i className="bi bi-text-indent-left fs-3"></i>
                   </button>
                 </div>
               </div>
               {/* col */}
-              <div className='col-lg-3 col-md-4 col-12 border-end  d-none d-md-block'>
-                <div className='pt-10 pe-lg-10'>
+              <div className="col-lg-3 col-md-4 col-12 border-end  d-none d-md-block">
+                <div className="pt-10 pe-lg-10">
                   {/* nav item */}
-                  <ul className='nav flex-column nav-pills nav-pills-dark'>
-                    <li className='nav-item'>
+                  <ul className="nav flex-column nav-pills nav-pills-dark">
+                    <li className="nav-item">
                       <a
-                        className='nav-link '
-                        aria-current='page'
-                        href='account-orders.html'
+                        className="nav-link "
+                        aria-current="page"
+                        href="account-orders.html"
                       >
-                        <i className='feather-icon icon-shopping-bag me-2'></i>
+                        <i className="feather-icon icon-shopping-bag me-2"></i>
                         Your Orders
                       </a>
                     </li>
                     {/* nav item */}
-                    <li className='nav-item'>
+                    <li className="nav-item">
                       <a
-                        className='nav-link active'
-                        href='account-settings.html'
+                        className="nav-link active"
+                        href="account-settings.html"
                       >
-                        <i className='feather-icon icon-settings me-2'></i>
+                        <i className="feather-icon icon-settings me-2"></i>
                         Settings
                       </a>
                     </li>
 
                     {/* nav item */}
-                    <li className='nav-item'>
+                    <li className="nav-item">
                       <a
-                        className='nav-link'
-                        href='account-payment-method.html'
+                        className="nav-link"
+                        href="account-payment-method.html"
                       >
-                        <i className='feather-icon icon-credit-card me-2'></i>
+                        <i className="feather-icon icon-credit-card me-2"></i>
                         Payment Method
                       </a>
                     </li>
                     {/* nav item */}
-                    <li className='nav-item'>
-                      <a className='nav-link' href='account-notification.html'>
-                        <i className='feather-icon icon-bell me-2'></i>
+                    <li className="nav-item">
+                      <a className="nav-link" href="account-notification.html">
+                        <i className="feather-icon icon-bell me-2"></i>
                         Notification
                       </a>
                     </li>
                     {/* nav item */}
-                    <li className='nav-item'>
+                    <li className="nav-item">
                       <hr />
                     </li>
                     {/* nav item */}
-                    <li className='nav-item'>
-                      <a className='nav-link ' type='button' onClick={Logout}>
-                        <i className='feather-icon icon-log-out me-2'></i>Log
+                    <li className="nav-item">
+                      <a className="nav-link " type="button" onClick={Logout}>
+                        <i className="feather-icon icon-log-out me-2"></i>Log
                         out
                       </a>
                     </li>
                   </ul>
                 </div>
               </div>
-              <div className='col-lg-9 col-md-8 col-12'>
-                <div className='py-6 p-md-6 p-lg-10'>
-                  <div className='mb-6'>
+              <div className="col-lg-9 col-md-8 col-12">
+                <div className="py-6 p-md-6 p-lg-10">
+                  <div className="mb-6">
                     {/* heading */}
-                    <h2 className='mb-0'>Account Setting</h2>
-                    <div className='wrapper' style={{ padding: " 10px" }}>
+                    <h2 className="mb-0">Account Setting</h2>
+                    <div className="wrapper" style={{ padding: " 10px" }}>
                       <img
                         src={`http://localhost:5001/uploads/${currentUser?.image}`}
-                        className='image--cover'
+                        className="image--cover"
                         style={{
                           width: "150px",
                           height: "150px",
@@ -259,46 +259,46 @@ const Settings = (props) => {
                   </div>
                   <div>
                     {/* heading */}
-                    <h5 className='mb-4'>Account details</h5>
-                    <div className='row'>
-                      <div className='col-lg-5'>
+                    <h5 className="mb-4">Account details</h5>
+                    <div className="row">
+                      <div className="col-lg-5">
                         {/* form */}
-                        <form id='myForm'>
-                          <div className='mb-3'>
-                            <label className='form-label'>Image</label>
+                        <form id="myForm">
+                          <div className="mb-3">
+                            <label className="form-label">Image</label>
                             <input
-                              type='file'
-                              className='form-control'
-                              placeholder='jitu chauhan'
+                              type="file"
+                              className="form-control"
+                              placeholder="jitu chauhan"
                               onChange={handleChangeImage}
                             />
                           </div>
                           {/* input */}
-                          <div className='mb-3'>
-                            <label className='form-label'>
+                          <div className="mb-3">
+                            <label className="form-label">
                               Your current username is : {currentUser.username}
                             </label>
                             <input
-                              type='text'
-                              className='form-control'
-                              placeholder='Change your username'
+                              type="text"
+                              className="form-control"
+                              placeholder="Change your username"
                               onChange={handleChangeUsername}
                             />
                           </div>
                           {/* input */}
-                          <div className='mb-3'>
-                            <label className='form-label'>
+                          <div className="mb-3">
+                            <label className="form-label">
                               Your current email is : {currentUser.email}
                             </label>
 
                             <input
-                              type='email'
-                              className='form-control'
+                              type="email"
+                              className="form-control"
                               onChange={handleChangeEmail}
-                              placeholder='Channge your email '
+                              placeholder="Channge your email "
                             />
                             <label
-                              className='form-label'
+                              className="form-label"
                               style={{ color: "red" }}
                             >
                               <strong> Warning: </strong> If you change your
@@ -309,28 +309,28 @@ const Settings = (props) => {
                             </label>
                           </div>
                           {/* input */}
-                          <div className='mb-5'>
-                            <label className='form-label'>
+                          <div className="mb-5">
+                            <label className="form-label">
                               Your current phone is : {currentUser.phoneNumber}
                             </label>
                             <input
-                              type='number'
-                              className='form-control'
+                              type="number"
+                              className="form-control"
                               onChange={handleChangePhoneNumber}
-                              placeholder='Phone number'
+                              placeholder="Phone number"
                               maxLength={8}
                               min={0}
                             />
                           </div>
                           {error && (
-                            <div className='alert alert-danger' role='alert'>
+                            <div className="alert alert-danger" role="alert">
                               {error}
                             </div>
                           )}
                           {/* button */}
-                          <div className='mb-3'>
+                          <div className="mb-3">
                             <button
-                              className='btn btn-primary'
+                              className="btn btn-primary"
                               onClick={modifyCurrentUser}
                               disabled={disabled}
                             >
@@ -341,74 +341,76 @@ const Settings = (props) => {
                       </div>
                     </div>
                   </div>
-                  <hr className='my-10' />
-                  <div className='pe-lg-14'>
-                    {/* heading */}
-                    <h5 className='mb-4'>Password</h5>
-                    <form className=' row row-cols-1 row-cols-lg-2'>
-                      {/* input */}
-                      <div className='mb-3 col'>
-                        <label className='form-label'>New Password</label>
-                        <input
-                          type='password'
-                          className='form-control'
-                          placeholder='**********'
-                          value={newPassword.value}
-                          onChange={handleChangeNewPassword}
-                        />
-                      </div>
-                      {/* input */}
-                      <div className='mb-3 col'>
-                        <label className='form-label'>current Password</label>
-                        <input
-                          type='password'
-                          className='form-control'
-                          placeholder='**********'
-                          value={oldPassword}
-                          onChange={(e) => setOldPassword(e.target.value)}
-                        />
-                      </div>
-                      {/* input */}
-                      {submited &&
-                        !newPassword.valid &&
-                        newPassword.value !== "" && (
-                          <div className='alert alert-danger' role='alert'>
-                            <p className='mb-1'>
-                              Password must be at least 8 characters long, at
-                              least one uppercase letter, one lowercase letter,
-                              and one number
-                            </p>
-                          </div>
-                        )}
-                      {submited &&
-                        newPassword.valid &&
-                        newPassword.value === oldPassword &&
-                        invalidPassword && (
-                          <div className='alert alert-danger' role='alert'>
-                            <p className='mb-1'>
-                              your new password must be different from your old
-                              one
-                            </p>
-                          </div>
-                        )}
+                  <hr className="my-10" />
+                  {currentUser.username && (
+                    <div className="pe-lg-14">
+                      {/* heading */}
+                      <h5 className="mb-4">Password</h5>
+                      <form className=" row row-cols-1 row-cols-lg-2">
+                        {/* input */}
+                        <div className="mb-3 col">
+                          <label className="form-label">New Password</label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            placeholder="**********"
+                            value={newPassword.value}
+                            onChange={handleChangeNewPassword}
+                          />
+                        </div>
+                        {/* input */}
+                        <div className="mb-3 col">
+                          <label className="form-label">current Password</label>
+                          <input
+                            type="password"
+                            className="form-control"
+                            placeholder="**********"
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                          />
+                        </div>
+                        {/* input */}
+                        {submited &&
+                          !newPassword.valid &&
+                          newPassword.value !== "" && (
+                            <div className="alert alert-danger" role="alert">
+                              <p className="mb-1">
+                                Password must be at least 8 characters long, at
+                                least one uppercase letter, one lowercase
+                                letter, and one number
+                              </p>
+                            </div>
+                          )}
+                        {submited &&
+                          newPassword.valid &&
+                          newPassword.value === oldPassword &&
+                          invalidPassword && (
+                            <div className="alert alert-danger" role="alert">
+                              <p className="mb-1">
+                                your new password must be different from your
+                                old one
+                              </p>
+                            </div>
+                          )}
 
-                      <div className='col-lg-12'>
-                        <p className='mb-4'>
-                          Can’t remember your current password?
-                          <Link to='/forgetPassword'>
-                            {" "}
-                            Reset your password.
-                          </Link>
-                        </p>
-                        <span
-                          className='btn btn-primary'
-                          onClick={resetPassword}
-                        >
-                          Save Password
-                        </span>
-                      </div>
-                    </form>
-                  </div>
+                        <div className="col-lg-12">
+                          <p className="mb-4">
+                            Can’t remember your current password?
+                            <Link to="/forgetPassword">
+                              {" "}
+                              Reset your password.
+                            </Link>
+                          </p>
+                          <span
+                            className="btn btn-primary"
+                            onClick={resetPassword}
+                          >
+                            Save Password
+                          </span>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

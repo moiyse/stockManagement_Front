@@ -10,6 +10,7 @@ import { modifyUser, refreshUser } from "../../../actions/auth";
 
 function LeftNavButton(props) {
   const { className, onClick } = props;
+
   return (
     <span onClick={onClick} className='slick-prev slick-arrow'>
       <i className='feather-icon icon-chevron-left'></i>
@@ -27,6 +28,8 @@ function RightNavButton(props) {
 }
 
 function Home() {
+  const [error, setError] = useState(null);
+
   const { user: currentUser } = useSelector((state) => state.auth);
   var orderLineIds = [];
   const dispatch = useDispatch();
@@ -94,6 +97,7 @@ function Home() {
   }, [call]);
 
   const confirmOrder = async () => {
+    let errorMessage ;
     await Promise.all(
       cart.map(async (c) => {
         try {
@@ -105,13 +109,15 @@ function Home() {
 
           return response;
         } catch (error) {
-          notify("Order failed!", toast, "error");
+         // notify(error.response.data.message, toast, "error");
+         errorMessage = error.response.data.message;
+          setError(error.response.data.message);
 
           console.log(error);
         }
       })
     );
-
+if(errorMessage !== "Insuffiant Quantity") {
     var orderInfo = {
       orderLines: orderLineIds,
       customer: currentUser.id,
@@ -141,6 +147,8 @@ function Home() {
         console.log(error);
       });
   };
+}
+
   const addProdcutToCart = (prod) => {
     const req = {
       email: currentUser?.email,
@@ -471,11 +479,16 @@ function Home() {
                 placeholder='Coupon code'
               />
             )}
-
+                          {error && (
+                            <div className="alert alert-danger" role="alert">
+                              {error}
+                            </div>
+                          )}
             <div className='d-flex justify-content-between mt-4'>
               <a href='#!' className='btn btn-primary'>
                 Continue Shopping
               </a>
+
               <button className='btn btn-primary' onClick={confirmOrder}>
                 Confirm Order
               </button>
