@@ -286,6 +286,8 @@ function Register() {
                         {/* Image */}
                         <div className="form-group">
                           <div className="form-icon-wrapper">
+                            
+                          <label className="form-label">Profile Picture*</label>
                           <input
                             type='file'
                             className='form-control'

@@ -56,48 +56,20 @@ const OrdersList = () => {
                   <table className="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
                     <thead className="bg-light">
                       <tr>
-                        <th>
-                          <div className="form-check">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                              defaultValue
-                              id="checkAll"
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="checkAll"
-                            ></label>
-                          </div>
-                        </th>
-                        <th>Customer</th>
+                        
+                        
                         <th>Date &amp; TIme</th>
                         <th>Payment</th>
                         <th>Status</th>
                         <th>Amount</th>
-                        <th />
+                       <th>Actions</th> <th />
                       </tr>
                     </thead>
                     <tbody>
                       {allOrders?.slice(startIndex,endIndex).map((order, index) => {
                         return (
                           <tr key={index}>
-                            <td>
-                              <div className="form-check">
-                                <input
-                                  className="form-check-input"
-                                  type="checkbox"
-                                  defaultValue
-                                  id="orderOne"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="orderOne"
-                                ></label>
-                              </div>
-                            </td>
-
-                            <td>{currentUser.username}</td>
+                            
                             <td>{new Date(order.orderDate).toLocaleDateString()}</td>
                             <td>{order.paymentMethod}</td>
                             <td>
