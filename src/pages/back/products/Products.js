@@ -165,6 +165,7 @@ const Products = (props) => {
                           <th>Product Name</th>
                           <th>Category</th>
                           <th>Stock</th>
+                          <th>Quantity</th>
                           <th>Price</th>
                           <th>Reduction Price</th>
                           <th>Create at</th>
@@ -210,23 +211,29 @@ const Products = (props) => {
 
                                 <td>{product.category.label}</td>
                                 <td style={{ textAlign: "center" }}>
-                                  <span
+                                  <a type="button" 
+                                  onClick={() =>
+                                      navigate(
+                                        `/dashboard/stock/${product._id}`
+                                      )
+                                    }><span
                                     className={`badge 
                                     ${
                                       product?.inStock
                                         ? "bg-light-primary text-dark-primary"
                                         : "bg-light-danger text-dark-danger"
                                     }`}
-                                    onClick={() =>
-                                      navigate(
-                                        `/dashboard/stock/${product._id}`
-                                      )
-                                    }
+                                    
                                   >
+                                    
                                     {product?.inStock
                                       ? "In Stock"
                                       : "Out of Stock"}
                                   </span>
+                                  </a>
+                                </td>
+                                <td style={{ textAlign: "center" }}>
+                                  {product.quantity}
                                 </td>
                                 <td style={{ textAlign: "center" }}>
                                   {product.price}
@@ -243,14 +250,8 @@ const Products = (props) => {
                                   ).toLocaleDateString()}
                                 </td>
                                 <td>
-                                  {/*<a className="text-reset" 
-                              onClick={() => navigate('/dashboard/stock/64318a960d370aad6854bb50') }>
-                                show
-                              </a>*/}
                                   <div
-                                    className="dropd
-                              own"
-                                  >
+                                    className="dropdown" >
                                     <a
                                       href="#"
                                       className="text-reset"
@@ -276,7 +277,7 @@ const Products = (props) => {
                                             editProduct(product._id)
                                           }
                                           className="dropdown-item"
-                                          href="#"
+                                          
                                         >
                                           <i className="bi bi-pencil-square me-3 " />
                                           Edit

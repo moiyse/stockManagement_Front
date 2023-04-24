@@ -39,6 +39,8 @@ function Home() {
   const [cart, setCart] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [allProducts, setAllProducts] = useState([]);
+  const [expirationProduct, setExpirationProduct] = useState([]);
+
   const [searchQueryByProductname, setSearchQueryByProductname] = useState("");
   const [allProductsForCart, setAllProductsForCart] = useState([]);
   const [call, setCall] = useState(false);
@@ -74,6 +76,22 @@ function Home() {
     }
     console.log(total);
   }, [searchQueryByProductname]);
+
+
+  useEffect(() => {
+    axios
+        .get("http://localhost:5000/products/expirationDate")
+        .then((res) => {
+          setExpirationProduct(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    
+  });
+
+
+
   useEffect(() => {
     axios
       .get(
@@ -336,7 +354,7 @@ function Home() {
 
   const introductions = [
     {
-      imageUrl: "assets/images/slider/slide-1.jpg",
+      imageUrl: "assets/images/slider/r7.jpg",
       "first-comment": "Opening Sale Discount 50%",
       "second-comment": "SuperMarket For Fresh Grocery",
       "third-comment": "",
@@ -345,7 +363,7 @@ function Home() {
       "fifth-comment": "Shop Now",
     },
     {
-      imageUrl: "assets/images/slider/slider-2.jpg",
+      imageUrl: "assets/images/slider/r8.jpg",
       "first-comment": "Free Shipping - orders over $100",
       "second-comment": "Free Shipping on orders over ",
       "third-comment": " $100",
@@ -410,6 +428,7 @@ function Home() {
     },
   ];
 
+
   //Slider settings for the intro
   const settings_intro = {
     draggable: true,
@@ -449,6 +468,16 @@ function Home() {
     const y = (offsetY / t.offsetHeight) * 100;
     t.style.backgroundPosition = `${x}% ${y}%`;
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleClick() {
+    setIsModalOpen(true);
+  }
+
+  function handleClose() {
+    setIsModalOpen(false);
+  }
 
   return (
     <div>
@@ -969,18 +998,22 @@ function Home() {
                           <a href="#!">
                             {" "}
                             <img
-                              src="assets/images/products/product-img-1.jpg"
-                              alt="Grocery Ecommerce Template"
-                              className="mb-3 img-fluid"
+                              src={`http://localhost:5002/productUploads/${product.image}`}
+                              alt='Grocery Ecommerce Template'
+                              className='mb-3 img-fluid img-prod'
+
                             />
                           </a>
                           {/* action */}
                           <div className="card-product-action">
                             <a
-                              href="#!"
-                              className="btn-action"
-                              data-bs-toggle="modal"
-                              data-bs-target="#quickViewModal"
+
+                              href='#!'
+                              className='btn-action'
+                              data-bs-toggle='modal'
+                              data-bs-target='#quickViewModal'
+                              
+
                             >
                               <i
                                 className="bi bi-eye"
@@ -1116,7 +1149,7 @@ function Home() {
                     className=" pt-8 px-6 px-xl-8 rounded"
                     style={{
                       background:
-                        "url(assets/images/banner/banner-deal.jpg)no-repeat",
+                        "url(assets/images/auth/food9.jpg)no-repeat",
                       backgroundSize: "cover",
                       height: "470px",
                     }}

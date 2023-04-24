@@ -8910,7 +8910,7 @@ div.zoom {
   width: 100%;
 }
 div.zoom img:hover {
-  opacity: 0;
+  transform: scale(2);
 }
 div.zoom img {
   display: block;
@@ -31340,6 +31340,7 @@ h3 {
   -moz-transition: 0.2s;
   -webkit-transition: 0.2s;
   -o-transition: 0.2s;
+  
 }
 .card-product .card-hidden {
   background-color: #fff;
@@ -35551,4 +35552,8 @@ a:hover {
 .reset-pass-page {
   height: 100%;
   font-size: 14px;
+}
+
+.img-prod{
+  max-height: 150px;
 }

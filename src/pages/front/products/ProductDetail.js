@@ -1,22 +1,25 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
-import { Rating } from "react-simple-star-rating";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Rating } from 'react-simple-star-rating';
+import { useParams } from 'react-router-dom';
+import {  useSelector } from "react-redux";
+
 
 const ProductDetail = (props) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const { productId } = useParams();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const id = queryParams.get("id");
-  const [name, setName] = useState("");
+    const { productId } = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+    const [name, setName] = useState("");   
 
-  const [product, setProduct] = useState({});
+
+    const [product, setProduct] = useState({});
+
 
   const [ratingValue, setRatingValue] = useState(0);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -28,6 +31,7 @@ const ProductDetail = (props) => {
   const [headline, setHeadline] = useState("");
   const [error, setError] = useState(null);
   const [seeMore, setSeeMore] = useState(2);
+
 
   const handleRating = (rate) => {
     setRatingValue(rate);
@@ -54,12 +58,13 @@ const ProductDetail = (props) => {
     }
   }, [product]); // watch for changes in the product state
 
-  const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {
+    
     if (quantity < product.quantity) {
-      setQuantity(quantity + 1);
-    }
+        setQuantity(quantity + 1);
+      }
   };
 
   const handleDecrement = () => {
@@ -69,6 +74,7 @@ const ProductDetail = (props) => {
   };
 
   const addReview = async () => {
+
     setReview({
       username: currentUser.username,
       image: currentUser.image,
@@ -98,6 +104,7 @@ const ProductDetail = (props) => {
     fetchReviews();
   }, [() => review]);
 
+
   const handleSeeMore = () => {
     setSeeMore((prevState) => prevState + 2);
   };
@@ -122,12 +129,17 @@ const ProductDetail = (props) => {
                 <div className="row">
                   <div className="col-lg-6">
                     {/* img slide */}
-                    <div className="product productModal" id="productModal">
-                      <div className="zoom">
+
+                    <div className='product productModal' id='productModal'>
+                      <div
+                        className='zoom'
+                        
+                      >
                         {/* img */}
                         <img
                           src={`http://localhost:5002/productUploads/${product.image}`}
-                          alt=""
+                          alt=''
+
                         />
                       </div>
                     </div>
@@ -178,6 +190,7 @@ const ProductDetail = (props) => {
                   */}
                   </div>
 
+
                   <div className="col-lg-6">
                     <div className="ps-lg-8 mt-6 mt-lg-0">
                       <a href="#!" className="mb-4 d-block">
@@ -226,6 +239,7 @@ const ProductDetail = (props) => {
                       </div>
                       <hr className="my-6" />
                       {/*<div className="mb-4">
+
 
                             <button type="button" className="btn btn-outline-secondary">
                             250g
@@ -334,6 +348,7 @@ const ProductDetail = (props) => {
         </div>
       </div>
 
+
       <section className="mt-lg-14 mt-8 ">
         <div className="container">
           <div className="row">
@@ -358,11 +373,14 @@ const ProductDetail = (props) => {
                   >
                     Reviews
                   </button>
+
                 </li>
+
               </ul>
               {/* tab content */}
               <div className="tab-content" id="myTabContent">
                 {/* tab pane */}
+
                 <div
                   className="tab-pane fade"
                   id="reviews-tab-pane"
@@ -370,6 +388,7 @@ const ProductDetail = (props) => {
                   aria-labelledby="reviews-tab"
                   tabIndex={0}
                 >
+
                   <div className="my-8">
                     {/* row */}
                     <div className="row">
@@ -379,6 +398,7 @@ const ProductDetail = (props) => {
                             {/* title */}
                             <h4 className="mb-3">Customer reviews</h4>
                             <span>
+
                               {!isNaN(stars) && (
                                 <>
                                   {[...Array(Math.floor(stars))].map(
@@ -412,6 +432,7 @@ const ProductDetail = (props) => {
                             </span>
                           </div>
                           {/* xx
+
                           <div className="mb-8">
                             <div className="d-flex align-items-center mb-2">
                               <div className="text-nowrap me-3 text-muted"><span className="d-inline-block align-middle text-muted">5</span><i className="bi bi-star-fill ms-1 small text-warning" /></div>
@@ -480,6 +501,7 @@ const ProductDetail = (props) => {
                               </select>
                             </div>
                           </div>
+
                           {reviews.slice(0, seeMore).map((reviews, index) => (
                             <div
                               className="d-flex border-bottom pb-6 mb-6 pt-4"
@@ -545,39 +567,33 @@ const ProductDetail = (props) => {
                                 Read More Reviews
                               </a>
                             </div>
+
                           )}
                         </div>
                         <div>
                           {/* rating */}
+
                           <h3 className="mb-5" id="myDiv">
                             Create Review
                           </h3>
                           <div className="border-bottom py-4 mb-4">
+
                             <h4 className="mb-3">Overall rating*</h4>
                             <div id="rater" />
                             <Rating
-                              onClick={handleRating}
-                              ratingValue={ratingValue}
-                              showTooltip
-                              fillColorArray={[
-                                "#f17a45",
-                                "#f19745",
-                                "#f1a545",
-                                "#f1b345",
-                                "#f1d045",
-                              ]}
-                              tooltipArray={[
-                                "Terrible",
-                                "Bad",
-                                "Average",
-                                "Great",
-                                "Prefect",
-                              ]}
-                            />
+                                onClick={handleRating}
+                                ratingValue={ratingValue}
+                                showTooltip
+                                fillColorArray={['#f17a45', '#f19745', '#f1a545', '#f1b345', '#f1d045']} 
+                                tooltipArray={['Terrible', 'Bad', 'Average', 'Great', 'Prefect']}
+
+
+/> 
                           </div>
 
                           {/* form control */}
                           <form id="myForm">
+
                             <div className="border-bottom py-4 mb-4">
                               <h5>Add a headline*</h5>
                               <input
@@ -615,6 +631,7 @@ const ProductDetail = (props) => {
                                 Submit Review
                               </a>
                             </div>
+
                           </form>
                         </div>
                       </div>
@@ -622,6 +639,7 @@ const ProductDetail = (props) => {
                   </div>
                 </div>
                 {/* tab pane */}
+
                 <div
                   className="tab-pane fade"
                   id="sellerInfo-tab-pane"
@@ -631,12 +649,13 @@ const ProductDetail = (props) => {
                 >
                   ...
                 </div>
+
               </div>
             </div>
           </div>
         </div>
       </section>
-    </>
-  );
-};
-export default ProductDetail;
+      </>
+    );
+  };
+  export default ProductDetail;

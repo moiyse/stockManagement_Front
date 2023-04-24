@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import axios from "axios";
-import {  toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
 import Categories from "../categories/Categories";
 
@@ -15,7 +15,7 @@ const AddProduct = (props) => {
     const [expirationDate, setExpirationDate] = useState("");
     const [productionDate, setProductionDate] = useState("");
     const [productDescription, setProductDescription] = useState("");
-    const [inStock, setInStock] = useState(false);
+    //const [inStock, setInStock] = useState(false);
     const [selectedCategory,setSelectedCategory] = useState()
     //////
     const [allCategories, setAllCategories] = useState([]);
@@ -35,47 +35,7 @@ const AddProduct = (props) => {
       });
     },[])
 
-    /*
-    const handleSave = async (e) => {
-        const ProductObject = {
-            name: productName,
-            price: productPrice,
-            reduction: productReduction,
-            code: productCode,
-            description: productDescription,
-            productionDate: productionDate,
-            expirationDate: expirationDate,
-            inStock: inStock,
-            quantity: quantity,
-            image : image
-        };
-        e.preventDefault();
-       
-        console.log("selected file : ",image)
-
-
-        axios
-            .post("http://localhost:5000/products/prod", ProductObject, {
-                headers: { "Content-Type": "application/json" },
-              })
-            .then((res) => {
-                console.log(ProductObject); // 
-                notify("Product was created successfully!", toast, "success");
-                
-                console.log("success");
-                window.location.href = '/dashboard/products';
-                
-                
-            })
-            .catch((err) => {
-                  console.log(err);
-                  notify("probleeeeem!", toast, "error");
-                         
-            });    
-       
-       
-      };
-  */
+    
       useEffect(()=> {
         if(selectedCategory)
         {
@@ -93,7 +53,7 @@ const AddProduct = (props) => {
         formData.append("price", productPrice);
         formData.append("reduction", productReduction);
         formData.append("quantity", quantity);
-        formData.append("inStock", inStock);
+        //formData.append("inStock", inStock);
         formData.append("productionDate", productionDate);
         formData.append("expirationDate", expirationDate);
         formData.append("category", selectedCategory);
@@ -106,21 +66,32 @@ const AddProduct = (props) => {
         console.log("image: ", formData.get("ProductImage"))
         console.log("formdata get : ",formData.get("name"),formData.get("price"))
         console.log("formdata get : ",formData.get("name"),formData.get("quantity"))
+        
 
           axios
           .post("http://localhost:5002/prod", formData)
-        .then(function (res) {
-          notify("Product was created successfully!", toast, "success");
-          console.log(res.data);
-          //window.location.href = '/dashboard/products';
-          
-          
-      })
+          .then(function (res) {
+            
+            
+              notify("Product was created successfully!", toast, "success");
+            console.log(res.data);
+            window.location.href = '/dashboard/products';
+            
+        })
       .catch((err) => {
+        if({ message: "verify expiration date." }){
+          notify("Expiration date must be superirur than product date ", toast, "error");
+          console.log("verify expiration date.");
+          console.log(expirationDate);
+        }
+        else{
             console.log(err);
             notify("error in add product !", toast, "error");
-                   
-      });  
+        }
+      
+               
+      }); 
+    
         
         
       };
@@ -133,6 +104,7 @@ const AddProduct = (props) => {
       <>
 
      <div>
+     <ToastContainer />
         
         <div className="main-wrapper">
         
@@ -197,7 +169,7 @@ const AddProduct = (props) => {
                             <input 
                             type="Date" 
                             className="form-control" 
-                            placeholder="Enter Expiration Date"
+                            placeholder="Enter production Date"
                             value={productionDate}
                             onChange={(e) => setProductionDate(e.target.value)}
                             required />
@@ -208,7 +180,7 @@ const AddProduct = (props) => {
                             <input 
                             type="Date" 
                             className="form-control" 
-                            placeholder="Enter Production Date"
+                            placeholder="Enter expiration Date"
                             value={expirationDate}
                             onChange={(e) => setExpirationDate(e.target.value)}
                             
@@ -258,7 +230,7 @@ const AddProduct = (props) => {
                     <div className="card mb-6 card-lg">
                       {/* card body */}
                       <div className="card-body p-6">
-                        {/* input */}
+                        {/* input 
                         <div className="form-check form-switch mb-4">
                           <input className="form-check-input"
                           type="checkbox"
@@ -269,7 +241,7 @@ const AddProduct = (props) => {
                             defaultChecked />
                           <label className="form-check-label" htmlFor="flexSwitchStock">In Stock</label>
                         </div>
-                        
+                        */}
                         <div>
                           {/* input */}
                           <div className="mb-3 ">

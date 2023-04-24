@@ -6,7 +6,7 @@ function VerticalNav() {
       <nav className="navbar-vertical-nav d-none d-xl-block ">
         <div className="navbar-vertical">
           <div className="px-4 py-5">
-            <a href="#" className="navbar-brand">
+            <a   className="navbar-brand">
               <div className="d-flex justify-content-center">
                 <img
                   src="/assets/images/logo/logo.png"
@@ -22,7 +22,7 @@ function VerticalNav() {
           >
             <ul className="navbar-nav flex-column" id="sideNavbar">
               <li className="nav-item ">
-                <a className="nav-link  active " href="#">
+                <a className="nav-link  active " aria-current="page"  >
                   <div className="d-flex align-items-center">
                     <span className="nav-link-icon">
                       {" "}
@@ -35,20 +35,22 @@ function VerticalNav() {
               <li className="nav-item mt-6 mb-3">
                 <span className="nav-label">Store Managements</span>
               </li>
+              <Link to="/dashboard/products">
               <li className="nav-item ">
-                <a className="nav-link " href="#">
+                <a className="nav-link "  >
                   <div className="d-flex align-items-center">
                     <span className="nav-link-icon">
                       {" "}
                       <i className="bi bi-cart"></i>
                     </span>
-                    <Link to="/dashboard/products">Products</Link>
+                    Products
                   </div>
                 </a>
               </li>
+              </Link>
               <Link to="/admin/categories">
                 <li className="nav-item ">
-                  <a className="nav-link " href="#">
+                  <a className="nav-link "  >
                     <div className="d-flex align-items-center">
                       <span className="nav-link-icon">
                         {" "}
@@ -62,7 +64,7 @@ function VerticalNav() {
 
               <li className="nav-item">
                 <Link to="/dashboard/orders">
-                  <a className="nav-link   collapsed " href="#">
+                  <a className="nav-link   collapsed "  >
                     <div className="d-flex align-items-center">
                       <span className="nav-link-icon">
                         {" "}
@@ -75,7 +77,7 @@ function VerticalNav() {
               </li>
               <li className="nav-item ">
                 <Link to="/dashboard/coupons">
-                  <a className="nav-link " href="#">
+                  <a className="nav-link "  >
                     <div className="d-flex align-items-center">
                       <span className="nav-link-icon">
                         {" "}
@@ -86,6 +88,7 @@ function VerticalNav() {
                   </a>
                 </Link>
               </li>
+              <Link to="/dashboard/users">
               <li className="nav-item ">
                 <a className="nav-link ">
                   <div className="d-flex align-items-center">
@@ -94,13 +97,15 @@ function VerticalNav() {
                       <i className="bi bi-people"></i>
                     </span>
                     <span className="nav-link-text">
-                      <Link to="/dashboard/users">Customers</Link>
+                      Customers
                     </span>
                   </div>
                 </a>
               </li>
+              </Link>
+              {/*
               <li className="nav-item ">
-                <a className="nav-link " href="#">
+                <a className="nav-link "  >
                   <div className="d-flex align-items-center">
                     <span className="nav-link-icon">
                       {" "}
@@ -113,7 +118,7 @@ function VerticalNav() {
               <li className="nav-item">
                 <a
                   className="nav-link  collapsed "
-                  href="#"
+                 
                   data-bs-toggle="collapse"
                   data-bs-target="#navMenuLevelFirst"
                   aria-expanded="false"
@@ -133,7 +138,7 @@ function VerticalNav() {
                     <li className="nav-item">
                       <a
                         className="nav-link "
-                        href="#"
+                         
                         data-bs-toggle="collapse"
                         data-bs-target="#navMenuLevelSecond1"
                         aria-expanded="false"
@@ -148,12 +153,12 @@ function VerticalNav() {
                       >
                         <ul className="nav flex-column">
                           <li className="nav-item">
-                            <a className="nav-link " href="#">
+                            <a className="nav-link "  >
                               NavItem 1
                             </a>
                           </li>
                           <li className="nav-item">
-                            <a className="nav-link " href="#">
+                            <a className="nav-link "  >
                               NavItem 2
                             </a>
                           </li>
@@ -163,7 +168,7 @@ function VerticalNav() {
                     <li className="nav-item">
                       <a
                         className="nav-link  collapsed  "
-                        href="#"
+                         
                         data-bs-toggle="collapse"
                         data-bs-target="#navMenuLevelThreeOne1"
                         aria-expanded="false"
@@ -180,7 +185,7 @@ function VerticalNav() {
                           <li className="nav-item">
                             <a
                               className="nav-link  collapsed "
-                              href="#"
+                               
                               data-bs-toggle="collapse"
                               data-bs-target="#navMenuLevelThreeTwo"
                               aria-expanded="false"
@@ -195,7 +200,7 @@ function VerticalNav() {
                             >
                               <ul className="nav flex-column">
                                 <li className="nav-item">
-                                  <a className="nav-link " href="#">
+                                  <a className="nav-link "  >
                                     NavChild Item 1
                                   </a>
                                 </li>
@@ -203,7 +208,7 @@ function VerticalNav() {
                             </div>
                           </li>
                           <li className="nav-item">
-                            <a className="nav-link " href="#">
+                            <a className="nav-link "  >
                               Nav Item 2
                             </a>
                           </li>
@@ -213,149 +218,13 @@ function VerticalNav() {
                   </ul>
                 </div>
               </li>
+            */}
             </ul>
           </div>
         </div>
       </nav>
 
-      <nav
-        className="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac"
-        tabIndex="-1"
-        id="offcanvasExample"
-      >
-        <div className="navbar-vertical">
-          <div className="px-4 py-5 d-flex justify-content-between align-items-center">
-            <a href="#" className="navbar-brand">
-              <div className="d-flex justify-content-center">
-                <img
-                  src="../assets/images/logo/logo.png"
-                  style={{ width: "100px" }}
-                  alt=""
-                />
-              </div>
-            </a>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div
-            className="navbar-vertical-content flex-grow-1"
-            data-simplebar=""
-          >
-            <ul className="navbar-nav flex-column">
-              <li className="nav-item ">
-                <a className="nav-link  active " href="#">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-house"></i>
-                    </span>
-                    <span>Dashboard</span>
-                  </div>
-                </a>
-              </li>
-              <li className="nav-item mt-6 mb-3">
-                <span className="nav-label">Store Managements</span>
-              </li>
-              <li className="nav-item ">
-                <a className="nav-link " href="#">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-cart"></i>
-                    </span>
-                    <span className="nav-link-text">Products</span>
-                  </div>
-                </a>
-              </li>
-              <li className="nav-item ">
-                <a className="nav-link " href="#">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-list-task"></i>
-                    </span>
-                    <span className="nav-link-text">Categories</span>
-                  </div>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link   collapsed "
-                  href="#"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navOrders"
-                  aria-expanded="false"
-                  aria-controls="navOrders"
-                >
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-bag"></i>
-                    </span>
-                    <span className="nav-link-text">Orders</span>
-                  </div>
-                </a>
-                <div
-                  id="navOrders"
-                  className="collapse "
-                  data-bs-parent="#sideNavbar"
-                >
-                  <ul className="nav flex-column">
-                    <li className="nav-item ">
-                      <a className="nav-link " href="#">
-                        List
-                      </a>
-                    </li>
-
-                    <li className="nav-item ">
-                      <a className="nav-link " href="#">
-                        Single
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li className="nav-item ">
-                <a className="nav-link " href="#">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-shop"></i>
-                    </span>
-                    <span className="nav-link-text">Sellers / Vendors</span>
-                  </div>
-                </a>
-              </li>
-              <li className="nav-item ">
-                <a className="nav-link " href="#">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-people"></i>
-                    </span>
-                    <span className="nav-link-text">Customers</span>
-                  </div>
-                </a>
-              </li>
-              <li className="nav-item ">
-                <a className="nav-link " href="reviews.html">
-                  <div className="d-flex align-items-center">
-                    <span className="nav-link-icon">
-                      {" "}
-                      <i className="bi bi-star"></i>
-                    </span>
-                    <span className="nav-link-text">Reviews</span>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      
     </>
   );
 }

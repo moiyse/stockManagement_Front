@@ -18,8 +18,12 @@ const UpdateProduct = (props) => {
     const [image, setProductImage] = useState("");
     const [quantity, setProductQuantity] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedCategory,setSelectedCategory] = useState()
     const location = useLocation();
     const id = location.state?.id;
+
+    const [allCategories, setAllCategories] = useState([]);
+
 
     const handleFileSelect = (event) => {
       console.log("event.target : ",event.target.files[0])
@@ -27,6 +31,11 @@ const UpdateProduct = (props) => {
     }
 
 
+    useEffect(()=> {
+      axios.get("/products/cat").then((res) => {
+        setAllCategories(res.data);
+      });
+    },[])
 
     useEffect(() => {
         if (id) {
@@ -41,10 +50,11 @@ const UpdateProduct = (props) => {
                 setProductCode(response.data.code)
                 setProductDescription(response.data.description)
                 setProductPrice(response.data.price)
-                setProductQuantity(response.data.quantity)
+                //setProductQuantity(response.data.quantity)
                 setProductReduction(response.data.reduction)
                 setProductionDate(response.data.productionDate)
                 setProductImage(response.data.image)
+                setSelectedCategory(response.data.category.label)
             })
             .catch((error) => {
                 console.log("error in get product : ",error)
@@ -70,6 +80,7 @@ const UpdateProduct = (props) => {
         formData.append("inStock", inStock);
         formData.append("productionDate", productionDate);
         formData.append("expirationDate", expirationDate);
+        formData.append("category", selectedCategory);
         //formData.append("category", category);
         if(selectedFile)
         {
@@ -78,7 +89,7 @@ const UpdateProduct = (props) => {
         axios
         .put(`http://localhost:5002/prod/${id}`, formData)
         .then(function (response) {
-            
+          window.location.href = '/dashboard/products';
             
         })
         .catch((error) => {
@@ -107,7 +118,7 @@ const UpdateProduct = (props) => {
                   <div className="d-md-flex justify-content-between align-items-center">
                     {/* page header */}
                     <div>
-                      <h2>Update New Product</h2>
+                      <h2>Update Product</h2>
                     </div>
                     {/* button */}
                     <div> 
@@ -223,47 +234,24 @@ const UpdateProduct = (props) => {
                     <div className="card mb-6 card-lg">
                         {/* card body */}
                         <div className="card-body p-6">
-                        {/* input */}
-                        <div className="form-check form-switch mb-4">
-                            <input className="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            id="flexSwitchStock"
-                            checked={inStock}
-                            onChange={(e) => setInStock(e.target.checked)}
-                            defaultChecked />
-                            <label className="form-check-label" htmlFor="flexSwitchStock">In Stock</label>
-                        </div>
+                        
                         
                         <div>
                             {/* input */}
                             <div className="mb-3 ">
                             <label className="form-label">Product Category</label>
-                            <select className="form-select" >
-                                <option selected>Product Category</option>
-                                <option value="Dairy, Bread & Eggs">Dairy, Bread &amp; Eggs</option>
-                                <option value="Snacks & Munchies">Snacks &amp; Munchies</option>
-                                <option value="Fruits & Vegetables">Fruits &amp; Vegetables</option>
+                            <select className="form-select" onChange={(event) => {setSelectedCategory(event.target.value)}} >
+                                <option selected>{selectedCategory}</option>
+                                {allCategories.map((category, index) => {
+                              return (
+                                <option key={category._id} value={category._id}>{category.label}</option>
+                              
+                              )
+                            })}
                             </select>
                             </div>
                             
-                            {/* input */}
-                            <div className="mb-3">
-                            <label 
-                            className="form-label" 
-                            id="productSKU"
-                            >Quantity</label><br />
-
-                            <input type="Number" 
-                            className="form-control"
-                            placeholder="Enter quantity of the product"
-                            value={quantity}
-                            onChange={(e) => setProductQuantity(e.target.value)}
-                            required />
-
                             
-                            {/* input */}
-                            </div>
                         </div>
                         </div>
                     </div>
