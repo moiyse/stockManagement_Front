@@ -13,37 +13,44 @@ const OrderDetail = () => {
   const [order, setOrder] = useState("");
   const { user: currentUser } = useSelector((state) => state.auth);
   const [products, setProducts] = useState([]);
-  function cancelOrder(){
-    axios.post("http://localhost:5000/orders/updateOrderStatusToCanceled", {
+  function cancelOrder() {
+    axios
+      .post("http://localhost:5000/orders/updateOrderStatusToCanceled", {
         orderId: orderId,
       })
-      .then(function (response) { 
-        notify('Order Canceled Succesfully !',toast, "success")
+      .then(function (response) {
+        notify("Order Canceled Succesfully !", toast, "success");
         return response;
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   function downloadInvoice() {
-    axios.post("http://localhost:5000/orders/exportOrderInvoice", {
-      orderId: orderId,
-    },{
-      responseType: 'blob'
-    })
-    .then(function (response) {
-       // Create a new window or tab and load the PDF file into it
-       const file = new Blob([response.data], { type: 'application/pdf' });
-       const fileURL = URL.createObjectURL(file);
-       window.open(fileURL);
-     
-      return response;
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
-};
+    axios
+      .post(
+        "http://localhost:5000/orders/exportOrderInvoice",
+        {
+          orderId: orderId,
+        },
+        {
+          responseType: "blob",
+        }
+      )
+      .then(function (response) {
+        // Create a new window or tab and load the PDF file into it
+        const file = new Blob([response.data], { type: "application/pdf" });
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
+
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
   useEffect(() => {
+    console.log(orderId);
     axios
       .post("http://localhost:5000/orders/orderInfo", {
         orderId: orderId,
@@ -55,8 +62,9 @@ const OrderDetail = () => {
           axios
             .get(`http://localhost:5000/products/prod/${orderLine.product}`)
             .then(function (response) {
+              console.log(response);
               const res = { ...response.data, quantity: orderLine.quantity };
-              
+              console.log(res);
               return res;
             })
             .catch(function (error) {
@@ -71,7 +79,7 @@ const OrderDetail = () => {
   }, []);
   return (
     <main className="pt-5">
-       <ToastContainer />
+      <ToastContainer />
       {/* container */}
       <div className="container">
         {/* row */}
@@ -110,8 +118,18 @@ const OrderDetail = () => {
                   <div className="d-md-flex">
                     {/* button */}
                     <div className="ms-md-3">
-                    <a className="btn btn-danger mx-2" onClick={()=>cancelOrder()} >Cancel Order</a>
-                      <a className="btn btn-secondary" onClick={()=>downloadInvoice()}>Download Invoice</a>
+                      <a
+                        className="btn btn-danger mx-2"
+                        onClick={() => cancelOrder()}
+                      >
+                        Cancel Order
+                      </a>
+                      <a
+                        className="btn btn-secondary"
+                        onClick={() => downloadInvoice()}
+                      >
+                        Download Invoice
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -143,7 +161,9 @@ const OrderDetail = () => {
                           <span className="text-dark">{order._id}</span>
                           <br />
                           Order Date:{" "}
-                          <span className="text-dark">{new Date(order.orderDate).toLocaleDateString()}</span>
+                          <span className="text-dark">
+                            {new Date(order.orderDate).toLocaleDateString()}
+                          </span>
                           <br />
                           Order Total:{" "}
                           <span className="text-dark">
@@ -171,7 +191,6 @@ const OrderDetail = () => {
                       </thead>
                       {/* tbody */}
                       <tbody>
-                        
                         {products?.map((product, index) => {
                           return (
                             <tr key={index}>
@@ -187,7 +206,7 @@ const OrderDetail = () => {
                                     </div>
                                     <div className="ms-lg-4 mt-2 mt-lg-0">
                                       <h5 className="mb-0 h6">
-                                        {product.name}
+                                        {product?.name}
                                       </h5>
                                     </div>
                                   </div>
@@ -195,11 +214,11 @@ const OrderDetail = () => {
                               </td>
                               <td>
                                 <span className="text-body">
-                                  {product.price}
+                                  {product?.price}
                                 </span>
                               </td>
-                              <td>{product.quantity}</td>
-                              <td>{product.price * product.quantity}</td>
+                              <td>{product?.quantity}</td>
+                              <td>{product?.price * product?.quantity}</td>
                             </tr>
                           );
                         })}
@@ -237,7 +256,7 @@ const OrderDetail = () => {
                           </td>
                           <td className="fw-semi-bold text-dark ">
                             {/* text */}
-                            {order.totalAmount + 10} DT
+                            {order?.totalAmount + 10} DT
                           </td>
                         </tr>
                       </tbody>

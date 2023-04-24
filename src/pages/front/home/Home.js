@@ -102,57 +102,39 @@ function Home() {
 
   const confirmOrder = async () => {
     let errorMessage;
-    await Promise.all(
-      cart.map(async (c) => {
-        try {
-          const response = await axios.post(
-            "http://localhost:5000/orders/orderLine",
-            c
-          );
-          orderLineIds.push(response.data._id);
-
-          return response;
-        } catch (error) {
-          // notify(error.response.data.message, toast, "error");
-          errorMessage = error.response.data.message;
-          setError(error.response.data.message);
-
-          console.log(error);
-        }
+    console.log(cart);
+    const orderInfo = {
+      cart: cart,
+      customer: currentUser.id,
+      paymentMethod: "Credit Card",
+      status: "New",
+      couponCode: couponCode,
+    };
+    console.log(orderInfo);
+    axios
+      .post("http://localhost:5000/orders/order", orderInfo)
+      .then(function (response) {
+        notify("Order was created succesfully!", toast, "success");
+        setAllProductsForCart([]);
+        setCouponEnable(false);
+        setCouponCode("");
+        axios
+          .put("http://localhost:5000/api/removeAllProdcutsFromCart/", {
+            email: currentUser.email,
+          })
+          .then((res) => {
+            dispatch(refreshUser(currentUser?.id));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log(response);
       })
-    );
-    if (errorMessage !== "Insuffiant Quantity") {
-      var orderInfo = {
-        orderLines: orderLineIds,
-        customer: currentUser.id,
-        totalAmount: totalAmount,
-        paymentMethod: "Credit Card",
-        status: "New",
-        couponCode: couponCode,
-      };
-      axios
-        .post("http://localhost:5000/orders/order", orderInfo)
-        .then(function (response) {
-          notify("Order was created succesfully!", toast, "success");
-          setAllProductsForCart([]);
-          axios
-            .put("http://localhost:5000/api/removeAllProdcutsFromCart/", {
-              email: currentUser.email,
-            })
-            .then((res) => {
-              dispatch(refreshUser(currentUser?.id));
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          console.log(response);
-        })
-        .catch(function (error) {
-          notify(error.response.data.message, toast, "error");
+      .catch(function (error) {
+        notify(error.response.data.message, toast, "error");
 
-          console.log(error);
-        });
-    }
+        console.log(error);
+      });
   };
 
   const addProdcutToCart = (prod) => {
@@ -500,7 +482,7 @@ function Home() {
                     <div className="row align-items-center">
                       <div className="col-2 col-md-2">
                         <img
-                          src={productForCart?.image}
+                          src={`http://localhost:5002/productUploads/${productForCart?.image}`}
                           alt="image product"
                           className="img-fluid"
                         />
@@ -594,14 +576,20 @@ function Home() {
                 );
               })}
             </ul>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              value=""
-              id="flexCheckDefault"
-              onChange={(e) => setCouponEnable(e.target.checked)}
-            />
-            <label> Add coupon code</label>
+            {allProductsForCart?.length > 0 && (
+              <>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                  onChange={(e) => setCouponEnable(e.target.checked)}
+                />
+
+                <label> Add coupon code</label>
+              </>
+            )}
+
             {couponEnable && (
               <input
                 onChange={(e) => setCouponCode(e.target.value)}
@@ -617,11 +605,9 @@ function Home() {
                 {error}
               </div>
             )}
-            <div className="d-flex justify-content-between mt-4">
-              <a href="#!" className="btn btn-primary">
-                Continue Shopping
-              </a>
-
+            <div className="d-flex justify-content-end mt-4">
+              
+              
               <button className="btn btn-primary" onClick={confirmOrder}>
                 Confirm Order
               </button>
