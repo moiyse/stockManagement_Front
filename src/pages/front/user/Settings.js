@@ -342,7 +342,7 @@ const Settings = (props) => {
                     </div>
                   </div>
                   <hr className="my-10" />
-                  {currentUser.username && (
+                  {currentUser.phoneNumber != null && (
                     <div className="pe-lg-14">
                       {/* heading */}
                       <h5 className="mb-4">Password</h5>

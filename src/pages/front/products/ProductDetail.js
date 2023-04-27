@@ -1,25 +1,23 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import {  toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { notify } from "../../../utils/HelperFunction";
-import { Rating } from 'react-simple-star-rating';
-import { useParams } from 'react-router-dom';
-import {  useSelector } from "react-redux";
-
+import { Rating } from "react-simple-star-rating";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshUser } from "../../../actions/auth";
 
 const ProductDetail = (props) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const { productId } = useParams();
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const id = queryParams.get('id');
-    const [name, setName] = useState("");   
+  const { productId } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("id");
+  const [name, setName] = useState("");
 
-
-    const [product, setProduct] = useState({});
-
+  const [product, setProduct] = useState({});
 
   const [ratingValue, setRatingValue] = useState(0);
   const { user: currentUser } = useSelector((state) => state.auth);
@@ -31,7 +29,6 @@ const ProductDetail = (props) => {
   const [headline, setHeadline] = useState("");
   const [error, setError] = useState(null);
   const [seeMore, setSeeMore] = useState(2);
-
 
   const handleRating = (rate) => {
     setRatingValue(rate);
@@ -58,13 +55,12 @@ const ProductDetail = (props) => {
     }
   }, [product]); // watch for changes in the product state
 
-    const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {
-    
     if (quantity < product.quantity) {
-        setQuantity(quantity + 1);
-      }
+      setQuantity(quantity + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -74,7 +70,6 @@ const ProductDetail = (props) => {
   };
 
   const addReview = async () => {
-
     setReview({
       username: currentUser.username,
       image: currentUser.image,
@@ -96,6 +91,27 @@ const ProductDetail = (props) => {
       setError(error.response.data.message);
     }
   };
+  const [call, setCall] = useState(false);
+  const dispatch = useDispatch();
+
+  const addProdcutToCart = (prod) => {
+    const req = {
+      email: currentUser?.email,
+      products: { ...prod, quantity: 1 },
+    };
+    axios
+      .put("http://localhost:5000/api/addProdcutToCart/", req)
+      .then((res) => {
+        console.log("hi");
+        notify("Product was added to the cart!", toast, "success");
+        setCall(!call);
+
+        dispatch(refreshUser(currentUser?.id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
     const fetchReviews = async () => {
       const response = await axios.get(`/products/prod/reviews/${id}`);
@@ -104,13 +120,13 @@ const ProductDetail = (props) => {
     fetchReviews();
   }, [() => review]);
 
-
   const handleSeeMore = () => {
     setSeeMore((prevState) => prevState + 2);
   };
   return (
     <>
       <div>
+        <ToastContainer />
         <div className="container">
           <div className="modal-dialog modal-xl modal-dialog-centered">
             <div
@@ -130,16 +146,12 @@ const ProductDetail = (props) => {
                   <div className="col-lg-6">
                     {/* img slide */}
 
-                    <div className='product productModal' id='productModal'>
-                      <div
-                        className='zoom'
-                        
-                      >
+                    <div className="product productModal" id="productModal">
+                      <div className="zoom">
                         {/* img */}
                         <img
                           src={`http://localhost:5002/productUploads/${product.image}`}
-                          alt=''
-
+                          alt=""
                         />
                       </div>
                     </div>
@@ -189,7 +201,6 @@ const ProductDetail = (props) => {
                     </div>
                   */}
                   </div>
-
 
                   <div className="col-lg-6">
                     <div className="ps-lg-8 mt-6 mt-lg-0">
@@ -251,41 +262,15 @@ const ProductDetail = (props) => {
                             1kg
                             </button>
                          </div>*/}
-                      <div>
-                        {/* quantity */}
-                        <div className="input-group input-spinner">
-                          <input
-                            type="button"
-                            value="-"
-                            className="button-minus btn btn-sm"
-                            data-field="quantity"
-                            onClick={handleDecrement}
-                          />
-                          <input
-                            type="number"
-                            step="1"
-                            max="10"
-                            value={quantity}
-                            name="quantity"
-                            className="quantity-field form-control-sm form-input"
-                            onChange={(e) =>
-                              setQuantity(Number(e.target.value))
-                            }
-                          />
-                          <input
-                            type="button"
-                            value="+"
-                            className="button-plus btn btn-sm"
-                            data-field="quantity"
-                            onClick={handleIncrement}
-                          />
-                        </div>
-                      </div>
                       <div className="mt-3 row justify-content-start g-2 align-items-center">
                         <div className="col-lg-4 col-md-5 col-6 d-grid">
                           {/* button */}
                           {/* btn */}
-                          <button type="button" className="btn btn-primary">
+                          <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => addProdcutToCart(product)}
+                          >
                             <i className="feather-icon icon-shopping-bag me-2" />
                             Add to cart
                           </button>
@@ -348,7 +333,6 @@ const ProductDetail = (props) => {
         </div>
       </div>
 
-
       <section className="mt-lg-14 mt-8 ">
         <div className="container">
           <div className="row">
@@ -373,9 +357,7 @@ const ProductDetail = (props) => {
                   >
                     Reviews
                   </button>
-
                 </li>
-
               </ul>
               {/* tab content */}
               <div className="tab-content" id="myTabContent">
@@ -388,7 +370,6 @@ const ProductDetail = (props) => {
                   aria-labelledby="reviews-tab"
                   tabIndex={0}
                 >
-
                   <div className="my-8">
                     {/* row */}
                     <div className="row">
@@ -398,7 +379,6 @@ const ProductDetail = (props) => {
                             {/* title */}
                             <h4 className="mb-3">Customer reviews</h4>
                             <span>
-
                               {!isNaN(stars) && (
                                 <>
                                   {[...Array(Math.floor(stars))].map(
@@ -567,7 +547,6 @@ const ProductDetail = (props) => {
                                 Read More Reviews
                               </a>
                             </div>
-
                           )}
                         </div>
                         <div>
@@ -577,23 +556,31 @@ const ProductDetail = (props) => {
                             Create Review
                           </h3>
                           <div className="border-bottom py-4 mb-4">
-
                             <h4 className="mb-3">Overall rating*</h4>
                             <div id="rater" />
                             <Rating
-                                onClick={handleRating}
-                                ratingValue={ratingValue}
-                                showTooltip
-                                fillColorArray={['#f17a45', '#f19745', '#f1a545', '#f1b345', '#f1d045']} 
-                                tooltipArray={['Terrible', 'Bad', 'Average', 'Great', 'Prefect']}
-
-
-/> 
+                              onClick={handleRating}
+                              ratingValue={ratingValue}
+                              showTooltip
+                              fillColorArray={[
+                                "#f17a45",
+                                "#f19745",
+                                "#f1a545",
+                                "#f1b345",
+                                "#f1d045",
+                              ]}
+                              tooltipArray={[
+                                "Terrible",
+                                "Bad",
+                                "Average",
+                                "Great",
+                                "Prefect",
+                              ]}
+                            />
                           </div>
 
                           {/* form control */}
                           <form id="myForm">
-
                             <div className="border-bottom py-4 mb-4">
                               <h5>Add a headline*</h5>
                               <input
@@ -631,7 +618,6 @@ const ProductDetail = (props) => {
                                 Submit Review
                               </a>
                             </div>
-
                           </form>
                         </div>
                       </div>
@@ -649,13 +635,12 @@ const ProductDetail = (props) => {
                 >
                   ...
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </section>
-      </>
-    );
-  };
-  export default ProductDetail;
+    </>
+  );
+};
+export default ProductDetail;

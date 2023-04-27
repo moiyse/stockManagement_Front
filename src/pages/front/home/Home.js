@@ -77,20 +77,16 @@ function Home() {
     console.log(total);
   }, [searchQueryByProductname]);
 
-
   useEffect(() => {
     axios
-        .get("http://localhost:5000/products/expirationDate")
-        .then((res) => {
-          setExpirationProduct(res.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    
+      .get("http://localhost:5000/products/expirationDate")
+      .then((res) => {
+        setExpirationProduct(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   });
-
-
 
   useEffect(() => {
     axios
@@ -172,7 +168,6 @@ function Home() {
         console.log(error);
       });
   };
-  console.log(currentUser);
   const removeProdcutFromCart = (removeProdcutFromCart) => {
     console.log(removeProdcutFromCart);
     const req = {
@@ -428,7 +423,6 @@ function Home() {
     },
   ];
 
-
   //Slider settings for the intro
   const settings_intro = {
     draggable: true,
@@ -635,8 +629,6 @@ function Home() {
               </div>
             )}
             <div className="d-flex justify-content-end mt-4">
-              
-              
               <button className="btn btn-primary" onClick={confirmOrder}>
                 Confirm Order
               </button>
@@ -957,29 +949,21 @@ function Home() {
             </div>
             <div className="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
               {allProducts?.map((product, index) => {
-                const expirationDate = new Date(product.expirationDate).getTime(); // get expiration date in milliseconds
+                const expirationDate = new Date(
+                  product.expirationDate
+                ).getTime(); // get expiration date in milliseconds
                 const now = new Date().getTime(); // get current time in milliseconds
                 const distance = expirationDate - now; // calculate the time remaining in milliseconds
-              
+
                 // calculate days, hours, minutes, and seconds remaining
                 let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-              
-                // update the countdown every second
-                setInterval(() => {
-                  const now = new Date().getTime();
-                  const distance = expirationDate - now;
-              
-                  days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                  hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                  minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-              
-                  // update the countdown timer display
-                  document.querySelector(`#countdown-${index} .days`).textContent = days;
-                  document.querySelector(`#countdown-${index} .hours`).textContent = hours;
-                  document.querySelector(`#countdown-${index} .minutes`).textContent = minutes;
-                }, 1000);
+                let hours = Math.floor(
+                  (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                let minutes = Math.floor(
+                  (distance % (1000 * 60 * 60)) / (1000 * 60)
+                );
+
                 return (
                   <div className="col" key={index}>
                     <div className="card card-product">
@@ -999,21 +983,17 @@ function Home() {
                             {" "}
                             <img
                               src={`http://localhost:5002/productUploads/${product.image}`}
-                              alt='Grocery Ecommerce Template'
-                              className='mb-3 img-fluid img-prod'
-
+                              alt="Grocery Ecommerce Template"
+                              className="mb-3 img-fluid img-prod"
                             />
                           </a>
                           {/* action */}
                           <div className="card-product-action">
                             <a
-
-                              href='#!'
-                              className='btn-action'
-                              data-bs-toggle='modal'
-                              data-bs-target='#quickViewModal'
-                              
-
+                              href="#!"
+                              className="btn-action"
+                              data-bs-toggle="modal"
+                              data-bs-target="#quickViewModal"
                             >
                               <i
                                 className="bi bi-eye"
@@ -1111,17 +1091,26 @@ function Home() {
                           </div>
                         </div>
                         <div class="d-flex justify-content-start text-center mt-3">
-                          <div class="deals-countdown w-100" id={`countdown-${index}`}>
+                          <div
+                            class="deals-countdown w-100"
+                            id={`countdown-${index}`}
+                          >
                             <span class="countdown-section">
-                              <span class="countdown-amount hover-up days">{days}</span>
+                              <span class="countdown-amount hover-up days">
+                                {days}
+                              </span>
                               <span class="countdown-period"> days </span>
                             </span>
                             <span class="countdown-section">
-                              <span class="countdown-amount hover-up hours">{hours}</span>
+                              <span class="countdown-amount hover-up hours">
+                                {hours}
+                              </span>
                               <span class="countdown-period"> hours </span>
                             </span>
                             <span class="countdown-section">
-                              <span class="countdown-amount hover-up minutes">{minutes}</span>
+                              <span class="countdown-amount hover-up minutes">
+                                {minutes}
+                              </span>
                               <span class="countdown-period"> mins </span>
                             </span>
                           </div>
@@ -1148,8 +1137,7 @@ function Home() {
                   <div
                     className=" pt-8 px-6 px-xl-8 rounded"
                     style={{
-                      background:
-                        "url(assets/images/auth/food9.jpg)no-repeat",
+                      background: "url(assets/images/auth/food9.jpg)no-repeat",
                       backgroundSize: "cover",
                       height: "470px",
                     }}
